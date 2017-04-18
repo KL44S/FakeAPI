@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using ExampleAPI.Models;
+using Model;
 using ExampleAPI.Filters;
 
 namespace ExampleAPI.Controllers
@@ -18,13 +18,20 @@ namespace ExampleAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Product/5
-        public IHttpActionResult Get(int id)
+        private Product GetProduct()
         {
             //Harcode a modo de prueba
             Product Product = new Product();
             Product.ProductId = "1";
             Product.ProductDescription = "Un producto";
+
+            return Product;
+        }
+
+        // GET: api/Product/5
+        public IHttpActionResult Get(String id)
+        {
+            Product Product = this.GetProduct();
 
             if (Product.ProductId.Equals(id))
             {
