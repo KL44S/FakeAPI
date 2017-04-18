@@ -40,7 +40,7 @@ namespace ExampleDesktop
                 this.ProductDescription.Text = this._product.ProductDescription;
                 this.ProductId.Text = this._product.ProductId;
             }
-            //Catch sin funcionalidad para el caso pero con el error se debería hacer algo
+            //Catch genérico, sin funcionalidad para el caso pero con el error se debería hacer algo.
             catch (Exception)
             {
                 this.ProductDescription.Text = String.Empty;
