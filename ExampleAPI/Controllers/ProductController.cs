@@ -6,59 +6,34 @@ using System.Net.Http;
 using System.Web.Http;
 using Model;
 using ExampleAPI.Filters;
+using System.Web.Http.Results;
 
 namespace ExampleAPI.Controllers
 {
     [SecurityFilter]
     public class ProductController : ApiController
     {
-        // GET: api/Product
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        private Product GetProduct()
-        {
-            //Harcode a modo de prueba
-            Product Product = new Product();
-            Product.ProductId = "1";
-            Product.ProductDescription = "Un producto";
-
-            return Product;
-        }
-
         // GET: api/Product/5
         public IHttpActionResult Get(String id)
         {
-            Product Product = this.GetProduct();
-
-            if (Product.ProductId.Equals(id))
+            try
             {
-                return Ok(Product);
+                Product Product = Statics.Statics.Product;
+
+                if (Product.ProductId.Equals(id))
+                {
+                    return Ok(Product);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch(Exception Exception)
             {
-                return NotFound();        
+                return new BadRequestErrorMessageResult(Exception.Message, this);
             }
-        }
 
-        // POST: api/Product
-        public void Post([FromBody]string value)
-        {
-            //TODO: implementar
-        }
-
-        // PUT: api/Product/5
-        public void Put(int id, [FromBody]string value)
-        {
-            //TODO: implementar
-        }
-
-        // DELETE: api/Product/5
-        public void Delete(int id)
-        {
-            //TODO: implementar
         }
     }
 }
