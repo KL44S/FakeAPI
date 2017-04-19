@@ -9,6 +9,7 @@ namespace ExampleDesktop.Services
     public interface IRESTService<T>
     {
         T GetEntityById(String Id);
+        T PostEntity(T Entity);
         void SetPath(String ApiPath);
     }
 }

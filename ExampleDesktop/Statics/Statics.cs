@@ -9,6 +9,7 @@ namespace ExampleDesktop.Statics
     public static class Statics
     {
         public static String Token { get; set; }
-        public static String ApiPath { get; set; } = "http://localhost:51249/api/";
+        public static String ApiPath = "http://localhost:51249/api/";
+        public static String AuthenticationHeader = "Authentication";
     }
 }

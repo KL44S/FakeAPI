@@ -12,22 +12,22 @@ namespace ExampleAPI.Controllers
 {
     public class UserController : ApiController
     {
+        private ITokenService TokenService = new TokenMockService();
+
         // POST: api/User
         public IHttpActionResult Post(User User)
         {
             try
             {
                 //Acá habría que validar el usuario primero...
-                String Token = TokenService.GetToken(User.UserId);
+                User.Token = this.TokenService.GetToken(User.UserId);
 
-                var Response = Ok();
-                Response.Request.Headers.Add(Statics.Statics.AuthenticationHeader, Token);
-
-                return Response;
+                return Ok(User);
             }
-            catch (Exception Exception)
+            catch (Exception)
             {
-                return new BadRequestErrorMessageResult(Exception.Message, this);
+                //Habría que logear...
+                return InternalServerError();
             }
         }
     }

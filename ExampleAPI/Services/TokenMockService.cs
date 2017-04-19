@@ -5,10 +5,10 @@ using System.Web;
 
 namespace ExampleAPI.Services
 {
-    public static class TokenService
+    public class TokenMockService : ITokenService
     {
         //Simulación de armado de token
-        public static String GetToken(String UserId)
+        public String GetToken(String UserId)
         {
             if (String.IsNullOrEmpty(UserId)) throw new NullReferenceException();
 
@@ -20,7 +20,7 @@ namespace ExampleAPI.Services
         }
 
         //Simulación de armado de token
-        public static String GetUserId(String Token)
+        public String GetUserId(String Token)
         {
             if (String.IsNullOrEmpty(Token)) throw new NullReferenceException();
 

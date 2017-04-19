@@ -13,6 +13,8 @@ namespace ExampleAPI.Filters
 {
     public class SecurityFilterAttribute : ActionFilterAttribute
     {
+        private ITokenService TokenService = new TokenMockService();
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             String Token = String.Empty;
@@ -22,7 +24,7 @@ namespace ExampleAPI.Filters
                 Token = actionContext.Request.Headers.GetValues(Statics.Statics.AuthenticationHeader).FirstOrDefault();
                 if (String.IsNullOrEmpty(Token)) throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
-                String UserId = TokenService.GetUserId(Token);
+                String UserId = this.TokenService.GetUserId(Token);
                 if (String.IsNullOrEmpty(UserId)) throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
                 User User = UserService.GetUserById(UserId);

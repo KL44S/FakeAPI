@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Model;
+using ExampleDesktop.Services;
 
 namespace ExampleDesktop
 {
@@ -28,8 +29,13 @@ namespace ExampleDesktop
             User.UserId = "1";
             User.Password = "1";
 
-            //TODO: crear la autenticación por token
-            Statics.Statics.Token = "hgdsugdsugsu8348223";
+            String ApiResourcePath = Statics.Statics.ApiPath + "User";
+
+            IRESTService<User> RESTService = new BasicRESTService<User>();
+            RESTService.SetPath(ApiResourcePath);
+
+            User = RESTService.PostEntity(User);
+            Statics.Statics.Token = User.Token;
         }
     }
 }

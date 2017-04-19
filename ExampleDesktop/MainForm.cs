@@ -26,7 +26,7 @@ namespace ExampleDesktop
             String ApiResourcePath = Statics.Statics.ApiPath + "Product";
             String ProductId = "1";
 
-            IRESTService<Product> RESTProductService = new ProductBasicRESTService();
+            IRESTService<Product> RESTProductService = new BasicRESTService<Product>();
             RESTProductService.SetPath(ApiResourcePath);
 
             this._product = RESTProductService.GetEntityById(ProductId);
