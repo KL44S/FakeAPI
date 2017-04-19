@@ -1,4 +1,5 @@
-﻿using ExampleDesktop.Services;
+﻿using ExampleDesktop.Exceptions;
+using ExampleDesktop.Services;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -32,19 +33,28 @@ namespace ExampleDesktop
             this._product = RESTProductService.GetEntityById(ProductId);
         }
 
+        private void SetError(String Message)
+        {
+            this.ProductDescription.Text = String.Empty;
+            this.ProductId.Text = String.Empty;
+            this.ErrorMessage.Text = Message;
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             try
             {
                 this.LoadProduct();
                 this.ProductDescription.Text = this._product.ProductDescription;
-                this.ProductId.Text = this._product.ProductId;
+                 this.ProductId.Text = this._product.ProductId;
             }
-            //Catch genérico, sin funcionalidad para el caso pero con el error se debería hacer algo.
-            catch (Exception)
+            catch (NotResourceFoundException)
             {
-                this.ProductDescription.Text = String.Empty;
-                this.ProductId.Text = String.Empty;
+                this.SetError("No se encotró ningún usuario/contraseña");
+            }
+            catch (InternalErrorException)
+            {
+                this.SetError("Error al intentar logear");
             }
         }
     }

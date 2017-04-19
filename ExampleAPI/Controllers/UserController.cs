@@ -19,7 +19,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                //Acá habría que validar el usuario primero...
+                User SystemUser = UserService.GetUserById(User.UserId);
+                if (SystemUser == null) return NotFound();
+
                 User.Token = this.TokenService.GetToken(User.UserId);
 
                 return Ok(User);

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ExampleDesktop.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,13 +11,28 @@ namespace ExampleDesktop.Services
 {
     public class BasicRESTService<T> : IRESTService<T>
     {
-        protected String _apiPath { get; set; }
-        protected T _entity;
+        private String _apiPath { get; set; }
+        private T _entity;
+        private HttpStatusCode _requestCodeResult;
+
 
         public T GetEntityById(string Id)
         {
             this.SearchEntityAsync(Id);
-            return this._entity;
+
+            switch (this._requestCodeResult)
+            {
+                case HttpStatusCode.OK:
+                    return this._entity;
+
+                case HttpStatusCode.NotFound:
+                    throw new NotResourceFoundException();
+
+                default:
+                    //Excepción genérica. Aquí habría que capturar el error específico devuelto en el código HTTP de la API y obrar
+                    //en consecuencia
+                    throw new InternalErrorException();
+            }
         }
 
         //Este método tiene que buscar la entidad consumiento el método GET de la API REST y setear el atributo entity
@@ -30,15 +47,9 @@ namespace ExampleDesktop.Services
                 HttpResponseMessage response = Client.GetAsync(FullPath).Result;
 
                 if (response.IsSuccessStatusCode)
-                {
-                    this._entity = await response.Content.ReadAsAsync<T>();
-                }
-                else
-                {
-                    //Excepción genérica. Aquí habría que capturar el error específico devuelto en el código HTTP de la API y obrar
-                    //en consecuencia
-                    throw new Exception("Ha ocurrido un error");
-                }
+                        this._entity = await response.Content.ReadAsAsync<T>();
+
+                this._requestCodeResult = response.StatusCode;
             }
         }
 
@@ -64,22 +75,29 @@ namespace ExampleDesktop.Services
                 HttpResponseMessage response = Client.PostAsJsonAsync(this._apiPath, Entity).Result;
 
                 if (response.IsSuccessStatusCode)
-                {
                     this._entity = await response.Content.ReadAsAsync<T>();
-                }
-                else
-                {
-                    //Excepción genérica. Aquí habría que capturar el error específico devuelto en el código HTTP de la API y obrar
-                    //en consecuencia
-                    throw new Exception("Ha ocurrido un error");
-                }
+
+                this._requestCodeResult = response.StatusCode;
             }
         }
 
         public T PostEntity(T Entity)
         {
             this.ProccessEntityAsync(Entity);
-            return this._entity;
+
+            switch (this._requestCodeResult)
+            {
+                case HttpStatusCode.OK:
+                    return this._entity;
+
+                case HttpStatusCode.NotFound:
+                    throw new NotResourceFoundException();
+
+                default:
+                    //Excepción genérica. Aquí habría que capturar el error específico devuelto en el código HTTP de la API y obrar
+                    //en consecuencia
+                    throw new InternalErrorException();
+            }
         }
     }
 }
