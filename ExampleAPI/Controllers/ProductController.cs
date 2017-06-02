@@ -5,12 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Model;
-using ExampleAPI.Filters;
 using System.Web.Http.Results;
 
 namespace ExampleAPI.Controllers
 {
-    [SecurityFilter]
     public class ProductController : ApiController
     {
         // GET: api/Product/5

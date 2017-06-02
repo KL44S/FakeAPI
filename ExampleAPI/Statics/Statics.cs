@@ -10,7 +10,7 @@ namespace ExampleAPI.Statics
     {
         public static IList<User> Users = new List<User>()
         {
-            new User { UserId = "1", Password = "1" }
+            //new User { UserId = "1", Password = "1" }
         };
 
         public static Product Product = new Product() { ProductId = "1", ProductDescription = "Un producto" };

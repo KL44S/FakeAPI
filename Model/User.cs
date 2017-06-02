@@ -9,8 +9,11 @@ namespace Model
     //Clase cross a ambos proyectos. En realidad cada proyecto debería tener su modelo
     public class User
     {
-        public String UserId { get; set; }
-        public String Password { get; set; }
-        public String Token { get; set; }
+        public String cuit { get; set; }
+        public String password { get; set; }
+        public String name { get; set; }
+        public String lastname { get; set; }
+        public int idRol { get; set; }
+        public IList<int> obras { get; set; }
     }
 }
