@@ -5,13 +5,13 @@ using System.Web;
 
 namespace ExampleAPI.Models
 {
-    public class Obra
+    public class CreateObra
     {
         public int id { get; set; }
         public int obra { get; set; }
         public int oco { get; set; }
         public int ejercicioObra { get; set; }
         public String proveedor { get; set; }
-        public IList<String> cuits { get; set; }
+        public String cuit { get; set; }
     }
 }
