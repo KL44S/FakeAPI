@@ -79,7 +79,13 @@ namespace ExampleAPI.Controllers
             try
             {
                 var headers = Request.Headers;
-                return Ok(new { token = "untoken", user = _users .ElementAt(0) });
+
+                var user = _users.FirstOrDefault(x => x.cuit.Equals(User.cuit) && x.password.Equals(User.password));
+
+                if (user != null)
+                    return Ok(new { token = "untoken", user = user });
+
+                return NotFound();
             }
             catch (Exception)
             {

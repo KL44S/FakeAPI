@@ -78,7 +78,7 @@ namespace ExampleAPI.Controllers
                 if (Obras != null && Obras.Count() > 0)
                     return Ok(Obras);
                 else
-                    return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
+                    return NotFound();
             }
      
             return Ok(_obras);
@@ -120,14 +120,60 @@ namespace ExampleAPI.Controllers
                 
         }
 
-        // PUT: api/Obra/5
-        public void Put(int id, [FromBody]string value)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(CreateObra Obra)
         {
+            try
+            {
+                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && !String.IsNullOrEmpty(Obra.cuit))
+                {
+                    Obra ViejaObra = _obras.FirstOrDefault(x => x.obra.Equals(Obra.obra));
+
+                    if (ViejaObra == null)
+                        return NotFound();
+
+                    ViejaObra.obra = Obra.obra;
+                    ViejaObra.oco = Obra.oco;
+                    ViejaObra.ejercicioObra = Obra.ejercicioObra;
+                    ViejaObra.proveedor = Obra.proveedor;
+
+                    return Ok();
+                }
+                else
+                {
+                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" } };
+
+                    return Content((HttpStatusCode)422, ObraViewModel);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Obra/5
-        public void Delete(int id)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Delete(int obra)
         {
+            try
+            {
+                if (obra <= 0)
+                    return BadRequest();
+
+                Obra Obra = _obras.FirstOrDefault(x => x.obra.Equals(obra));
+
+                if (Obra == null)
+                    return NotFound();
+
+                _obras.Remove(Obra);
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
