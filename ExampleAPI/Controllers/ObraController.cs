@@ -64,6 +64,330 @@ namespace ExampleAPI.Controllers
                 {
                     "12345678"
                 }
+            },
+            new Obra()
+            {
+                id = 5,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 6,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 7,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 8,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 9,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 10,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 11,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 12,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 13,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 14,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 15,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 16,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 17,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 18,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 19,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 20,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 14,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 21,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 22,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 23,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 24,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 25,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 26,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 27,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 28,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 29,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
+            },
+            new Obra()
+            {
+                id = 30,
+                obra = 1556,
+                oco = 143,
+                ejercicioObra = 2015,
+                proveedor = "COTO CISCA - 15464 - SA",
+                cuits = new List<String>()
+                {
+                    "12345678"
+                }
             }
         };
 
