@@ -420,11 +420,11 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && !String.IsNullOrEmpty(Obra.cuit))
+                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && Obra.cuits != null && Obra.cuits.Count() > 0)
                 {
                     Obra.id = _obras.Last().id + 1;
 
-                    Obra nuevaObra = new Obra() { cuits = new List<String>() { Obra.cuit }, id = Obra.id, obra = Obra.obra, ejercicioObra = Obra.ejercicioObra, oco = Obra.oco, proveedor = Obra.proveedor };
+                    Obra nuevaObra = new Obra() { cuits =  Obra.cuits.ToList(), id = Obra.id, obra = Obra.obra, ejercicioObra = Obra.ejercicioObra, oco = Obra.oco, proveedor = Obra.proveedor };
 
                     _obras.Add(nuevaObra);
 
@@ -449,7 +449,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && !String.IsNullOrEmpty(Obra.cuit))
+                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && Obra.cuits != null && Obra.cuits.Count() > 0)
                 {
                     Obra ViejaObra = _obras.FirstOrDefault(x => x.obra.Equals(Obra.obra));
 
@@ -460,6 +460,8 @@ namespace ExampleAPI.Controllers
                     ViejaObra.oco = Obra.oco;
                     ViejaObra.ejercicioObra = Obra.ejercicioObra;
                     ViejaObra.proveedor = Obra.proveedor;
+                    ViejaObra.cuits = Obra.cuits.ToList();
+
 
                     return Ok();
                 }

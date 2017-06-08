@@ -12,6 +12,6 @@ namespace ExampleAPI.Models
         public int oco { get; set; }
         public int ejercicioObra { get; set; }
         public String proveedor { get; set; }
-        public String cuit { get; set; }
+        public String[] cuits { get; set; }
     }
 }
