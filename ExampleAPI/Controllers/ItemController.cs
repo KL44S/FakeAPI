@@ -43,5 +43,88 @@ namespace ExampleAPI.Controllers
 
             return Ok(_items);
         }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Post(Item Item)
+        {
+            try
+            {
+                if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
+                {
+                    _items.Add(Item);
+
+                    return Ok();
+                }
+                else
+                {
+                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
+
+                    return Content((HttpStatusCode)422, ItemViewModel);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(Item Item)
+        {
+            try
+            {
+                if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
+                {
+                    Item ItemExistente = _items.FirstOrDefault(x => x.numeroItem.Equals(Item.numeroItem));
+
+                    if (ItemExistente != null)
+                    {
+                        ItemExistente.descripcion = Item.descripcion;
+                        return Ok();
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                    
+                }
+                else
+                {
+                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
+
+                    return Content((HttpStatusCode)422, ItemViewModel);
+                }
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Delete(int numeroItem)
+        {
+            try
+            {
+                if (numeroItem <= 0)
+                    return BadRequest();
+
+                Item Item = _items.FirstOrDefault(x => x.numeroItem.Equals(numeroItem));
+
+                if (Item == null)
+                    return NotFound();
+
+                _items.Remove(Item);
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
