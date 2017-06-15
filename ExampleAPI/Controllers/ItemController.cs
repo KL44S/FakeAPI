@@ -1,4 +1,5 @@
 ﻿using ExampleAPI.Models;
+using ExampleAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,6 @@ namespace ExampleAPI.Controllers
 {
     public class ItemController : ApiController
     {
-        private static IList<Item> _items = new List<Item>()
-        {
-            new Item() { numeroItem = 1, obra = 1556, descripcion = "TRABAJOS PRELIMINARES" },
-            new Item() { numeroItem = 2, obra = 1556, descripcion = "Documentación gráfica, proyecto ejecutivo. Presentación ante orgnaismos oficiales" }
-        };
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -23,7 +19,7 @@ namespace ExampleAPI.Controllers
         {
             if (numeroItem != null && numeroItem > 0)
             {
-                var Items = _items.Where(x => x.numeroItem.Equals(numeroItem));
+                var Items = ItemService.Items.Where(x => x.numeroItem.Equals(numeroItem));
 
                 if (Items != null && Items.Count() > 0)
                     return Ok(Items);
@@ -33,7 +29,7 @@ namespace ExampleAPI.Controllers
 
             if (obra != null && obra > 0)
             {
-                var Items = _items.Where(x => x.obra.Equals(obra));
+                var Items = ItemService.Items.Where(x => x.obra.Equals(obra));
 
                 if (Items != null && Items.Count() > 0)
                     return Ok(Items);
@@ -41,7 +37,7 @@ namespace ExampleAPI.Controllers
                     return NotFound();
             }
 
-            return Ok(_items);
+            return Ok(ItemService.Items);
         }
 
 
@@ -52,7 +48,7 @@ namespace ExampleAPI.Controllers
             {
                 if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
                 {
-                    _items.Add(Item);
+                    ItemService.Items.Add(Item);
 
                     return Ok();
                 }
@@ -77,7 +73,7 @@ namespace ExampleAPI.Controllers
             {
                 if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
                 {
-                    Item ItemExistente = _items.FirstOrDefault(x => x.numeroItem.Equals(Item.numeroItem));
+                    Item ItemExistente = ItemService.Items.FirstOrDefault(x => x.numeroItem.Equals(Item.numeroItem));
 
                     if (ItemExistente != null)
                     {
@@ -112,12 +108,12 @@ namespace ExampleAPI.Controllers
                 if (numeroItem <= 0)
                     return BadRequest();
 
-                Item Item = _items.FirstOrDefault(x => x.numeroItem.Equals(numeroItem));
+                Item Item = ItemService.Items.FirstOrDefault(x => x.numeroItem.Equals(numeroItem));
 
                 if (Item == null)
                     return NotFound();
 
-                _items.Remove(Item);
+                ItemService.Items.Remove(Item);
 
                 return Ok();
             }
