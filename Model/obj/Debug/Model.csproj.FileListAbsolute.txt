@@ -1,0 +1,5 @@
+C:\Users\agustin.binci\Documents\Proyectos\FakeAPI\Model\bin\Debug\Model.dll
+C:\Users\agustin.binci\Documents\Proyectos\FakeAPI\Model\bin\Debug\Model.pdb
+C:\Users\agustin.binci\Documents\Proyectos\FakeAPI\Model\obj\Debug\Model.csprojResolveAssemblyReference.cache
+C:\Users\agustin.binci\Documents\Proyectos\FakeAPI\Model\obj\Debug\Model.dll
+C:\Users\agustin.binci\Documents\Proyectos\FakeAPI\Model\obj\Debug\Model.pdb

@@ -1,4 +1,5 @@
-﻿using ExampleAPI.Services;
+﻿using ExampleAPI.Models;
+using ExampleAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,26 @@ namespace ExampleAPI.Controllers
                     return Ok(Planillas);
                 else
                     return NotFound();
+            }
+
+            return BadRequest();
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Post(int? obra)
+        {
+            if (obra != null && obra > 0)
+            {
+                Planilla Planilla = new Planilla();
+                Planilla.obra = (int)obra;
+                Planilla.fechaHasta = DateTime.Now;
+                Planilla.fechaDesde = DateTime.Now;
+                Planilla.codigoDeEstado = 1;
+                Planilla.numeroPlanilla = PlanillaService.Planillas.Last().numeroPlanilla + 1;
+
+                PlanillaService.Planillas.Add(Planilla);
+
+                return Ok();
             }
 
             return BadRequest();

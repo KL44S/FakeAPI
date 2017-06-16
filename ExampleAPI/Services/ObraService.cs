@@ -17,6 +17,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678",
@@ -31,6 +32,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "PANTENE - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "6346634",
@@ -44,6 +46,7 @@ namespace ExampleAPI.Services
                 oco = 142,
                 ejercicioObra = 2016,
                 proveedor = "SOMEONE - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678910",
@@ -57,6 +60,7 @@ namespace ExampleAPI.Services
                 oco = 142,
                 ejercicioObra = 2016,
                 proveedor = "ANOTHER - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -69,6 +73,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -81,6 +86,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -93,6 +99,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -105,6 +112,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -117,6 +125,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -129,6 +138,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -141,6 +151,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -153,6 +164,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -165,6 +177,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -177,6 +190,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -189,6 +203,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -201,6 +216,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -213,6 +229,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -225,6 +242,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -237,6 +255,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -249,6 +268,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -261,6 +281,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -273,6 +294,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -285,6 +307,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -297,6 +320,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -309,6 +333,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -321,6 +346,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -333,6 +359,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -345,6 +372,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -357,6 +385,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -369,6 +398,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"
@@ -381,6 +411,7 @@ namespace ExampleAPI.Services
                 oco = 143,
                 ejercicioObra = 2015,
                 proveedor = "COTO CISCA - 15464 - SA",
+                diasCertificacion = 30,
                 cuits = new List<String>()
                 {
                     "12345678"

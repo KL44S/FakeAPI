@@ -46,7 +46,7 @@ namespace ExampleAPI.Controllers
                 {
                     Obra.id = ObraService.Obras.Last().id + 1;
 
-                    Obra nuevaObra = new Obra() { cuits =  Obra.cuits.ToList(), id = Obra.id, obra = Obra.obra, ejercicioObra = Obra.ejercicioObra, oco = Obra.oco, proveedor = Obra.proveedor };
+                    Obra nuevaObra = new Obra() { cuits =  Obra.cuits.ToList(), id = Obra.id, obra = Obra.obra, ejercicioObra = Obra.ejercicioObra, oco = Obra.oco, proveedor = Obra.proveedor, diasCertificacion = Obra.diasCertificacion };
 
                     ObraService.Obras.Add(nuevaObra);
 
@@ -54,7 +54,7 @@ namespace ExampleAPI.Controllers
                 }
                 else
                 {
-                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" } };
+                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" }, diasCertificacion = new { error = "error dias" } };
 
                     return Content((HttpStatusCode)422, ObraViewModel);
                 }
@@ -83,13 +83,13 @@ namespace ExampleAPI.Controllers
                     ViejaObra.ejercicioObra = Obra.ejercicioObra;
                     ViejaObra.proveedor = Obra.proveedor;
                     ViejaObra.cuits = Obra.cuits.ToList();
-
+                    ViejaObra.diasCertificacion = Obra.diasCertificacion;
 
                     return Ok();
                 }
                 else
                 {
-                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" } };
+                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" }, diasCertificacion = new { error = "error dias" } };
 
                     return Content((HttpStatusCode)422, ObraViewModel);
                 }
