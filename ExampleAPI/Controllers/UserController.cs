@@ -36,7 +36,7 @@ namespace ExampleAPI.Controllers
                 cuit = "12345678910",
                 name = "Alguien",
                 lastname = "Mas",
-                password = "12345678",
+                password = "12345678910",
                 idRol = 2,
                 obras = new List<int>()
                 {
@@ -46,10 +46,10 @@ namespace ExampleAPI.Controllers
             },
             new User()
             {
-                cuit = "6346634",
+                cuit = "63466345555",
                 name = "Agustin",
                 lastname = "Binci",
-                password = "12345678",
+                password = "63466345555",
                 idRol = 2,
                 obras = new List<int>()
                 {
@@ -58,10 +58,10 @@ namespace ExampleAPI.Controllers
             },
             new User()
             {
-                cuit = "755433",
+                cuit = "75543212233",
                 name = "Guido",
                 lastname = "Armando",
-                password = "12345678",
+                password = "75543212233",
                 idRol = 3,
                 obras = new List<int>()
                 {

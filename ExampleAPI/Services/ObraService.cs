@@ -22,7 +22,7 @@ namespace ExampleAPI.Services
                 {
                     "12345678",
                     "12345678910",
-                    "755433"
+                    "75543212233"
                 }
             },
             new Obra()
@@ -35,7 +35,7 @@ namespace ExampleAPI.Services
                 diasCertificacion = 30,
                 cuits = new List<String>()
                 {
-                    "6346634",
+                    "63466345555",
                     "12345678"
                 }
             },
