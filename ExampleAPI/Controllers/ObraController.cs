@@ -15,8 +15,18 @@ namespace ExampleAPI.Controllers
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(String cuit)
+        public IHttpActionResult Get(String cuit, int? obra)
         {
+            if (obra != null && obra >= 0)
+            {
+                var Obra = ObraService.Obras.FirstOrDefault(x => x.obra.Equals(obra));
+
+                if (Obra != null)
+                    return Ok(Obra);
+                else
+                    return NotFound();
+            }
+
             if (!String.IsNullOrEmpty(cuit))
             {
                 var Obras = ObraService.Obras.Where(x => x.cuits.Contains(cuit));

@@ -53,6 +53,17 @@ namespace ExampleAPI.Controllers
                 Planilla.numeroPlanilla = PlanillaService.Planillas.Last().numeroPlanilla + 1;
 
                 PlanillaService.Planillas.Add(Planilla);
+                IList<ItemDePlanilla> ItemsDePlanilla = new List<ItemDePlanilla>();
+
+                foreach (var Item in ItemService.Items)
+                {
+                    ItemDePlanilla ItemDePlanilla = new ItemDePlanilla()
+                    {
+                        numeroItem = Item.numeroItem, obra = (int)obra, cantidadParcial = 0.0f, porcentajeParcial = 0.0f, numeroPlanilla = Planilla.numeroPlanilla
+                    };
+
+                    ItemDePlanillaService.Items.Add(ItemDePlanilla);
+                }
 
                 return Ok();
             }

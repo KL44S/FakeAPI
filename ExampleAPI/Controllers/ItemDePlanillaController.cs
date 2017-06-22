@@ -17,6 +17,16 @@ namespace ExampleAPI.Controllers
         {
             if (numeroPlanilla != null && numeroPlanilla > 0 && obra != null && obra > 0)
             {
+                if (numeroItem != null && numeroItem > 0)
+                {
+                    ItemDePlanilla Item = ItemDePlanillaService.Items.FirstOrDefault(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem));
+
+                    if (Item != null)
+                        return Ok(Item);
+                    else
+                        return NotFound();
+                }
+
                 var ItemDePlanilla = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra));
 
                 if (ItemDePlanilla != null && ItemDePlanilla.Count() > 0)
