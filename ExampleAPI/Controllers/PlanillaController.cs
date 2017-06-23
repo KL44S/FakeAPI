@@ -55,11 +55,11 @@ namespace ExampleAPI.Controllers
                 PlanillaService.Planillas.Add(Planilla);
                 IList<ItemDePlanilla> ItemsDePlanilla = new List<ItemDePlanilla>();
 
-                foreach (var Item in ItemService.Items)
+                foreach (var Item in SubItemService.Items)
                 {
                     ItemDePlanilla ItemDePlanilla = new ItemDePlanilla()
                     {
-                        numeroItem = Item.numeroItem, obra = (int)obra, cantidadParcial = 0.0f, porcentajeParcial = 0.0f, numeroPlanilla = Planilla.numeroPlanilla
+                        numeroItem = Item.numeroSubItem, obra = (int)obra, cantidadParcial = 0.0f, porcentajeParcial = 0.0f, numeroPlanilla = Planilla.numeroPlanilla
                     };
 
                     ItemDePlanillaService.Items.Add(ItemDePlanilla);

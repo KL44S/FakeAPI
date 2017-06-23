@@ -10,15 +10,16 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
-    public class ItemController : ApiController
+    public class SubItemController : ApiController
     {
+
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroItem, int? obra)
+        public IHttpActionResult Get(int? numeroSubItem, int? obra)
         {
-            if (numeroItem != null && numeroItem > 0)
+            if (numeroSubItem != null && numeroSubItem > 0)
             {
-                var Items = ItemService.Items.Where(x => x.numeroItem.Equals(numeroItem));
+                var Items = SubItemService.Items.Where(x => x.numeroSubItem.Equals(numeroSubItem));
 
                 if (Items != null && Items.Count() > 0)
                     return Ok(Items);
@@ -41,13 +42,13 @@ namespace ExampleAPI.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(Item Item)
+        public IHttpActionResult Post(SubItem Item)
         {
             try
             {
-                if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
+                if (Item != null && Item.obra != 0 && Item.numeroSubItem != 0 && Item.numeroSubItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
                 {
-                    ItemService.Items.Add(Item);
+                    SubItemService.Items.Add(Item);
 
                     return Ok();
                 }
@@ -83,7 +84,7 @@ namespace ExampleAPI.Controllers
                     {
                         return NotFound();
                     }
-
+                    
                 }
                 else
                 {

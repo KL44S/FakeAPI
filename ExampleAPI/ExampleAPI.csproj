@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AsignacionesController.cs" />
     <Compile Include="Controllers\EstadoDePlanillaController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\SubItemController.cs" />
     <Compile Include="Controllers\ItemDePlanillaController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\PlanillaController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\EstadoDePlanilla.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\SubItem.cs" />
     <Compile Include="Models\ItemDePlanilla.cs" />
     <Compile Include="Models\Obra.cs" />
     <Compile Include="Models\ObraViewModel.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Services\EstadoDePlanillaService.cs" />
     <Compile Include="Services\ItemDePlanillaService.cs" />
     <Compile Include="Services\ItemService.cs" />
+    <Compile Include="Services\SubItemService.cs" />
     <Compile Include="Services\ITokenService.cs" />
     <Compile Include="Services\ObraService.cs" />
     <Compile Include="Services\PlanillaService.cs" />

@@ -13,18 +13,32 @@ namespace ExampleAPI.Controllers
     public class ItemDePlanillaController : ApiController
     {
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroPlanilla, int? numeroItem, int? obra)
+        public IHttpActionResult Get(int? numeroPlanilla, int? numeroItem, int? numeroSubItem, int? obra)
         {
             if (numeroPlanilla != null && numeroPlanilla > 0 && obra != null && obra > 0)
             {
                 if (numeroItem != null && numeroItem > 0)
                 {
-                    ItemDePlanilla Item = ItemDePlanillaService.Items.FirstOrDefault(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem));
+                    if (numeroSubItem != null && numeroSubItem > 0)
+                    {
+                        ItemDePlanilla Item = ItemDePlanillaService.Items.FirstOrDefault(x => x.numeroPlanilla.Equals(numeroPlanilla) && 
+                                                        x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem) && x.numeroSubItem.Equals(numeroSubItem));
 
-                    if (Item != null)
-                        return Ok(Item);
+                        if (Item != null)
+                            return Ok(Item);
+                        else
+                            return NotFound();
+                    }
                     else
-                        return NotFound();
+                    {
+                        var Items = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) &&
+                                x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem));
+
+                        if (Items != null && Items.Count() > 0)
+                            return Ok(Items);
+                        else
+                            return NotFound();
+                    }
                 }
 
                 var ItemDePlanilla = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra));
