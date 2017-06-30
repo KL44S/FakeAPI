@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    //Clase cross a ambos proyectos. En realidad cada proyecto debería tener su modelo
     public class User
     {
-        public String cuit { get; set; }
-        public String password { get; set; }
-        public String name { get; set; }
-        public String lastname { get; set; }
-        public int idRol { get; set; }
-        public IList<int> obras { get; set; }
+        public String Cuit { get; set; }
+        public String Password { get; set; }
+        public String Name { get; set; }
+        public String Lastname { get; set; }
+        public int IdRol { get; set; }
     }
 }

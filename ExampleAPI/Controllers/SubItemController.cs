@@ -15,11 +15,11 @@ namespace ExampleAPI.Controllers
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroSubItem, int? obra)
+        public IHttpActionResult Get(int? numeroItem, int? numeroSubItem, int? obra)
         {
-            if (numeroSubItem != null && numeroSubItem > 0)
+            if (numeroItem != null && numeroItem > 0)
             {
-                var Items = SubItemService.Items.Where(x => x.numeroSubItem.Equals(numeroSubItem));
+                var Items = SubItemService.Items.Where(x => x.numeroItem.Equals(numeroItem) && x.obra.Equals(obra));
 
                 if (Items != null && Items.Count() > 0)
                     return Ok(Items);
