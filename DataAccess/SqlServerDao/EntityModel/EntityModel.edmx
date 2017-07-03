@@ -1,0 +1,625 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ObrasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+          <Property Name="itemNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requirement">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+          <Property Name="purchaseOrderNumber" Type="int" Nullable="false" />
+          <Property Name="purchaseOrderExcercise" Type="int" Nullable="false" />
+          <Property Name="certificationDays" Type="int" Nullable="false" />
+          <Property Name="provider" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequirementUser">
+          <Key>
+            <PropertyRef Name="cuit" />
+            <PropertyRef Name="requirementNumber" />
+          </Key>
+          <Property Name="cuit" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sheet">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="sheetNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+          <Property Name="sheetNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sheetStateId" Type="int" Nullable="false" />
+          <Property Name="fromDate" Type="date" Nullable="false" />
+          <Property Name="untilDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SheetItem">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+            <PropertyRef Name="subItemNumber" />
+            <PropertyRef Name="sheetNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+          <Property Name="itemNumber" Type="int" Nullable="false" />
+          <Property Name="subItemNumber" Type="int" Nullable="false" />
+          <Property Name="sheetNumber" Type="int" Nullable="false" />
+          <Property Name="partialQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="percentQuantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SheetState">
+          <Key>
+            <PropertyRef Name="sheetStateId" />
+          </Key>
+          <Property Name="sheetStateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubItem">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+            <PropertyRef Name="subItemNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="int" Nullable="false" />
+          <Property Name="itemNumber" Type="int" Nullable="false" />
+          <Property Name="subItemNumber" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="sis" Type="varchar" MaxLength="50" />
+          <Property Name="unitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="unitOfMeasurement" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="totalQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="cuit" />
+          </Key>
+          <Property Name="cuit" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Item_Requirement">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requirement">
+              <PropertyRef Name="requirementNumber" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="requirementNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequirementUser_Requirement">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
+          <End Role="RequirementUser" Type="Self.RequirementUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requirement">
+              <PropertyRef Name="requirementNumber" />
+            </Principal>
+            <Dependent Role="RequirementUser">
+              <PropertyRef Name="requirementNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequirementUser_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="RequirementUser" Type="Self.RequirementUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="cuit" />
+            </Principal>
+            <Dependent Role="RequirementUser">
+              <PropertyRef Name="cuit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sheet_Requirement">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requirement">
+              <PropertyRef Name="requirementNumber" />
+            </Principal>
+            <Dependent Role="Sheet">
+              <PropertyRef Name="requirementNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sheet_SheetState">
+          <End Role="SheetState" Type="Self.SheetState" Multiplicity="1" />
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SheetState">
+              <PropertyRef Name="sheetStateId" />
+            </Principal>
+            <Dependent Role="Sheet">
+              <PropertyRef Name="sheetStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SheetItem_Sheet">
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="1" />
+          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sheet">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="sheetNumber" />
+            </Principal>
+            <Dependent Role="SheetItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="sheetNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SheetItem_SubItem">
+          <End Role="SubItem" Type="Self.SubItem" Multiplicity="1" />
+          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+              <PropertyRef Name="subItemNumber" />
+            </Principal>
+            <Dependent Role="SheetItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+              <PropertyRef Name="subItemNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubItem_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="SubItem" Type="Self.SubItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+            </Principal>
+            <Dependent Role="SubItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ObrasModelStoreContainer">
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requirement" EntityType="Self.Requirement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequirementUser" EntityType="Self.RequirementUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sheet" EntityType="Self.Sheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SheetItem" EntityType="Self.SheetItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SheetState" EntityType="Self.SheetState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubItem" EntityType="Self.SubItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequirementUser_Requirement" Association="Self.FK_RequirementUser_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="RequirementUser" EntitySet="RequirementUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequirementUser_User" Association="Self.FK_RequirementUser_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="RequirementUser" EntitySet="RequirementUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_Requirement" Association="Self.FK_Sheet_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_SheetState" Association="Self.FK_Sheet_SheetState">
+            <End Role="SheetState" EntitySet="SheetState" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_Sheet" Association="Self.FK_SheetItem_Sheet">
+            <End Role="Sheet" EntitySet="Sheet" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_SubItem" Association="Self.FK_SheetItem_SubItem">
+            <End Role="SubItem" EntitySet="SubItem" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubItem_Item" Association="Self.FK_SubItem_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="SubItem" EntitySet="SubItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ObrasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="Int32" Nullable="false" />
+          <Property Name="itemNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requirement" Relationship="Self.FK_Item_Requirement" FromRole="Item" ToRole="Requirement" />
+          <NavigationProperty Name="SubItem" Relationship="Self.FK_SubItem_Item" FromRole="Item" ToRole="SubItem" />
+        </EntityType>
+        <EntityType Name="Requirement">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="Int32" Nullable="false" />
+          <Property Name="purchaseOrderNumber" Type="Int32" Nullable="false" />
+          <Property Name="purchaseOrderExcercise" Type="Int32" Nullable="false" />
+          <Property Name="certificationDays" Type="Int32" Nullable="false" />
+          <Property Name="provider" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Item_Requirement" FromRole="Requirement" ToRole="Item" />
+          <NavigationProperty Name="Sheet" Relationship="Self.FK_Sheet_Requirement" FromRole="Requirement" ToRole="Sheet" />
+          <NavigationProperty Name="User" Relationship="Self.RequirementUser" FromRole="Requirement" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="roleId" />
+          </Key>
+          <Property Name="roleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Sheet">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="sheetNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="Int32" Nullable="false" />
+          <Property Name="sheetNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sheetStateId" Type="Int32" Nullable="false" />
+          <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Requirement" Relationship="Self.FK_Sheet_Requirement" FromRole="Sheet" ToRole="Requirement" />
+          <NavigationProperty Name="SheetState" Relationship="Self.FK_Sheet_SheetState" FromRole="Sheet" ToRole="SheetState" />
+          <NavigationProperty Name="SheetItem" Relationship="Self.FK_SheetItem_Sheet" FromRole="Sheet" ToRole="SheetItem" />
+        </EntityType>
+        <EntityType Name="SheetItem">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+            <PropertyRef Name="subItemNumber" />
+            <PropertyRef Name="sheetNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="Int32" Nullable="false" />
+          <Property Name="itemNumber" Type="Int32" Nullable="false" />
+          <Property Name="subItemNumber" Type="Int32" Nullable="false" />
+          <Property Name="sheetNumber" Type="Int32" Nullable="false" />
+          <Property Name="partialQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="percentQuantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sheet" Relationship="Self.FK_SheetItem_Sheet" FromRole="SheetItem" ToRole="Sheet" />
+          <NavigationProperty Name="SubItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SheetItem" ToRole="SubItem" />
+        </EntityType>
+        <EntityType Name="SheetState">
+          <Key>
+            <PropertyRef Name="sheetStateId" />
+          </Key>
+          <Property Name="sheetStateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Sheet" Relationship="Self.FK_Sheet_SheetState" FromRole="SheetState" ToRole="Sheet" />
+        </EntityType>
+        <EntityType Name="SubItem">
+          <Key>
+            <PropertyRef Name="requirementNumber" />
+            <PropertyRef Name="itemNumber" />
+            <PropertyRef Name="subItemNumber" />
+          </Key>
+          <Property Name="requirementNumber" Type="Int32" Nullable="false" />
+          <Property Name="itemNumber" Type="Int32" Nullable="false" />
+          <Property Name="subItemNumber" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="unitPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="unitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="totalQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_SubItem_Item" FromRole="SubItem" ToRole="Item" />
+          <NavigationProperty Name="SheetItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SubItem" ToRole="SheetItem" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="cuit" />
+          </Key>
+          <Property Name="cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="roleId" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="99" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Requirement" Relationship="Self.RequirementUser" FromRole="User" ToRole="Requirement" />
+        </EntityType>
+        <Association Name="FK_Item_Requirement">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requirement">
+              <PropertyRef Name="requirementNumber" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="requirementNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubItem_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="SubItem" Type="Self.SubItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+            </Principal>
+            <Dependent Role="SubItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sheet_Requirement">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requirement">
+              <PropertyRef Name="requirementNumber" />
+            </Principal>
+            <Dependent Role="Sheet">
+              <PropertyRef Name="requirementNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sheet_SheetState">
+          <End Role="SheetState" Type="Self.SheetState" Multiplicity="1" />
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SheetState">
+              <PropertyRef Name="sheetStateId" />
+            </Principal>
+            <Dependent Role="Sheet">
+              <PropertyRef Name="sheetStateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SheetItem_Sheet">
+          <End Role="Sheet" Type="Self.Sheet" Multiplicity="1" />
+          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sheet">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="sheetNumber" />
+            </Principal>
+            <Dependent Role="SheetItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="sheetNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SheetItem_SubItem">
+          <End Role="SubItem" Type="Self.SubItem" Multiplicity="1" />
+          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+              <PropertyRef Name="subItemNumber" />
+            </Principal>
+            <Dependent Role="SheetItem">
+              <PropertyRef Name="requirementNumber" />
+              <PropertyRef Name="itemNumber" />
+              <PropertyRef Name="subItemNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequirementUser">
+          <End Role="Requirement" Type="Self.Requirement" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="ObrasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Item" EntityType="Self.Item" />
+          <EntitySet Name="Requirement" EntityType="Self.Requirement" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Sheet" EntityType="Self.Sheet" />
+          <EntitySet Name="SheetItem" EntityType="Self.SheetItem" />
+          <EntitySet Name="SheetState" EntityType="Self.SheetState" />
+          <EntitySet Name="SubItem" EntityType="Self.SubItem" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubItem_Item" Association="Self.FK_SubItem_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="SubItem" EntitySet="SubItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_Requirement" Association="Self.FK_Sheet_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_SheetState" Association="Self.FK_Sheet_SheetState">
+            <End Role="SheetState" EntitySet="SheetState" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_Sheet" Association="Self.FK_SheetItem_Sheet">
+            <End Role="Sheet" EntitySet="Sheet" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_SubItem" Association="Self.FK_SheetItem_SubItem">
+            <End Role="SubItem" EntitySet="SubItem" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="RequirementUser" Association="Self.RequirementUser">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ObrasModelStoreContainer" CdmEntityContainer="ObrasEntities">
+          <EntitySetMapping Name="Item">
+            <EntityTypeMapping TypeName="ObrasModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requirement">
+            <EntityTypeMapping TypeName="ObrasModel.Requirement">
+              <MappingFragment StoreEntitySet="Requirement">
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="purchaseOrderNumber" ColumnName="purchaseOrderNumber" />
+                <ScalarProperty Name="purchaseOrderExcercise" ColumnName="purchaseOrderExcercise" />
+                <ScalarProperty Name="certificationDays" ColumnName="certificationDays" />
+                <ScalarProperty Name="provider" ColumnName="provider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="ObrasModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sheet">
+            <EntityTypeMapping TypeName="ObrasModel.Sheet">
+              <MappingFragment StoreEntitySet="Sheet">
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
+                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
+                <ScalarProperty Name="fromDate" ColumnName="fromDate" />
+                <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SheetItem">
+            <EntityTypeMapping TypeName="ObrasModel.SheetItem">
+              <MappingFragment StoreEntitySet="SheetItem">
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
+                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
+                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
+                <ScalarProperty Name="partialQuantity" ColumnName="partialQuantity" />
+                <ScalarProperty Name="percentQuantity" ColumnName="percentQuantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SheetState">
+            <EntityTypeMapping TypeName="ObrasModel.SheetState">
+              <MappingFragment StoreEntitySet="SheetState">
+                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubItem">
+            <EntityTypeMapping TypeName="ObrasModel.SubItem">
+              <MappingFragment StoreEntitySet="SubItem">
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
+                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="sis" ColumnName="sis" />
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="unitOfMeasurement" ColumnName="unitOfMeasurement" />
+                <ScalarProperty Name="totalQuantity" ColumnName="totalQuantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="ObrasModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="cuit" ColumnName="cuit" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RequirementUser" TypeName="ObrasModel.RequirementUser" StoreEntitySet="RequirementUser">
+            <EndProperty Name="Requirement">
+              <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="cuit" ColumnName="cuit" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
