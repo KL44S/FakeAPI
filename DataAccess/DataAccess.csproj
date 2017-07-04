@@ -51,9 +51,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDao.cs" />
+    <Compile Include="AbstractDao\IDao.cs" />
+    <Compile Include="AbstractDao\ItemDao.cs" />
+    <Compile Include="AbstractDao\SheetDao.cs" />
+    <Compile Include="AbstractDao\SheetItemDao.cs" />
+    <Compile Include="AbstractDao\SheetStateDao.cs" />
+    <Compile Include="AbstractDao\SubItemDao.cs" />
+    <Compile Include="Factories\DaoFactory.cs" />
+    <Compile Include="Factories\UserDaoFactory.cs" />
+    <Compile Include="MemoryDao\ItemMemoryDao.cs" />
+    <Compile Include="MemoryDao\RequirementMemoryDao.cs" />
+    <Compile Include="MemoryDao\RequirementUserMemoryDao.cs" />
+    <Compile Include="MemoryDao\SheetItemMemoryDao.cs" />
+    <Compile Include="MemoryDao\SheetMemoryDao.cs" />
+    <Compile Include="MemoryDao\SheetStateMemoryDao.cs" />
+    <Compile Include="MemoryDao\SubItemMemoryDao.cs" />
+    <Compile Include="MemoryDao\UserMemoryDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequirementDao.cs" />
+    <Compile Include="AbstractDao\RequirementDao.cs" />
+    <Compile Include="AbstractDao\RequirementUserDao.cs" />
     <Compile Include="SqlServerDao\Mapping\UserMapping.cs" />
     <Compile Include="SqlServerDao\UserSqlServerDao.cs" />
     <Compile Include="SqlServerDao\EntityModel\EntityModel.Context.cs">
@@ -95,17 +111,19 @@
     <Compile Include="SqlServerDao\EntityModel\User.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserDao.cs" />
+    <Compile Include="AbstractDao\UserDao.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{C2109E2D-CC85-4F32-9AE3-F4797D7F97AE}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{DC66D412-C563-473E-8FF9-244706D111D3}</Project>
       <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MemoryDao\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />

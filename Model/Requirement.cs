@@ -9,8 +9,8 @@ namespace Model
     public class Requirement
     {
         public int RequirementNumber { get; set; }
-        public int Oco { get; set; }
-        public int OcoExcercise { get; set; }
+        public int PurchaseOrder { get; set; }
+        public int PurchaseOrderExcercise { get; set; }
         public int CertificationDays { get; set; }
         public String Provider { get; set; }
         public IList<String> Cuits { get; set; }

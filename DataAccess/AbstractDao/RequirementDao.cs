@@ -12,5 +12,6 @@ namespace DataAccess
         public abstract void Create(Requirement Requirement);
         public abstract IEnumerable<Requirement> GetAll();
         public abstract void Update(Requirement Requirement);
+        public abstract Requirement GetRequirementByRequirementNumber(int RequirementNumber);
     }
 }
