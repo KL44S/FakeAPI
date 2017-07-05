@@ -41,8 +41,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\IEncryptionService.cs" />
+    <Compile Include="Abstractions\ITokenService.cs" />
+    <Compile Include="Abstractions\IUserService.cs" />
+    <Compile Include="Implementations\BearerTokenService.cs" />
+    <Compile Include="Implementations\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementations\Sha256EncryptionService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
+      <Project>{06BAED16-5B13-436B-BEEE-C33BD316308E}</Project>
+      <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{DC66D412-C563-473E-8FF9-244706D111D3}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

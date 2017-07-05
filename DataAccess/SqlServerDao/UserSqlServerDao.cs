@@ -57,6 +57,11 @@ namespace DataAccess.SqlServerDao
             return UserMapping.UnMapEntityUser(EntityUser);
         }
 
+        public override IEnumerable<Model.User> GetUserByRoleId(int RoleId)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Update(Model.User User)
         {
             EntityModel.User EntityUser = this._obrasEntities.User.FirstOrDefault(AnUser => AnUser.cuit.Equals(User.Cuit));

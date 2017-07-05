@@ -1,92 +1,63 @@
 ﻿using ExampleAPI.Services;
-using Model;
+using ExampleAPI.ViewModel;
+using Services;
+using Services.Abstractions;
+using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Model;
 using System.Web.Http.Results;
+using Exceptions;
 
 namespace ExampleAPI.Controllers
 {
     public class UserController : ApiController
     {
-        private ITokenService TokenService = new TokenMockService();
-        private static IList<User> _users = new List<User>()
-        {
-            new User()
-            {
-                cuit = "12345678",
-                name = "Juan",
-                lastname = "Perez",
-                password = "12345678",
-                idRol = 1,
-                obras = new List<int>()
-                {
-                    1556,
-                    1557,
-                    1558,
-                    1559
-                }
-            },
-            new User()
-            {
-                cuit = "12345678910",
-                name = "Alguien",
-                lastname = "Mas",
-                password = "12345678910",
-                idRol = 2,
-                obras = new List<int>()
-                {
-                    1556,
-                    1558
-                }
-            },
-            new User()
-            {
-                cuit = "63466345555",
-                name = "Agustin",
-                lastname = "Binci",
-                password = "63466345555",
-                idRol = 2,
-                obras = new List<int>()
-                {
-                    1557,
-                }
-            },
-            new User()
-            {
-                cuit = "75543212233",
-                name = "Guido",
-                lastname = "Armando",
-                password = "75543212233",
-                idRol = 3,
-                obras = new List<int>()
-                {
-                    1556,
-                }
-            }
-        };
-
+        private IUserService _userService = new UserService();
+        private MappingService<User, UserViewModel> _userMappingService = new UserMappingService();
 
         // POST: api/User
         [HttpPost]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(User User)
+        public IHttpActionResult Post(String cuit, String password)
         {
             try
             {
-                var headers = Request.Headers;
+                if (cuit == null || password == null)
+                {
+                    return BadRequest();
+                }
 
-                var user = _users.FirstOrDefault(x => x.cuit.Equals(User.cuit) && x.password.Equals(User.password));
+                IEncryptionService EnctyptionService = new Sha256EncryptionService();
 
-                if (user != null)
-                    return Ok(new { token = "untoken", user = user });
+                String Password = EnctyptionService.Encrypt(password);
+
+                User User = this._userService.GetUserByCuitAndPassword(cuit, Password);
+
+                if (User != null)
+                {
+                    ITokenService _tokenService = new BearerTokenService();
+                    String Token = _tokenService.GetEncodedToken(cuit, Password);
+
+                    UserViewModel UserViewModel = _userMappingService.UnMapEntity(User);
+
+                    return Ok(new { token = Token, user = UserViewModel });
+                }                    
 
                 return NotFound();
             }
+
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+
             catch (Exception)
             {
                 //Habría que logear...
@@ -100,23 +71,31 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                IEnumerable<User> Users = null;
+
                 if (rolId != null && rolId > 0 && requirement != null && requirement > 0)
                 {
-                    var result = _users.FirstOrDefault(x => x.idRol.Equals(rolId) && x.obras.Contains((int)requirement));
+                    Users = this._userService.GetUsersByRoleIdAndRequirementNumber((int)rolId, (int)requirement);
 
-                    if (result != null)
-                        return Ok(result);
+                    if (Users != null)
+                        return Ok(Users);
 
                     return NotFound();
                 }
 
                 if (rolId != null && rolId > 0)
-                    return Ok(_users.Where(x => x.idRol.Equals(rolId)).ToList());
+                {
+                    Users = this._userService.GetUsersByRoleId((int)rolId);
+                    return Ok(Users);
+                }
 
                 if (requirement != null && requirement > 0)
-                    return Ok(_users.Where(x => x.obras.Contains((int)requirement)).ToList());
+                {
+                    Users = this._userService.GetUsersByRequirementNumber((int)requirement);
+                    return Ok(Users);
+                }
 
-                return Ok(_users);
+                return Ok(_userService.GetAllUsers());
             }
             catch (Exception)
             {

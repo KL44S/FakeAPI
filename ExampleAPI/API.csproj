@@ -220,24 +220,25 @@
     <Compile Include="Controllers\ItemDePlanillaController.cs" />
     <Compile Include="Controllers\ObraController.cs" />
     <Compile Include="Controllers\PlanillaController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Filters\EnablesssssCorsAttribute.cs" />
+    <Compile Include="Filters\AuthFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Asignacion.cs" />
-    <Compile Include="Models\CreateObra.cs" />
-    <Compile Include="Models\EstadoDePlanilla.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\SubItem.cs" />
-    <Compile Include="Models\ItemDePlanilla.cs" />
-    <Compile Include="Models\Obra.cs" />
-    <Compile Include="Models\ObraViewModel.cs" />
-    <Compile Include="Models\Planilla.cs" />
+    <Compile Include="Services\MappingService.cs" />
+    <Compile Include="Services\UserMappingService.cs" />
+    <Compile Include="ViewModel\AccountBindingModels.cs" />
+    <Compile Include="ViewModel\AccountViewModels.cs" />
+    <Compile Include="ViewModel\Asignacion.cs" />
+    <Compile Include="ViewModel\CreateObra.cs" />
+    <Compile Include="ViewModel\EstadoDePlanilla.cs" />
+    <Compile Include="ViewModel\IdentityModels.cs" />
+    <Compile Include="ViewModel\Item.cs" />
+    <Compile Include="ViewModel\SubItem.cs" />
+    <Compile Include="ViewModel\ItemDePlanilla.cs" />
+    <Compile Include="ViewModel\Obra.cs" />
+    <Compile Include="ViewModel\ObraViewModel.cs" />
+    <Compile Include="ViewModel\Planilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -246,12 +247,10 @@
     <Compile Include="Services\ItemDePlanillaService.cs" />
     <Compile Include="Services\ItemService.cs" />
     <Compile Include="Services\SubItemService.cs" />
-    <Compile Include="Services\ITokenService.cs" />
     <Compile Include="Services\ObraService.cs" />
     <Compile Include="Services\PlanillaService.cs" />
-    <Compile Include="Services\TokenMockService.cs" />
-    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModel\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -320,9 +319,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{C2109E2D-CC85-4F32-9AE3-F4797D7F97AE}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{dc66d412-c563-473e-8ff9-244706d111d3}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{079A1CDD-48C7-4EE8-BED0-12E541FE3FA8}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

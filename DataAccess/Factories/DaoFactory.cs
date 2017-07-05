@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,27 @@ namespace DataAccess.Factories
 {
     public abstract class DaoFactory<T>
     {
-        public enum Techs { SqlServer, Memory };
+        protected abstract T GetMemoryDaoInstance();
+        protected abstract T GetSqlServerDaoInstance();
 
-        public abstract T GetDaoInstance(Techs Tech);
+        public T GetDaoInstance()
+        {
+            return GetDaoInstance(Constants.CurrentTech);
+        }
+
+        public T GetDaoInstance(Constants.Techs Tech)
+        {
+            switch (Tech)
+            {
+                case Constants.Techs.Memory:
+                    return this.GetMemoryDaoInstance();
+
+                case Constants.Techs.SqlServer:
+                    return this.GetSqlServerDaoInstance();
+
+                default:
+                    throw new EntityNotFoundException();
+            }
+        }
     }
 }

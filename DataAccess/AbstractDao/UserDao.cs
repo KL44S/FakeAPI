@@ -14,5 +14,6 @@ namespace DataAccess
         public abstract void Create(User User);
         public abstract void Update(User User);
         public abstract IEnumerable<User> GetAll();
+        public abstract IEnumerable<User> GetUserByRoleId(int RoleId);
     }
 }

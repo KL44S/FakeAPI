@@ -1,4 +1,5 @@
-﻿using ExampleAPI.Models;
+﻿using ExampleAPI.Filters;
+using ExampleAPI.Models;
 using ExampleAPI.Services;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
+    [AuthFilter]
     public class ObraController : ApiController
     {
 

@@ -11,19 +11,14 @@ namespace DataAccess.Factories
 {
     public class UserDaoFactory : DaoFactory<UserDao>
     {
-        public override UserDao GetDaoInstance(Techs Tech)
+        protected override UserDao GetMemoryDaoInstance()
         {
-            switch (Tech)
-            {
-                case Techs.Memory:
-                    return new UserMemoryDao();
+            return new UserMemoryDao();
+        }
 
-                case Techs.SqlServer:
-                    return new UserSqlServerDao();
-
-                default:
-                    throw new EntityNotFoundException();
-            }
+        protected override UserDao GetSqlServerDaoInstance()
+        {
+            return new UserSqlServerDao();
         }
     }
 }

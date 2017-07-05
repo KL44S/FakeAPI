@@ -58,6 +58,13 @@
     <Compile Include="AbstractDao\SheetStateDao.cs" />
     <Compile Include="AbstractDao\SubItemDao.cs" />
     <Compile Include="Factories\DaoFactory.cs" />
+    <Compile Include="Factories\ItemDaoFactory.cs" />
+    <Compile Include="Factories\RequirementDaoFactory.cs" />
+    <Compile Include="Factories\RequirementUserDaoFactory.cs" />
+    <Compile Include="Factories\SheetDaoFactory.cs" />
+    <Compile Include="Factories\SheetItemDaoFactory.cs" />
+    <Compile Include="Factories\SheetStateDaoFactory.cs" />
+    <Compile Include="Factories\SubItemDaoFactory.cs" />
     <Compile Include="Factories\UserDaoFactory.cs" />
     <Compile Include="MemoryDao\ItemMemoryDao.cs" />
     <Compile Include="MemoryDao\RequirementMemoryDao.cs" />
@@ -112,6 +119,7 @@
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AbstractDao\UserDao.cs" />
+    <Compile Include="Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Exceptions\Exceptions.csproj">
