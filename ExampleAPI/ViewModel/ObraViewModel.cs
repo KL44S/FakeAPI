@@ -12,5 +12,6 @@ namespace ExampleAPI.Models
         public int oco { get; set; }
         public int ejercicioObra { get; set; }
         public String proveedor { get; set; }
+        public int diasDeCertificacion { get; set; }
     }
 }

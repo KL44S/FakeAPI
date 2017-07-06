@@ -65,6 +65,17 @@ namespace ExampleAPI.Controllers
             }
         }
 
+        private IHttpActionResult ReturnUsers(IEnumerable<User> Users)
+        {
+            if (Users.Count() > 0)
+            {
+                IEnumerable<UserViewModel> UserViewModels = _userMappingService.UnMapEntities(Users);
+                return Ok(UserViewModels);
+            }
+
+            return NotFound();
+        }
+
         [HttpGet]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Get(int? rolId, int? requirement)
@@ -76,26 +87,24 @@ namespace ExampleAPI.Controllers
                 if (rolId != null && rolId > 0 && requirement != null && requirement > 0)
                 {
                     Users = this._userService.GetUsersByRoleIdAndRequirementNumber((int)rolId, (int)requirement);
-
-                    if (Users != null)
-                        return Ok(Users);
-
-                    return NotFound();
+                    return this.ReturnUsers(Users);
                 }
 
                 if (rolId != null && rolId > 0)
                 {
                     Users = this._userService.GetUsersByRoleId((int)rolId);
-                    return Ok(Users);
+                    return this.ReturnUsers(Users);
                 }
 
                 if (requirement != null && requirement > 0)
                 {
                     Users = this._userService.GetUsersByRequirementNumber((int)requirement);
-                    return Ok(Users);
+                    return this.ReturnUsers(Users);
                 }
 
-                return Ok(_userService.GetAllUsers());
+                Users = this._userService.GetAllUsers();
+                return this.ReturnUsers(Users);
+
             }
             catch (Exception)
             {

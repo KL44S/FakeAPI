@@ -1,6 +1,10 @@
 ﻿using ExampleAPI.Filters;
 using ExampleAPI.Models;
 using ExampleAPI.Services;
+using Exceptions;
+using Model;
+using Services.Abstractions;
+using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,66 +18,115 @@ namespace ExampleAPI.Controllers
     [AuthFilter]
     public class ObraController : ApiController
     {
+        private IRequirementService _requirementService = new RequirementService();
+        private MappingService<Requirement, ObraViewModel> _requirementMappingService = new RequirementMappingService();
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(String cuit, int? obra)
+        public IHttpActionResult Get(int? obra)
         {
-            if (obra != null && obra >= 0)
+            try
             {
-                var Obra = ObraService.Obras.FirstOrDefault(x => x.obra.Equals(obra));
+                if (obra != null && obra >= 0)
+                {
+                    Requirement Requirement = this._requirementService.GetRequirementByRequirementNumber((int)obra);
 
-                if (Obra != null)
-                    return Ok(Obra);
-                else
-                    return NotFound();
+                    if (Requirement != null)
+                    {
+                        ObraViewModel ObraViewModel = this._requirementMappingService.UnMapEntity(Requirement);
+                        return Ok(ObraViewModel);
+                    }
+
+                    else
+                        return NotFound();
+                }
+
+                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirements();
+                return this.MapAndReturnRequirements(Requirements);
             }
-
-            if (!String.IsNullOrEmpty(cuit))
+            catch (ArgumentNullException)
             {
-                var Obras = ObraService.Obras.Where(x => x.cuits.Contains(cuit));
-
-                if (Obras != null && Obras.Count() > 0)
-                    return Ok(Obras);
-                else
-                    return NotFound();
+                return BadRequest();
             }
-     
-            return Ok(ObraService.Obras);
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
-        // GET: api/Obra/5
-        public string Get(int id)
-        {
-            return "value";
+        private IHttpActionResult MapAndReturnRequirements(IEnumerable<Requirement> Requirements)
+        {   
+            if (Requirements.Count() > 0)
+            {
+                IEnumerable<ObraViewModel> ObrasViewModel = this._requirementMappingService.UnMapEntities(Requirements);
+                return Ok(ObrasViewModel);
+            }
+
+            return NotFound();
         }
 
         // POST: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(CreateObra Obra)
+        public IHttpActionResult Post(ObraViewModel Obra)
         {
             try
             {
-                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && Obra.cuits != null && Obra.cuits.Count() > 0)
+                if (Obra != null)
                 {
-                    Obra.id = ObraService.Obras.Last().id + 1;
+                    Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
+                    IDictionary<Requirement.Attributes, String > ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
-                    Obra nuevaObra = new Obra() { cuits =  Obra.cuits.ToList(), id = Obra.id, obra = Obra.obra, ejercicioObra = Obra.ejercicioObra, oco = Obra.oco, proveedor = Obra.proveedor, diasCertificacion = Obra.diasCertificacion };
+                    if (ValidationErrors.Count() > 0)
+                    {
+                        var RequirementValidationObject = new
+                        {
+                            obra = new
+                            {
+                                value = Requirement.RequirementNumber,
+                                error = ValidationErrors[Requirement.Attributes.RequirementNumber]
+                            },
+                            oco = new
+                            {
+                                value = Requirement.PurchaseOrder,
+                                error = ValidationErrors[Requirement.Attributes.PurchaseOrder]
+                            },
+                            ejercicioOco = new
+                            {
+                                value = Requirement.PurchaseOrderExcercise,
+                                error = ValidationErrors[Requirement.Attributes.PurchaseOrderExcercise]
+                            },
+                            proveedor = new
+                            {
+                                value = Requirement.Provider,
+                                error = ValidationErrors[Requirement.Attributes.Provider]
+                            },
+                            diasDeCertificacion = new
+                            {
+                                value = Requirement.CertificationDays,
+                                error = ValidationErrors[Requirement.Attributes.CertificationDays]
+                            },
+                        };
 
-                    ObraService.Obras.Add(nuevaObra);
-
-                    return Ok();
+                        return Content((HttpStatusCode)422, RequirementValidationObject);
+                    }
+                    else
+                    {
+                        this._requirementService.Create(Requirement);
+                        return Ok();
+                    }
                 }
                 else
                 {
-                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" }, diasCertificacion = new { error = "error dias" } };
-
-                    return Content((HttpStatusCode)422, ObraViewModel);
+                    return BadRequest();
                 }
             }
             catch(Exception)
             {
-                return BadRequest();
+                return InternalServerError();
             }
                 
         }

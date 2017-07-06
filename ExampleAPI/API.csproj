@@ -226,11 +226,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Services\MappingService.cs" />
+    <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\UserMappingService.cs" />
     <Compile Include="ViewModel\AccountBindingModels.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
     <Compile Include="ViewModel\Asignacion.cs" />
-    <Compile Include="ViewModel\CreateObra.cs" />
     <Compile Include="ViewModel\EstadoDePlanilla.cs" />
     <Compile Include="ViewModel\IdentityModels.cs" />
     <Compile Include="ViewModel\Item.cs" />

@@ -41,9 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\IEncryptionService.cs" />
+    <Compile Include="Abstractions\IRequirementService.cs" />
     <Compile Include="Abstractions\ITokenService.cs" />
     <Compile Include="Abstractions\IUserService.cs" />
+    <Compile Include="Abstractions\Validator.cs" />
+    <Compile Include="Abstractions\IValidatorType.cs" />
     <Compile Include="Implementations\BearerTokenService.cs" />
+    <Compile Include="Implementations\RequirementService.cs" />
     <Compile Include="Implementations\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementations\Sha256EncryptionService.cs" />

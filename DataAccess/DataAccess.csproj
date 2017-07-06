@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="AbstractDao\IDao.cs" />
     <Compile Include="AbstractDao\ItemDao.cs" />
+    <Compile Include="AbstractDao\MessageDao.cs" />
     <Compile Include="AbstractDao\SheetDao.cs" />
     <Compile Include="AbstractDao\SheetItemDao.cs" />
     <Compile Include="AbstractDao\SheetStateDao.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Factories\SubItemDaoFactory.cs" />
     <Compile Include="Factories\UserDaoFactory.cs" />
     <Compile Include="MemoryDao\ItemMemoryDao.cs" />
+    <Compile Include="MemoryDao\MessageMemoryDao.cs" />
     <Compile Include="MemoryDao\RequirementMemoryDao.cs" />
     <Compile Include="MemoryDao\RequirementUserMemoryDao.cs" />
     <Compile Include="MemoryDao\SheetItemMemoryDao.cs" />

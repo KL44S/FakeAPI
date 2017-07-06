@@ -8,6 +8,8 @@ namespace Model
 {
     public class Requirement
     {
+        public enum Attributes { RequirementNumber, PurchaseOrder, PurchaseOrderExcercise, Provider, CertificationDays };
+
         public int RequirementNumber { get; set; }
         public int PurchaseOrder { get; set; }
         public int PurchaseOrderExcercise { get; set; }
