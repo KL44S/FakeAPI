@@ -5,6 +5,7 @@ using Exceptions;
 using Model;
 using Services.Abstractions;
 using Services.Implementations;
+using Services.Validators.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,33 @@ using System.Web.Http.Cors;
 namespace ExampleAPI.Controllers
 {
     [AuthFilter]
-    public class ObraController : ApiController
+    public class ObraController : BaseController
     {
         private IRequirementService _requirementService = new RequirementService();
         private MappingService<Requirement, ObraViewModel> _requirementMappingService = new RequirementMappingService();
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Get()
+        {
+            try
+            {
+                //TODO: filtrar por usuario
+                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirements();
+                return this.MapAndReturnRequirements(Requirements);
+            }
+            catch (ArgumentNullException)
+            {
+                return BadRequest();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -75,41 +99,23 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                    return Unauthorized();
+
                 if (Obra != null)
                 {
                     Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
                     IDictionary<Requirement.Attributes, String > ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
+                    //Existencia de la obra
+                    ExistingRequirementNumberValidator ExistingRequirementNumberValidator = new ExistingRequirementNumberValidator();
+                    ExistingRequirementNumberValidator.RequirementNumberToValidate = Requirement.RequirementNumber;
+                    ExistingRequirementNumberValidator.ErrorMessages = ValidationErrors;
+                    ExistingRequirementNumberValidator.Validate();
+
                     if (ValidationErrors.Count() > 0)
                     {
-                        var RequirementValidationObject = new
-                        {
-                            obra = new
-                            {
-                                value = Requirement.RequirementNumber,
-                                error = ValidationErrors[Requirement.Attributes.RequirementNumber]
-                            },
-                            oco = new
-                            {
-                                value = Requirement.PurchaseOrder,
-                                error = ValidationErrors[Requirement.Attributes.PurchaseOrder]
-                            },
-                            ejercicioOco = new
-                            {
-                                value = Requirement.PurchaseOrderExcercise,
-                                error = ValidationErrors[Requirement.Attributes.PurchaseOrderExcercise]
-                            },
-                            proveedor = new
-                            {
-                                value = Requirement.Provider,
-                                error = ValidationErrors[Requirement.Attributes.Provider]
-                            },
-                            diasDeCertificacion = new
-                            {
-                                value = Requirement.CertificationDays,
-                                error = ValidationErrors[Requirement.Attributes.CertificationDays]
-                            },
-                        };
+                        var RequirementValidationObject = RequirementValidationObjectGeneratorService.GetValidationObject(ValidationErrors, Requirement);
 
                         return Content((HttpStatusCode)422, RequirementValidationObject);
                     }
@@ -132,36 +138,42 @@ namespace ExampleAPI.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Put(CreateObra Obra)
+        public IHttpActionResult Put(ObraViewModel Obra)
         {
             try
             {
-                if (Obra != null && Obra.obra != 0 && Obra.oco != 0 && Obra.ejercicioObra != 0 && Obra.ejercicioObra != 2018 && !String.IsNullOrEmpty(Obra.proveedor) && Obra.cuits != null && Obra.cuits.Count() > 0)
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                    return Unauthorized();
+
+                if (Obra != null)
                 {
-                    Obra ViejaObra = ObraService.Obras.FirstOrDefault(x => x.obra.Equals(Obra.obra));
+                    Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
+                    IDictionary<Requirement.Attributes, String> ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
-                    if (ViejaObra == null)
-                        return NotFound();
+                    if (ValidationErrors.Count() > 0)
+                    {
+                        var RequirementValidationObject = RequirementValidationObjectGeneratorService.GetValidationObject(ValidationErrors, Requirement);
 
-                    ViejaObra.obra = Obra.obra;
-                    ViejaObra.oco = Obra.oco;
-                    ViejaObra.ejercicioObra = Obra.ejercicioObra;
-                    ViejaObra.proveedor = Obra.proveedor;
-                    ViejaObra.cuits = Obra.cuits.ToList();
-                    ViejaObra.diasCertificacion = Obra.diasCertificacion;
-
-                    return Ok();
+                        return Content((HttpStatusCode)422, RequirementValidationObject);
+                    }
+                    else
+                    {
+                        this._requirementService.Update(Requirement);
+                        return Ok();
+                    }
                 }
                 else
                 {
-                    var ObraViewModel = new { obra = new { error = "obra invalida" }, oco = new { error = "oco eror" }, ejercicioOco = new { error = "ejericcio error" }, proveedor = new { error = "proveedor error" }, diasCertificacion = new { error = "error dias" } };
-
-                    return Content((HttpStatusCode)422, ObraViewModel);
+                    return BadRequest();
                 }
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
             }
             catch (Exception)
             {
-                return BadRequest();
+                return InternalServerError();
             }
         }
 
@@ -171,21 +183,19 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (obra <= 0)
-                    return BadRequest();
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                    return Unauthorized();
 
-                Obra Obra = ObraService.Obras.FirstOrDefault(x => x.obra.Equals(obra));
-
-                if (Obra == null)
-                    return NotFound();
-
-                ObraService.Obras.Remove(Obra);
-
+                this._requirementService.Delete(obra);
                 return Ok();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
             }
             catch (Exception)
             {
-                return BadRequest();
+                return InternalServerError();
             }
         }
     }

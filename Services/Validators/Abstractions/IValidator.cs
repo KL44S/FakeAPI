@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Abstractions
+namespace Services.Validators.Abstractions
 {
-    public interface IValidatorType
+    public interface IValidator
     {
-        Boolean Validate(Validator Validator);
+        Boolean Validate();
     }
 }

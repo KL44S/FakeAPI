@@ -12,6 +12,8 @@ namespace Services.Abstractions
         IEnumerable<Requirement> GetAllRequirements();
         Requirement GetRequirementByRequirementNumber(int RequirementNumber);
         void Create(Requirement Requirement);
+        void Update(Requirement Requirement);
+        void Delete(int RequirementNumber);
         IDictionary<Requirement.Attributes, String> GetValidationErrors(Requirement Requirement);
     }
 }

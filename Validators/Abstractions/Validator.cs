@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Abstractions
+namespace Validators.Abstractions
 {
     public abstract class Validator
     {
         public Validator ValidatorSon { get; set; }
-        private IValidatorType _validatorType;
+        private ValidatorType _validatorType;
 
-        public Validator(IValidatorType ValidatorType)
+        public Validator(ValidatorType ValidatorType)
         {
             this._validatorType = ValidatorType;
         }

@@ -213,7 +213,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Constants\Constants.cs" />
     <Compile Include="Controllers\AsignacionesController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EstadoDePlanillaController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\SubItemController.cs" />
@@ -227,6 +229,7 @@
     </Compile>
     <Compile Include="Services\MappingService.cs" />
     <Compile Include="Services\RequirementMappingService.cs" />
+    <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
     <Compile Include="Services\UserMappingService.cs" />
     <Compile Include="ViewModel\AccountBindingModels.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />

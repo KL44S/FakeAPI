@@ -43,6 +43,12 @@ namespace DataAccess.MemoryDao
             _requirements.Add(Requirement);
         }
 
+        public override void Delete(int RequirementNumber)
+        {
+            Requirement Requirement = this.GetRequirementByRequirementNumber(RequirementNumber);
+            _requirements.Remove(Requirement);
+        }
+
         public override IEnumerable<Requirement> GetAll()
         {
             return _requirements;
