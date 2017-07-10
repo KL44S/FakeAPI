@@ -80,48 +80,56 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AbstractDao\RequirementDao.cs" />
     <Compile Include="AbstractDao\RequirementUserDao.cs" />
-    <Compile Include="RoleDao.cs" />
-    <Compile Include="SqlServerDao\Mapping\UserMapping.cs" />
-    <Compile Include="SqlServerDao\UserSqlServerDao.cs" />
-    <Compile Include="SqlServerDao\EntityModel\EntityModel.Context.cs">
+    <Compile Include="AbstractDao\RoleDao.cs" />
+    <Compile Include="SqlServerDao\EntityModel\EntitiesModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.Context.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="SqlServerDao\EntityModel\EntityModel.cs">
+    <Compile Include="SqlServerDao\EntityModel\EntitiesModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="SqlServerDao\EntityModel\EntityModel.Designer.cs">
+    <Compile Include="SqlServerDao\EntityModel\EntitiesModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
+      <DependentUpon>EntitiesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Item.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerDao\EntityModel\Message.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Requirement.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Role.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Sheet.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\SheetItem.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\SheetState.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\SubItem.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\User.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerDao\Mapping\Mapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\RequirementMapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\UserMapping.cs" />
+    <Compile Include="SqlServerDao\MessageSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\RequirementUserSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\UserSqlServerDao.cs" />
     <Compile Include="AbstractDao\UserDao.cs" />
     <Compile Include="Constants.cs" />
   </ItemGroup>
@@ -139,27 +147,27 @@
   <ItemGroup>
     <None Include="App.Config" />
     <None Include="packages.config" />
-    <EntityDeploy Include="SqlServerDao\EntityModel\EntityModel.edmx">
+    <EntityDeploy Include="SqlServerDao\EntityModel\EntitiesModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EntityModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>EntitiesModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="SqlServerDao\EntityModel\EntityModel.edmx.diagram">
-      <DependentUpon>EntityModel.edmx</DependentUpon>
+    <None Include="SqlServerDao\EntityModel\EntitiesModel.edmx.diagram">
+      <DependentUpon>EntitiesModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SqlServerDao\EntityModel\EntityModel.Context.tt">
+    <Content Include="SqlServerDao\EntityModel\EntitiesModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-      <LastGenOutput>EntityModel.Context.cs</LastGenOutput>
+      <DependentUpon>EntitiesModel.edmx</DependentUpon>
+      <LastGenOutput>EntitiesModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="SqlServerDao\EntityModel\EntityModel.tt">
+    <Content Include="SqlServerDao\EntityModel\EntitiesModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-      <LastGenOutput>EntityModel.cs</LastGenOutput>
+      <DependentUpon>EntitiesModel.edmx</DependentUpon>
+      <LastGenOutput>EntitiesModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.SqlServerDao.EntityModel;
+using Model;
 
 namespace DataAccess.SqlServerDao.Mapping
 {
-    internal class UserMapping
+    internal class UserMapping : Mapping<Model.User, EntityModel.User>
     {
-        internal static void UnMapEntityUser(EntityModel.User EntityUser, Model.User User)
+        internal override void UnMapEntity(EntityModel.User EntityUser, Model.User User)
         {
             User.Cuit = EntityUser.cuit;
             User.RoleId = EntityUser.roleId;
@@ -16,28 +18,7 @@ namespace DataAccess.SqlServerDao.Mapping
             User.Lastname = EntityUser.lastname;
         }
 
-        internal static Model.User UnMapEntityUser(EntityModel.User EntityUser)
-        {
-            Model.User User = new Model.User();
-
-            UnMapEntityUser(EntityUser, User);
-
-            return User;
-        }
-
-        internal static IEnumerable<Model.User> UnMapEntityUsers(IEnumerable<EntityModel.User> EntityUsers)
-        {
-            IList<Model.User> Users = new List<Model.User>();
-
-            foreach (EntityModel.User EntityUser in EntityUsers)
-            {
-                Users.Add(UnMapEntityUser(EntityUser));
-            }
-
-            return Users;
-        }
-
-        internal static void MapModelUser(Model.User User, EntityModel.User EntityModel)
+        internal override void MapModel(Model.User User, EntityModel.User EntityModel)
         {
             EntityModel.User EntityUser = new EntityModel.User();
             EntityUser.cuit = User.Cuit;
@@ -46,25 +27,15 @@ namespace DataAccess.SqlServerDao.Mapping
             EntityUser.lastname = User.Lastname;
         }
 
-        internal static EntityModel.User MapModelUser(Model.User User)
+        protected override Model.User CreateModel()
         {
-            EntityModel.User EntityUser = new EntityModel.User();
-
-            MapModelUser(User, EntityUser);
-
-            return EntityUser;
+            return new Model.User();
         }
 
-        internal static IEnumerable<EntityModel.User> MapModelUsers(IEnumerable<Model.User> Users)
+        protected override EntityModel.User CreateEntity()
         {
-            IList<EntityModel.User> EntityUsers = new List<EntityModel.User>();
-
-            foreach (Model.User ModelUser in Users)
-            {
-                EntityUsers.Add(MapModelUser(ModelUser));
-            }
-
-            return EntityUsers;
+            return new EntityModel.User();
         }
+
     }
 }

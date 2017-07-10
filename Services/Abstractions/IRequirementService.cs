@@ -10,6 +10,7 @@ namespace Services.Abstractions
     public interface IRequirementService
     {
         IEnumerable<Requirement> GetAllRequirements();
+        IEnumerable<Requirement> GetAllRequirementsByCuit(String Cuit);
         Requirement GetRequirementByRequirementNumber(int RequirementNumber);
         void Create(Requirement Requirement);
         void Update(Requirement Requirement);

@@ -14,6 +14,16 @@
           <Property Name="itemNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="message" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="message" Type="varchar" MaxLength="99" Nullable="false" />
+        </EntityType>
         <EntityType Name="Requirement">
           <Key>
             <PropertyRef Name="requirementNumber" />
@@ -222,6 +232,12 @@
           <EntitySet Name="SheetState" EntityType="Self.SheetState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubItem" EntityType="Self.SubItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Message].[id] AS [id], 
+    [Message].[message] AS [message]
+    FROM [dbo].[Message] AS [Message]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
             <End Role="Requirement" EntitySet="Requirement" />
             <End Role="Item" EntitySet="Item" />
@@ -363,6 +379,14 @@
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="Requirement" Relationship="Self.RequirementUser" FromRole="User" ToRole="Requirement" />
         </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="message1" />
+          </Key>
+          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="message1" Type="String" MaxLength="99" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Item_Requirement">
           <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
           <End Role="Item" Type="Self.Item" Multiplicity="*" />
@@ -468,6 +492,7 @@
           <EntitySet Name="SheetState" EntityType="Self.SheetState" />
           <EntitySet Name="SubItem" EntityType="Self.SubItem" />
           <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Message" EntityType="Self.Message" />
           <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
             <End Role="Requirement" EntitySet="Requirement" />
             <End Role="Item" EntitySet="Item" />
@@ -588,6 +613,14 @@
                 <ScalarProperty Name="lastname" ColumnName="lastname" />
                 <ScalarProperty Name="roleId" ColumnName="roleId" />
                 <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Message">
+            <EntityTypeMapping TypeName="ObrasModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message1" ColumnName="message" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

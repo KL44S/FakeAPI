@@ -215,7 +215,6 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Controllers\AsignacionesController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EstadoDePlanillaController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\SubItemController.cs" />

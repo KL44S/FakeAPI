@@ -17,9 +17,10 @@ using System.Web.Http.Cors;
 namespace ExampleAPI.Controllers
 {
     [AuthFilter]
-    public class ObraController : BaseController
+    public class ObraController : ApiController
     {
         private IRequirementService _requirementService = new RequirementService();
+        private IUserService _userService = new UserService();
         private MappingService<Requirement, ObraViewModel> _requirementMappingService = new RequirementMappingService();
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -65,7 +66,9 @@ namespace ExampleAPI.Controllers
                         return NotFound();
                 }
 
-                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirements();
+                String CurrentUserCuit = this.GetCurrentUserCuit();
+
+                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirementsByCuit(CurrentUserCuit);
                 return this.MapAndReturnRequirements(Requirements);
             }
             catch (ArgumentNullException)
@@ -80,6 +83,21 @@ namespace ExampleAPI.Controllers
             {
                 return InternalServerError();
             }
+        }
+
+        private String GetCurrentUserCuit()
+        {
+            String CurrentUserCuit = (String)(ActionContext.ActionArguments[Constants.Constants.CurrentUserCuitKey]);
+
+            return CurrentUserCuit;
+        }
+
+        private Boolean UserHasRol(int RoleId)
+        {
+            String CurrentUserCuit = this.GetCurrentUserCuit();
+            User User = this._userService.GetUserByCuit(CurrentUserCuit);
+
+            return User.RoleId.Equals(RoleId);
         }
 
         private IHttpActionResult MapAndReturnRequirements(IEnumerable<Requirement> Requirements)
@@ -130,7 +148,7 @@ namespace ExampleAPI.Controllers
                     return BadRequest();
                 }
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 return InternalServerError();
             }

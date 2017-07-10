@@ -10,5 +10,6 @@ namespace ExampleAPI.Constants
         public static int AdminRoleId = 1;
         public static int BuilderRoleId = 2;
         public static int SupervisorRoleId = 3;
+        public static String CurrentUserCuitKey = "a";
     }
 }

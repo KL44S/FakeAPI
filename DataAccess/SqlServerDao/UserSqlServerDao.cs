@@ -6,69 +6,96 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 using DataAccess.SqlServerDao.Mapping;
+using Exceptions;
 
 namespace DataAccess.SqlServerDao
 {
     public class UserSqlServerDao : UserDao
     {
-        private ObrasEntities _obrasEntities;
-        
+        private UserMapping _userMapping;
+
         public UserSqlServerDao()
         {
-            this._obrasEntities = new ObrasEntities();
+            this._userMapping = new UserMapping();
         }
 
         public override void Create(Model.User User)
         {
-            EntityModel.User UserEntity = UserMapping.MapModelUser(User);
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.User UserEntity = this._userMapping.MapModel(User);
 
-            this._obrasEntities.User.Add(UserEntity);
-            this._obrasEntities.SaveChanges();
+                ObrasEntities.User.Add(UserEntity);
+                ObrasEntities.SaveChanges();
+            }
         }
 
         public override IEnumerable<Model.User> GetAll()
         {
-            IEnumerable<Model.User> Users = UserMapping.UnMapEntityUsers(this._obrasEntities.User.ToList());
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                IEnumerable<Model.User> Users = this._userMapping.UnMapEntities(ObrasEntities.User.ToList());
 
-            return Users;
+                return Users;
+            }
         }
 
         public override Model.User GetUserByCuit(string Cuit)
         {
-            EntityModel.User EntityUser = this._obrasEntities.User.FirstOrDefault(User => User.cuit.Equals(Cuit));
-
-            if (EntityUser == null)
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                //TODO: lanzar excepcion
-            }
+                EntityModel.User EntityUser = ObrasEntities.User.FirstOrDefault(User => User.cuit.Equals(Cuit));
 
-            return UserMapping.UnMapEntityUser(EntityUser);
+                if (EntityUser == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                return this._userMapping.UnMapEntity(EntityUser);
+            }
         }
 
         public override Model.User GetUserByCuitAndPassword(string Cuit, string Password)
         {
-            EntityModel.User EntityUser = this._obrasEntities.User.FirstOrDefault(User => User.cuit.Equals(Cuit) && User.password.Equals(Password));
-
-            if (EntityUser == null)
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                //TODO: lanzar excepcion
-            }
+                EntityModel.User EntityUser = ObrasEntities.User.FirstOrDefault(User => User.cuit.Equals(Cuit) && User.password.Equals(Password));
 
-            return UserMapping.UnMapEntityUser(EntityUser);
+                if (EntityUser == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                return this._userMapping.UnMapEntity(EntityUser);
+            }
         }
 
         public override IEnumerable<Model.User> GetUserByRoleId(int RoleId)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                IEnumerable<EntityModel.User> EntityUsers = ObrasEntities.User.Where(User => User.roleId.Equals(RoleId));
+
+                if (EntityUsers == null)
+                {
+                    throw new EntityNotFoundException();
+                }
+
+                return this._userMapping.UnMapEntities(EntityUsers);
+            }
         }
 
         public override void Update(Model.User User)
         {
-            EntityModel.User EntityUser = this._obrasEntities.User.FirstOrDefault(AnUser => AnUser.cuit.Equals(User.Cuit));
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.User EntityUser = ObrasEntities.User.FirstOrDefault(AnUser => AnUser.cuit.Equals(User.Cuit));
 
-            UserMapping.MapModelUser(User, EntityUser);
+                this._userMapping.MapModel(User, EntityUser);
 
-            this._obrasEntities.SaveChanges();
+                ObrasEntities.SaveChanges();
+            }
+
         }
     }
 }

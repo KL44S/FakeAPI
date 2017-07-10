@@ -34,8 +34,10 @@ namespace ExampleAPI.Filters
 
                     if (User == null)
                         PutUnauthorizedResult(ActionContext);
+
+                    ActionContext.ActionArguments.Add(Constants.Constants.CurrentUserCuitKey, User.Cuit);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     PutUnauthorizedResult(ActionContext);
                 }

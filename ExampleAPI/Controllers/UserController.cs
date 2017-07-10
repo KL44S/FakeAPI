@@ -58,7 +58,7 @@ namespace ExampleAPI.Controllers
                 return NotFound();
             }
 
-            catch (Exception)
+            catch (Exception Exception)
             {
                 //Habría que logear...
                 return InternalServerError();

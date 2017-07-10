@@ -33,5 +33,6 @@ namespace DataAccess.SqlServerDao.EntityModel
         public virtual DbSet<SheetState> SheetState { get; set; }
         public virtual DbSet<SubItem> SubItem { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataAccess.MemoryDao;
+using DataAccess.SqlServerDao;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace DataAccess.Factories
 
         protected override RequirementUserDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new RequirementUserSqlServerDao();
         }
     }
 }

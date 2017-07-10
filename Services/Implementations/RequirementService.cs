@@ -97,5 +97,21 @@ namespace Services.Implementations
 
             this._requirementDao.Delete(RequirementNumber);
         }
+
+        public IEnumerable<Requirement> GetAllRequirementsByCuit(string Cuit)
+        {
+            RequirementUserDao RequirementUserDao = new RequirementUserDaoFactory().GetDaoInstance();
+
+            IList<Requirement> Requirements = new List<Requirement>();
+            IEnumerable<RequirementUser> RequirementUsers = RequirementUserDao.GetAllByCuit(Cuit);
+
+            foreach (RequirementUser RequirementUser in RequirementUsers)
+            {
+                Requirement Requirement = this._requirementDao.GetRequirementByRequirementNumber(RequirementUser.RequirementNumber);
+                Requirements.Add(Requirement);
+            }
+
+            return Requirements;
+        }
     }
 }
