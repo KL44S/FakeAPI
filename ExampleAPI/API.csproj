@@ -215,6 +215,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Controllers\AsignacionesController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EstadoDePlanillaController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\SubItemController.cs" />
@@ -226,6 +227,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Services\ItemMapping.cs" />
+    <Compile Include="Services\ItemValidationObjectGeneratorServicecs.cs" />
     <Compile Include="Services\MappingService.cs" />
     <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
@@ -235,7 +238,7 @@
     <Compile Include="ViewModel\Asignacion.cs" />
     <Compile Include="ViewModel\EstadoDePlanilla.cs" />
     <Compile Include="ViewModel\IdentityModels.cs" />
-    <Compile Include="ViewModel\Item.cs" />
+    <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\SubItem.cs" />
     <Compile Include="ViewModel\ItemDePlanilla.cs" />
     <Compile Include="ViewModel\Obra.cs" />
@@ -247,7 +250,6 @@
     <Compile Include="Scripts\PlanillasService.cs" />
     <Compile Include="Services\EstadoDePlanillaService.cs" />
     <Compile Include="Services\ItemDePlanillaService.cs" />
-    <Compile Include="Services\ItemService.cs" />
     <Compile Include="Services\SubItemService.cs" />
     <Compile Include="Services\ObraService.cs" />
     <Compile Include="Services\PlanillaService.cs" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataAccess.AbstractDao;
+using DataAccess.Factories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +10,26 @@ namespace Services.Validators.Implementations
 {
     public class GenericNumberValidator
     {
+        private static String GetMessage(String MessageId)
+        {
+            MessageDao MessageDao = (new MessageDaoFactory()).GetDaoInstance();
+            return MessageDao.GetById(MessageId);
+        }
+
+        private static String GetMessage(String MinRange, String MaxRange)
+        {
+            String ErrorMessage = GetMessage(Constants.NumberRangeFieldErrorMessage) + MinRange + GetMessage(Constants.AndRangeFieldMessage) + MaxRange;
+
+            return ErrorMessage;
+        }
+
         public static String GetValidationErrorMessage(int NumberToValidate, int MinRange, int MaxRange)
         {
             String ErrorMessage = String.Empty;
 
             if (NumberToValidate < MinRange || NumberToValidate > MaxRange)
             {
-                ErrorMessage = "Este campo debe estar entre " + MinRange.ToString() + " y " + MaxRange.ToString();
+                ErrorMessage = GetMessage(MinRange.ToString(), MaxRange.ToString());
             }
 
             return ErrorMessage;
@@ -26,7 +41,7 @@ namespace Services.Validators.Implementations
 
             if (NumberToValidate < MinRange || NumberToValidate > MaxRange)
             {
-                ErrorMessage = "Este campo debe estar entre " + MinRange.ToString() + " y " + MaxRange.ToString();
+                ErrorMessage = GetMessage(MinRange.ToString(), MaxRange.ToString());
             }
 
             return ErrorMessage;
@@ -38,7 +53,7 @@ namespace Services.Validators.Implementations
 
             if (NumberToValidate < MinRange || NumberToValidate > MaxRange)
             {
-                ErrorMessage = "Este campo debe estar entre " + MinRange.ToString() + " y " + MaxRange.ToString();
+                ErrorMessage = GetMessage(MinRange.ToString(), MaxRange.ToString());
             }
 
             return ErrorMessage;

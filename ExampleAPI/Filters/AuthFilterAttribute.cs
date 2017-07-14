@@ -37,14 +37,13 @@ namespace ExampleAPI.Filters
 
                     ActionContext.ActionArguments.Add(Constants.Constants.CurrentUserCuitKey, User.Cuit);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     PutUnauthorizedResult(ActionContext);
                 }
             }
             else
             {
-                // No hay el header Authorization
                 PutUnauthorizedResult(ActionContext);
             }
         }

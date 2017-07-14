@@ -32,7 +32,7 @@ namespace ExampleAPI.Controllers
                     else
                     {
                         var Items = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) &&
-                                x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem));
+                                x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem)).ToList();
 
                         if (Items != null && Items.Count() > 0)
                             return Ok(Items);
@@ -41,7 +41,7 @@ namespace ExampleAPI.Controllers
                     }
                 }
 
-                var ItemDePlanilla = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra));
+                var ItemDePlanilla = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra)).ToList();
 
                 if (ItemDePlanilla != null && ItemDePlanilla.Count() > 0)
                     return Ok(ItemDePlanilla);

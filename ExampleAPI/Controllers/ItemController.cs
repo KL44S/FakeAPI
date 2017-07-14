@@ -1,5 +1,9 @@
 ﻿using ExampleAPI.Models;
 using ExampleAPI.Services;
+using Exceptions;
+using Model;
+using Services.Abstractions;
+using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,94 +16,137 @@ namespace ExampleAPI.Controllers
 {
     public class ItemController : ApiController
     {
+        private IItemService _itemService = new ItemService();
+        private ItemMapping _itemMapping = new ItemMapping();
+
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Get(int? numeroItem, int? obra)
         {
-            if (numeroItem != null && numeroItem > 0)
-            {
-                var Items = ItemService.Items.Where(x => x.numeroItem.Equals(numeroItem));
-
-                if (Items != null && Items.Count() > 0)
-                    return Ok(Items);
-                else
-                    return NotFound();
-            }
-
-            if (obra != null && obra > 0)
-            {
-                var Items = ItemService.Items.Where(x => x.obra.Equals(obra));
-
-                if (Items != null && Items.Count() > 0)
-                    return Ok(Items);
-                else
-                    return NotFound();
-            }
-
-            return Ok(ItemService.Items);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(Item Item)
-        {
             try
             {
-                if (Item != null && Item.obra != 0 && Item.numeroItem != 0 && Item.numeroItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
-                {
-                    ItemService.Items.Add(Item);
+                IEnumerable<Item> Items;
 
-                    return Ok();
-                }
-                else
+                if (obra != null)
                 {
-                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
+                    if (numeroItem != null)
+                    {
+                        Item Item = this._itemService.GetItemByRequirementNumberAndItemNumber((int)(obra), (int)numeroItem);
 
-                    return Content((HttpStatusCode)422, ItemViewModel);
+                        if (Item != null)
+                            return Ok(this._itemMapping.UnMapEntity(Item));
+                        else
+                            return NotFound();
+                    }
+
+                    Items = this._itemService.GetItemsByRequirementNumber((int)(obra));
+
+                    if (Items != null)
+                    {
+                        IEnumerable<ItemViewModel> ItemViewModels = this._itemMapping.UnMapEntities(Items);
+                        return Ok(ItemViewModels);
+                    }
+                    else
+                        return NotFound();
                 }
+
+                Items = this._itemService.GetAllItems();
+
+                return Ok(this._itemMapping.UnMapEntities(Items));
             }
-            catch (Exception)
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
 
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Put(SubItem Item)
+        public IHttpActionResult Post(ItemViewModel Item)
         {
             try
             {
-                if (Item != null && Item.obra != 0 && Item.numeroSubItem != 0 && Item.numeroSubItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
+                if (Item != null)
                 {
-                    SubItem ItemExistente = SubItemService.Items.FirstOrDefault(x => x.numeroSubItem.Equals(Item.numeroSubItem));
+                    Item ModelItem = this._itemMapping.MapViewModel(Item);
 
-                    if (ItemExistente != null)
+                    IDictionary<Item.Attributes, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
+
+                    if (ValidationErrors.Count() > 0)
                     {
-                        ItemExistente.descripcion = Item.descripcion;
-                        return Ok();
+                        var ItemValidationObject = ItemValidationObjectGeneratorService.GetValidationObject(ValidationErrors, ModelItem);
+
+                        return Content((HttpStatusCode)422, ItemValidationObject);
                     }
                     else
                     {
-                        return NotFound();
+                        this._itemService.Create(ModelItem);
+                        return Ok();
                     }
-
                 }
                 else
                 {
-                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
-
-                    return Content((HttpStatusCode)422, ItemViewModel);
+                    return BadRequest();
                 }
             }
-            catch (Exception)
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
-
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(ItemViewModel Item)
+        {
+            try
+            {
+                if (Item != null)
+                {
+                    Item ModelItem = this._itemMapping.MapViewModel(Item);
+
+                    IDictionary<Item.Attributes, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
+
+                    if (ValidationErrors.Count() > 0)
+                    {
+                        var ItemValidationObject = ItemValidationObjectGeneratorService.GetValidationObject(ValidationErrors, ModelItem);
+
+                        return Content((HttpStatusCode)422, ItemValidationObject);
+                    }
+                    else
+                    {
+                        this._itemService.Update(ModelItem);
+                        return Ok();
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+
+        }
+        
+        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Delete(int numeroItem)
         {
             try
@@ -120,6 +167,6 @@ namespace ExampleAPI.Controllers
             {
                 return BadRequest();
             }
-        }
+        }*/
     }
 }

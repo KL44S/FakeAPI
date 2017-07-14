@@ -61,7 +61,7 @@ namespace DataAccess.MemoryDao
 
         public override IEnumerable<RequirementUser> GetAllByCuit(string Cuit)
         {
-            IEnumerable<RequirementUser> RequirementUsers = _requirementUsers.Where(RequirementUser => RequirementUser.Cuit.Equals(Cuit));
+            IEnumerable<RequirementUser> RequirementUsers = _requirementUsers.Where(RequirementUser => RequirementUser.Cuit.Equals(Cuit)).ToList();
 
             if (RequirementUsers != null && RequirementUsers.Count() > 0)
                 return RequirementUsers;
@@ -72,7 +72,7 @@ namespace DataAccess.MemoryDao
         public override IEnumerable<RequirementUser> GetAllByRequirementNumber(int RequirementNumber)
         {
             IEnumerable<RequirementUser> RequirementUsers = _requirementUsers.Where(RequirementUser => 
-                                                                            RequirementUser.RequirementNumber.Equals(RequirementNumber));
+                                                                            RequirementUser.RequirementNumber.Equals(RequirementNumber)).ToList();
 
             if (RequirementUsers != null && RequirementUsers.Count() > 0)
                 return RequirementUsers;

@@ -27,7 +27,7 @@ namespace ExampleAPI.Controllers
                         return NotFound();
                 }
 
-                var Planillas = PlanillaService.Planillas.Where(x => x.obra.Equals(obra));
+                var Planillas = PlanillaService.Planillas.Where(x => x.obra.Equals(obra)).ToList();
 
                 if (Planillas != null && Planillas.Count() > 0)
                     return Ok(Planillas);

@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class ExistingRequirementNumberValidator : IValidator
+    public class NotExistingRequirementValidator : IValidator
     {
         public int RequirementNumberToValidate { get; set; }
-        public IDictionary<Requirement.Attributes, String> ErrorMessages { get; set; }     
+        public IDictionary<Item.Attributes, String> ErrorMessages { get; set; }
         private MessageDao _messageDao;
         private RequirementDao _requirementDao;
 
-        public ExistingRequirementNumberValidator()
+        public NotExistingRequirementValidator()
         {
             RequirementDaoFactory RequirementDaoFactory = new RequirementDaoFactory();
             MessageDaoFactory MessageDaoFactory = new MessageDaoFactory();
@@ -37,15 +37,14 @@ namespace Services.Validators.Implementations
             try
             {
                 this._requirementDao.GetRequirementByRequirementNumber(this.RequirementNumberToValidate);
-
-                String ErrorMessage = this._messageDao.GetById(Constants.ExistingRequirementErrorMessage);
-                MessageService.PutErrorMessage(this.ErrorMessages, Requirement.Attributes.RequirementNumber, ErrorMessage);
-
-                return false;
+                return true;
             }
             catch (EntityNotFoundException)
             {
-                return true;
+                String ErrorMessage = this._messageDao.GetById(Constants.ExistingRequirementErrorMessage);
+                this.ErrorMessages.Add(Item.Attributes.RequirementNumber, ErrorMessage);
+
+                return false;
             }
 
         }

@@ -31,7 +31,7 @@ namespace ExampleAPI.Controllers
             {
                 var Items = SubItemService.Items.Where(x => x.obra.Equals(obra));
 
-                if (Items != null && Items.Count() > 0)
+                if (Items != null)
                     return Ok(Items);
                 else
                     return NotFound();

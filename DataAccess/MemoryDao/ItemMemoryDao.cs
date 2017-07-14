@@ -33,9 +33,29 @@ namespace DataAccess.MemoryDao
             }
         };
 
+        private int GenerateAndGetNewItemNumber(int RequirementNumber)
+        {
+            Item LastItem = this.GetAllByRequirementNumber(RequirementNumber).Last();
+            int NewItemNumber = LastItem.ItemNumber + 1;
+
+            return NewItemNumber;
+        }
+
         public override void Create(Item Item)
         {
+            Item.ItemNumber = this.GenerateAndGetNewItemNumber(Item.RequirementNumber);
+
             _items.Add(Item);
+        }
+
+        public override void Delete(int RequirementNumber, int ItemNumber)
+        {
+            Item Item = this.GetByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+
+            if (Item == null)
+                throw new EntityNotFoundException();
+
+            _items.Remove(Item);
         }
 
         public override IEnumerable<Item> GetAll()
@@ -45,7 +65,7 @@ namespace DataAccess.MemoryDao
 
         public override IEnumerable<Item> GetAllByRequirementNumber(int RequirementNumber)
         {
-            IEnumerable<Item> Items = _items.Where(Item => Item.RequirementNumber.Equals(RequirementNumber));
+            IEnumerable<Item> Items = _items.Where(Item => Item.RequirementNumber.Equals(RequirementNumber)).ToList();
 
             if (Items != null && Items.Count() > 0)
                 return Items;

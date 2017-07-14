@@ -17,7 +17,7 @@ using System.Web.Http.Cors;
 namespace ExampleAPI.Controllers
 {
     [AuthFilter]
-    public class ObraController : ApiController
+    public class ObraController : BaseController
     {
         private IRequirementService _requirementService = new RequirementService();
         private IUserService _userService = new UserService();
@@ -85,21 +85,6 @@ namespace ExampleAPI.Controllers
             }
         }
 
-        private String GetCurrentUserCuit()
-        {
-            String CurrentUserCuit = (String)(ActionContext.ActionArguments[Constants.Constants.CurrentUserCuitKey]);
-
-            return CurrentUserCuit;
-        }
-
-        private Boolean UserHasRol(int RoleId)
-        {
-            String CurrentUserCuit = this.GetCurrentUserCuit();
-            User User = this._userService.GetUserByCuit(CurrentUserCuit);
-
-            return User.RoleId.Equals(RoleId);
-        }
-
         private IHttpActionResult MapAndReturnRequirements(IEnumerable<Requirement> Requirements)
         {   
             if (Requirements.Count() > 0)
@@ -148,11 +133,10 @@ namespace ExampleAPI.Controllers
                     return BadRequest();
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return InternalServerError();
             }
-                
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

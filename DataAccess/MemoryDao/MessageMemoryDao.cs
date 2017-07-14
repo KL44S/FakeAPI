@@ -12,7 +12,12 @@ namespace DataAccess.MemoryDao
     {
         private static IDictionary<String, String> _messages = new Dictionary<String, String>()
         {
-            { "existingRequirement", "Ya existe una obra con ese número" }
+            { "existingRequirement", "Ya existe una obra con ese número" },
+            { "emptyField", "Este campo no puede estar vacío" },
+            { "numberRangeField", "Este campo debe estar entre " },
+            { "textRangeField", "Este campo debe tener entre " },
+            { "andRangeField", " y " },
+            { "textRangeFieldChars", " caracteres" }
         };
 
         public override void Create(string Entity)

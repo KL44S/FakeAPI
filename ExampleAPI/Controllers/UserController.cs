@@ -6,13 +6,9 @@ using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Model;
-using System.Web.Http.Results;
 using Exceptions;
 
 namespace ExampleAPI.Controllers
@@ -58,7 +54,7 @@ namespace ExampleAPI.Controllers
                 return NotFound();
             }
 
-            catch (Exception Exception)
+            catch (Exception)
             {
                 //Habría que logear...
                 return InternalServerError();

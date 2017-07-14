@@ -21,6 +21,18 @@ namespace Services.Implementations
             }
         }
 
+        public static void FillErrorMessages(IDictionary<Item.Attributes, String> Messages)
+        {
+            if (!Messages.ContainsKey(Item.Attributes.RequirementNumber))
+                Messages.Add(Item.Attributes.RequirementNumber, String.Empty);
+
+            if (!Messages.ContainsKey(Item.Attributes.ItemNumber))
+                Messages.Add(Item.Attributes.ItemNumber, String.Empty);
+
+            if (!Messages.ContainsKey(Item.Attributes.Description))
+                Messages.Add(Item.Attributes.Description, String.Empty);
+        }
+
         public static void FillErrorMessages(IDictionary<Requirement.Attributes, String> Messages)
         {
             if (!Messages.ContainsKey(Requirement.Attributes.RequirementNumber))

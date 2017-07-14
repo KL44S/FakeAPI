@@ -14,5 +14,6 @@ namespace DataAccess.AbstractDao
         public abstract IEnumerable<Item> GetAllByRequirementNumber(int RequirementNumber);
         public abstract Item GetByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber);
         public abstract void Update(Item Item);
+        public abstract void Delete(int RequirementNumber, int ItemNumber);
     }
 }

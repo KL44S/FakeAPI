@@ -79,7 +79,7 @@ namespace DataAccess.MemoryDao
 
         public override IEnumerable<User> GetUserByRoleId(int RoleId)
         {
-            IEnumerable<User> Users = _users.Where(User => User.RoleId.Equals(RoleId));
+            IEnumerable<User> Users = _users.Where(User => User.RoleId.Equals(RoleId)).ToList();
 
             if (Users != null)
                 return Users;
