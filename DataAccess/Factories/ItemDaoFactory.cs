@@ -1,5 +1,6 @@
 ﻿using DataAccess.AbstractDao;
 using DataAccess.MemoryDao;
+using DataAccess.SqlServerDao;
 using Exceptions;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace DataAccess.Factories
 
         protected override ItemDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new ItemSqlServerDao();
         }
     }
 }

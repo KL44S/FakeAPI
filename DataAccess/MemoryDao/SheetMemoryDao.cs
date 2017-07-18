@@ -23,8 +23,24 @@ namespace DataAccess.MemoryDao
             }
         };
 
+        private int GenerateAndGetNewSheetNumberFromRequirement(int RequirementNumber)
+        {
+            IEnumerable<Sheet> Sheets = this.GetAllByRequirementNumber(RequirementNumber);
+            int SheetNumber = 1;
+
+            if (Sheets != null && Sheets.Count() > 0)
+            {
+                Sheet Sheet = Sheets.Last();
+                SheetNumber = Sheet.SheetNumber + 1;
+            }
+
+            return SheetNumber;
+        }
+
         public override void Create(Sheet Sheet)
         {
+            Sheet.SheetNumber = this.GenerateAndGetNewSheetNumberFromRequirement(Sheet.RequirementNumber);
+
             _sheets.Add(Sheet);
         }
 
@@ -35,9 +51,9 @@ namespace DataAccess.MemoryDao
 
         public override IEnumerable<Sheet> GetAllByRequirementNumber(int RequirementNumber)
         {
-            IEnumerable<Sheet> Sheets = _sheets.Where(Sheet => Sheet.RequirementNumber.Equals(RequirementNumber));
+            IEnumerable<Sheet> Sheets = _sheets.Where(Sheet => Sheet.RequirementNumber.Equals(RequirementNumber)).ToList();
 
-            if (Sheets != null && Sheets.Count() > 0)
+            if (Sheets != null)
                 return Sheets;
 
             throw new EntityNotFoundException();

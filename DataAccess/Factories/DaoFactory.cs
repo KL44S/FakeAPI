@@ -28,7 +28,7 @@ namespace DataAccess.Factories
                     return this.GetSqlServerDaoInstance();
 
                 default:
-                    throw new EntityNotFoundException();
+                    throw new ArgumentException();
             }
         }
     }

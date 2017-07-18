@@ -123,8 +123,11 @@
     <Compile Include="SqlServerDao\EntityModel\User.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerDao\ItemSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\Mapping\ItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\Mapping.cs" />
     <Compile Include="SqlServerDao\Mapping\RequirementMapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\SubItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\UserMapping.cs" />
     <Compile Include="SqlServerDao\MessageSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
