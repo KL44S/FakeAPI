@@ -40,7 +40,7 @@ namespace ExampleAPI.Controllers
 
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Post(int? obra)
         {
             if (obra != null && obra > 0)
@@ -69,6 +69,6 @@ namespace ExampleAPI.Controllers
             }
 
             return BadRequest();
-        }
+        }*/
     }
 }

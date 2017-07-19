@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ExampleAPI.Models
 {
-    public class SubItem
+    public class SubItemViewModel
     {
         public int numeroItem { get; set; }
         public int numeroSubItem { get; set; }

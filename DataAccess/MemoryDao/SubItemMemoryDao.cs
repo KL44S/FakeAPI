@@ -86,6 +86,24 @@ namespace DataAccess.MemoryDao
             _subItems.Add(SubItem);
         }
 
+        public override void Delete(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            SubItem SubItemFound = _subItems.Where(SubItem => SubItem.RequirementNumber.Equals(RequirementNumber)&& SubItem.ItemNumber.Equals(ItemNumber)
+                                                                && SubItem.SubItemNumber.Equals(SubItemNumber)).FirstOrDefault();
+
+            if (SubItemFound != null)
+                _subItems.Remove(SubItemFound);
+
+            else throw new EntityNotFoundException();
+        }
+
+        public override void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            List<SubItem> SubItems = _subItems.ToList();
+            SubItems.RemoveAll(SubItem => SubItem.RequirementNumber.Equals(RequirementNumber) && SubItem.ItemNumber.Equals(ItemNumber));
+            _subItems = SubItems;
+        }
+
         public override IEnumerable<SubItem> GetAll()
         {
             return _subItems;
@@ -96,7 +114,17 @@ namespace DataAccess.MemoryDao
             IEnumerable<SubItem> SubItems = _subItems.Where(SubItem => SubItem.RequirementNumber.Equals(RequirementNumber) &&
                                                                              SubItem.ItemNumber.Equals(ItemNumber));
 
-            if (SubItems != null && SubItems.Count() > 0)
+            if (SubItems != null)
+                return SubItems;
+
+            throw new EntityNotFoundException();
+        }
+
+        public override IEnumerable<SubItem> GetSubItemsByRequirementNumber(int RequirementNumber)
+        {
+            IEnumerable<SubItem> SubItems = _subItems.Where(SubItem => SubItem.RequirementNumber.Equals(RequirementNumber));
+
+            if (SubItems != null)
                 return SubItems;
 
             throw new EntityNotFoundException();

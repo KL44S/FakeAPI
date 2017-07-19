@@ -33,6 +33,9 @@ namespace Services.Implementations
             if (RequirementNumber <= 0 || ItemNumber <= 0)
                 throw new ArgumentException();
 
+            ISubItemService SubItemService = new SubItemService();
+            SubItemService.DeleteAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+
             this._itemDao.Delete(RequirementNumber, ItemNumber);
         }
 

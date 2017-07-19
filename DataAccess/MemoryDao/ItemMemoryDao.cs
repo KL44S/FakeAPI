@@ -35,10 +35,18 @@ namespace DataAccess.MemoryDao
 
         private int GenerateAndGetNewItemNumber(int RequirementNumber)
         {
-            Item LastItem = this.GetAllByRequirementNumber(RequirementNumber).Last();
-            int NewItemNumber = LastItem.ItemNumber + 1;
 
-            return NewItemNumber;
+            IEnumerable<Item> LastItems = this.GetAllByRequirementNumber(RequirementNumber);
+
+            if (LastItems != null && LastItems.Count() > 0)
+            {
+                Item LastItem = LastItems.Last();
+                int NewItemNumber = LastItem.ItemNumber + 1;
+
+                return NewItemNumber;
+            }
+
+            return 1;
         }
 
         public override void Create(Item Item)
@@ -67,7 +75,7 @@ namespace DataAccess.MemoryDao
         {
             IEnumerable<Item> Items = _items.Where(Item => Item.RequirementNumber.Equals(RequirementNumber)).ToList();
 
-            if (Items != null && Items.Count() > 0)
+            if (Items != null)
                 return Items;
 
             throw new EntityNotFoundException();

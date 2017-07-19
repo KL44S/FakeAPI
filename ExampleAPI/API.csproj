@@ -232,6 +232,7 @@
     <Compile Include="Services\MappingService.cs" />
     <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
+    <Compile Include="Services\SubItemMappingService.cs" />
     <Compile Include="Services\UserMappingService.cs" />
     <Compile Include="ViewModel\AccountBindingModels.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
@@ -239,9 +240,8 @@
     <Compile Include="ViewModel\EstadoDePlanilla.cs" />
     <Compile Include="ViewModel\IdentityModels.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
-    <Compile Include="ViewModel\SubItem.cs" />
+    <Compile Include="ViewModel\SubItemViewModel.cs" />
     <Compile Include="ViewModel\ItemDePlanilla.cs" />
-    <Compile Include="ViewModel\Obra.cs" />
     <Compile Include="ViewModel\ObraViewModel.cs" />
     <Compile Include="ViewModel\Planilla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,8 +250,6 @@
     <Compile Include="Scripts\PlanillasService.cs" />
     <Compile Include="Services\EstadoDePlanillaService.cs" />
     <Compile Include="Services\ItemDePlanillaService.cs" />
-    <Compile Include="Services\SubItemService.cs" />
-    <Compile Include="Services\ObraService.cs" />
     <Compile Include="Services\PlanillaService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\User.cs" />

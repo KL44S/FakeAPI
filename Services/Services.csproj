@@ -45,6 +45,7 @@
     <Compile Include="Abstractions\IItemService.cs" />
     <Compile Include="Abstractions\IRequirementService.cs" />
     <Compile Include="Abstractions\IRequirementUserService.cs" />
+    <Compile Include="Abstractions\ISubItemService.cs" />
     <Compile Include="Abstractions\ITokenService.cs" />
     <Compile Include="Abstractions\IUserService.cs" />
     <Compile Include="Constants.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Implementations\MessageService.cs" />
     <Compile Include="Implementations\RequirementService.cs" />
     <Compile Include="Implementations\RequirementUserService.cs" />
+    <Compile Include="Implementations\SubItemService.cs" />
     <Compile Include="Implementations\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementations\Sha256EncryptionService.cs" />

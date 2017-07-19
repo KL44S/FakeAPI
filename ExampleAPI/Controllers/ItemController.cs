@@ -21,7 +21,7 @@ namespace ExampleAPI.Controllers
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroItem, int? obra)
+        public IHttpActionResult Get(int? obra, int? numeroItem)
         {
             try
             {
@@ -146,27 +146,30 @@ namespace ExampleAPI.Controllers
 
         }
         
-        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Delete(int numeroItem)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Delete(int obra, int numeroItem)
         {
             try
             {
-                if (numeroItem <= 0)
+                if (obra <= 0 || numeroItem <= 0)
                     return BadRequest();
 
-                SubItem Item = SubItemService.Items.FirstOrDefault(x => x.numeroSubItem.Equals(numeroItem));
-
-                if (Item == null)
-                    return NotFound();
-
-                SubItemService.Items.Remove(Item);
+                this._itemService.Delete(obra, numeroItem);
 
                 return Ok();
             }
-            catch (Exception)
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
-        }*/
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
     }
 }

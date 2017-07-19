@@ -1,5 +1,8 @@
 ﻿using ExampleAPI.Models;
+using Services.Implementations;
 using ExampleAPI.Services;
+using Model;
+using Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,41 +10,59 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Exceptions;
 
 namespace ExampleAPI.Controllers
 {
     public class SubItemController : ApiController
     {
+        private ISubItemService _subItemService = new SubItemService();
+        private SubItemMappingService _subItemMappingService = new SubItemMappingService();
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroItem, int? numeroSubItem, int? obra)
+        public IHttpActionResult Get(int obra, int? numeroItem, int? numeroSubItem)
         {
-            if (numeroItem != null && numeroItem > 0)
+            try
             {
-                var Items = SubItemService.Items.Where(x => x.numeroItem.Equals(numeroItem) && x.obra.Equals(obra));
+                IEnumerable<SubItem> SubItems;
 
-                if (Items != null && Items.Count() > 0)
-                    return Ok(Items);
+                if (numeroItem != null)
+                {
+                    SubItems = this._subItemService.GetSubItemsByRequirementNumberAndItemNumber((int)(obra), (int)numeroItem);
+
+                    if (SubItems != null)
+                        return Ok(this._subItemMappingService.UnMapEntities(SubItems));
+                    else
+                        return NotFound();
+                }
+
+                SubItems = this._subItemService.GetSubItemsByRequirementNumber((int)(obra));
+
+                if (SubItems != null)
+                {
+                    IEnumerable<SubItemViewModel> SubItemViewModels = this._subItemMappingService.UnMapEntities(SubItems);
+                    return Ok(SubItemViewModels);
+                }
                 else
                     return NotFound();
             }
-
-            if (obra != null && obra > 0)
+            catch (ArgumentException)
             {
-                var Items = SubItemService.Items.Where(x => x.obra.Equals(obra));
-
-                if (Items != null)
-                    return Ok(Items);
-                else
-                    return NotFound();
+                return BadRequest();
             }
-
-            return Ok(SubItemService.Items);
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Post(SubItem Item)
         {
             try
@@ -98,28 +119,31 @@ namespace ExampleAPI.Controllers
                 return BadRequest();
             }
 
-        }
+        }*/
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Delete(int numeroItem)
+        public IHttpActionResult Delete(int obra, int numeroItem, int numeroSubItem)
         {
             try
             {
-                if (numeroItem <= 0)
+                if (obra <= 0 || numeroItem <= 0 || numeroSubItem <= 0)
                     return BadRequest();
 
-                SubItem Item = SubItemService.Items.FirstOrDefault(x => x.numeroSubItem.Equals(numeroItem));
-
-                if (Item == null)
-                    return NotFound();
-
-                SubItemService.Items.Remove(Item);
+                this._subItemService.Delete(obra, numeroItem, numeroSubItem);
 
                 return Ok();
             }
-            catch (Exception)
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
             }
         }
     }
