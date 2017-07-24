@@ -16,7 +16,7 @@ namespace Services.Validators.Implementations
     public class ExistingRequirementNumberValidator : IValidator
     {
         public int RequirementNumberToValidate { get; set; }
-        public IDictionary<Requirement.Attributes, String> ErrorMessages { get; set; }     
+        public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }     
         private MessageDao _messageDao;
         private RequirementDao _requirementDao;
 
@@ -39,7 +39,7 @@ namespace Services.Validators.Implementations
                 this._requirementDao.GetRequirementByRequirementNumber(this.RequirementNumberToValidate);
 
                 String ErrorMessage = this._messageDao.GetById(Constants.ExistingRequirementErrorMessage);
-                MessageService.PutErrorMessage(this.ErrorMessages, Requirement.Attributes.RequirementNumber, ErrorMessage);
+                MessageService.PutErrorMessage(this.ErrorMessages, Attributes.Requirement.RequirementNumber, ErrorMessage);
 
                 return false;
             }

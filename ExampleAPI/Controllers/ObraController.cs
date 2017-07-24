@@ -108,7 +108,7 @@ namespace ExampleAPI.Controllers
                 if (Obra != null)
                 {
                     Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
-                    IDictionary<Requirement.Attributes, String > ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
+                    IDictionary<Attributes.Requirement, String > ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
                     //Existencia de la obra
                     ExistingRequirementNumberValidator ExistingRequirementNumberValidator = new ExistingRequirementNumberValidator();
@@ -150,7 +150,7 @@ namespace ExampleAPI.Controllers
                 if (Obra != null)
                 {
                     Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
-                    IDictionary<Requirement.Attributes, String> ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
+                    IDictionary<Attributes.Requirement, String> ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
                     if (ValidationErrors.Count() > 0)
                     {

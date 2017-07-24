@@ -15,6 +15,6 @@ namespace Services.Abstractions
         void Create(Item Item);
         void Update(Item Item);
         void Delete(int RequirementNumber, int ItemNumber);
-        IDictionary<Item.Attributes, String> GetValidationErrors(Item Item);
+        IDictionary<Attributes.Item, String> GetValidationErrors(Item Item);
     }
 }

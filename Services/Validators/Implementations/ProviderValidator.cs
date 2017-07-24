@@ -12,7 +12,7 @@ namespace Services.Validators.Implementations
     public class ProviderValidator : IValidator
     {
         public String ProviderToValidate { get; set; }
-        public IDictionary<Requirement.Attributes, String> ErrorMessages { get; set; }
+        public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
         private static int _minLength = 1;
         private static int _maxLength = 99;
 
@@ -25,7 +25,7 @@ namespace Services.Validators.Implementations
 
             if (!String.IsNullOrEmpty(ErrorMessage))
             {
-                MessageService.PutErrorMessage(this.ErrorMessages, Requirement.Attributes.Provider, ErrorMessage);
+                MessageService.PutErrorMessage(this.ErrorMessages, Attributes.Requirement.Provider, ErrorMessage);
 
                 return false;
             }

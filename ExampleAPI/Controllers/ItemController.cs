@@ -78,7 +78,7 @@ namespace ExampleAPI.Controllers
                 {
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
 
-                    IDictionary<Item.Attributes, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
+                    IDictionary<Attributes.Item, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
 
                     if (ValidationErrors.Count() > 0)
                     {
@@ -116,7 +116,7 @@ namespace ExampleAPI.Controllers
                 {
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
 
-                    IDictionary<Item.Attributes, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
+                    IDictionary<Attributes.Item, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
 
                     if (ValidationErrors.Count() > 0)
                     {

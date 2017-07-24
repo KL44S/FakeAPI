@@ -53,9 +53,9 @@ namespace Services.Implementations
             return this._requirementDao.GetRequirementByRequirementNumber(RequirementNumber);
         }
 
-        public IDictionary<Requirement.Attributes, string> GetValidationErrors(Requirement Requirement)
+        public IDictionary<Attributes.Requirement, string> GetValidationErrors(Requirement Requirement)
         {
-            IDictionary<Requirement.Attributes, string> ErrorMessages = new Dictionary<Requirement.Attributes, string>();
+            IDictionary<Attributes.Requirement, string> ErrorMessages = new Dictionary<Attributes.Requirement, string>();
 
             //Requirement number
             RequirementNumberValidator RequirementNumberValidator = new RequirementNumberValidator();

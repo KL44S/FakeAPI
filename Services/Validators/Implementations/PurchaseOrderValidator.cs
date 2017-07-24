@@ -12,7 +12,7 @@ namespace Services.Validators.Implementations
     public class PurchaseOrderValidator : IValidator
     {
         public int PurchaseOrderToValidate { get; set; }
-        public IDictionary<Requirement.Attributes, String> ErrorMessages { get; set; }
+        public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
         private static int _minNumberRange = 1;
         private static int _maxNumberRange = 9999999;
 
@@ -25,7 +25,7 @@ namespace Services.Validators.Implementations
 
             if (!String.IsNullOrEmpty(ErrorMessage))
             {
-                MessageService.PutErrorMessage(this.ErrorMessages, Requirement.Attributes.PurchaseOrder, ErrorMessage);
+                MessageService.PutErrorMessage(this.ErrorMessages, Attributes.Requirement.PurchaseOrder, ErrorMessage);
 
                 return false;
             }

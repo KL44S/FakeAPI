@@ -9,7 +9,7 @@ namespace Services.Implementations
 {
     public class MessageService
     {
-        public static void PutErrorMessage (IDictionary<Requirement.Attributes, String> Messages, Requirement.Attributes Attribute, String Message)
+        public static void PutErrorMessage (IDictionary<Attributes.Requirement, String> Messages, Attributes.Requirement Attribute, String Message)
         {
             if (Messages.ContainsKey(Attribute))
             {
@@ -21,34 +21,34 @@ namespace Services.Implementations
             }
         }
 
-        public static void FillErrorMessages(IDictionary<Item.Attributes, String> Messages)
+        public static void FillErrorMessages(IDictionary<Attributes.Item, String> Messages)
         {
-            if (!Messages.ContainsKey(Item.Attributes.RequirementNumber))
-                Messages.Add(Item.Attributes.RequirementNumber, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Item.RequirementNumber))
+                Messages.Add(Attributes.Item.RequirementNumber, String.Empty);
 
-            if (!Messages.ContainsKey(Item.Attributes.ItemNumber))
-                Messages.Add(Item.Attributes.ItemNumber, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Item.ItemNumber))
+                Messages.Add(Attributes.Item.ItemNumber, String.Empty);
 
-            if (!Messages.ContainsKey(Item.Attributes.Description))
-                Messages.Add(Item.Attributes.Description, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Item.Description))
+                Messages.Add(Attributes.Item.Description, String.Empty);
         }
 
-        public static void FillErrorMessages(IDictionary<Requirement.Attributes, String> Messages)
+        public static void FillErrorMessages(IDictionary<Attributes.Requirement, String> Messages)
         {
-            if (!Messages.ContainsKey(Requirement.Attributes.RequirementNumber))
-                Messages.Add(Requirement.Attributes.RequirementNumber, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Requirement.RequirementNumber))
+                Messages.Add(Attributes.Requirement.RequirementNumber, String.Empty);
 
-            if (!Messages.ContainsKey(Requirement.Attributes.PurchaseOrder))
-                Messages.Add(Requirement.Attributes.PurchaseOrder, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Requirement.PurchaseOrder))
+                Messages.Add(Attributes.Requirement.PurchaseOrder, String.Empty);
 
-            if (!Messages.ContainsKey(Requirement.Attributes.PurchaseOrderExcercise))
-                Messages.Add(Requirement.Attributes.PurchaseOrderExcercise, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Requirement.PurchaseOrderExcercise))
+                Messages.Add(Attributes.Requirement.PurchaseOrderExcercise, String.Empty);
 
-            if (!Messages.ContainsKey(Requirement.Attributes.Provider))
-                Messages.Add(Requirement.Attributes.Provider, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Requirement.Provider))
+                Messages.Add(Attributes.Requirement.Provider, String.Empty);
 
-            if (!Messages.ContainsKey(Requirement.Attributes.CertificationDays))
-                Messages.Add(Requirement.Attributes.CertificationDays, String.Empty);
+            if (!Messages.ContainsKey(Attributes.Requirement.CertificationDays))
+                Messages.Add(Attributes.Requirement.CertificationDays, String.Empty);
         }
     }
 }

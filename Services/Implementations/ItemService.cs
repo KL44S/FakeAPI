@@ -69,9 +69,9 @@ namespace Services.Implementations
             this._itemDao.Update(Item);
         }
 
-        public IDictionary<Item.Attributes, string> GetValidationErrors(Item Item)
+        public IDictionary<Attributes.Item, string> GetValidationErrors(Item Item)
         {
-            IDictionary<Item.Attributes, string> ValidationErrors = new Dictionary<Item.Attributes, string>();
+            IDictionary<Attributes.Item, string> ValidationErrors = new Dictionary<Attributes.Item, string>();
 
             NotExistingRequirementValidator NotExistingRequirementValidator = new NotExistingRequirementValidator();
             NotExistingRequirementValidator.ErrorMessages = ValidationErrors;
