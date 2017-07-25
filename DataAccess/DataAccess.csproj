@@ -132,6 +132,7 @@
     <Compile Include="SqlServerDao\MessageSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementUserSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\SubItemSqlServerDao.cs" />
     <Compile Include="SqlServerDao\UserSqlServerDao.cs" />
     <Compile Include="AbstractDao\UserDao.cs" />
     <Compile Include="Constants.cs" />

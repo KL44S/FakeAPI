@@ -9,7 +9,7 @@ namespace ExampleAPI.Services
 {
     public class ItemValidationObjectGeneratorService
     {
-        public static Object GetValidationObject(IDictionary<Item.Attributes, String> ValidationErrors, Item Item)
+        public static Object GetValidationObject(IDictionary<Attributes.Item, String> ValidationErrors, Item Item)
         {
             MessageService.FillErrorMessages(ValidationErrors);
 
@@ -18,17 +18,17 @@ namespace ExampleAPI.Services
                 obra = new
                 {
                     value = Item.RequirementNumber,
-                    error = ValidationErrors[Item.Attributes.RequirementNumber]
+                    error = ValidationErrors[Attributes.Item.RequirementNumber]
                 },
                 numeroItem = new
                 {
                     value = Item.ItemNumber,
-                    error = ValidationErrors[Item.Attributes.ItemNumber]
+                    error = ValidationErrors[Attributes.Item.ItemNumber]
                 },
                 descripcion = new
                 {
                     value = Item.Description,
-                    error = ValidationErrors[Item.Attributes.Description]
+                    error = ValidationErrors[Attributes.Item.Description]
                 }
             };
 

@@ -16,7 +16,7 @@ namespace Services.Validators.Implementations
     public class NotExistingRequirementValidator : IValidator
     {
         public int RequirementNumberToValidate { get; set; }
-        public IDictionary<Item.Attributes, String> ErrorMessages { get; set; }
+        public IDictionary<Attributes.Item, String> ErrorMessages { get; set; }
         private MessageDao _messageDao;
         private RequirementDao _requirementDao;
 
@@ -42,7 +42,7 @@ namespace Services.Validators.Implementations
             catch (EntityNotFoundException)
             {
                 String ErrorMessage = this._messageDao.GetById(Constants.ExistingRequirementErrorMessage);
-                this.ErrorMessages.Add(Item.Attributes.RequirementNumber, ErrorMessage);
+                this.ErrorMessages.Add(Attributes.Item.RequirementNumber, ErrorMessage);
 
                 return false;
             }

@@ -13,13 +13,13 @@ namespace Services.Validators.Implementations
         public String ItemDescription { get; set; }
         private static int _minDescriptionLength = 1;
         private static int _maxDescriptionLength = 99;
-        public IDictionary<Item.Attributes, String> ErrorMessages { get; set; }
+        public IDictionary<Attributes.Item, String> ErrorMessages { get; set; }
 
         public bool Validate()
         {
             if (String.IsNullOrEmpty(this.ItemDescription))
             {
-                this.ErrorMessages.Add(Item.Attributes.Description, Constants.EmptyFieldErrorMessage);
+                this.ErrorMessages.Add(Attributes.Item.Description, Constants.EmptyFieldErrorMessage);
                 return false;
             }
             else
@@ -28,7 +28,7 @@ namespace Services.Validators.Implementations
 
                 if (!String.IsNullOrEmpty(ErrorMessage))
                 {
-                    this.ErrorMessages.Add(Item.Attributes.Description, ErrorMessage);
+                    this.ErrorMessages.Add(Attributes.Item.Description, ErrorMessage);
                     return false;
                 }
 

@@ -12,7 +12,7 @@ namespace Services.Validators.Implementations
     public class CertificationDaysValidator : IValidator
     {
         public int CertificationDaysToValidate { get; set; }
-        public IDictionary<Requirement.Attributes, String> ErrorMessages { get; set; }
+        public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
         private static int _minNumberRange = 15;
         private static int _maxNumberRange = 60;
 
@@ -25,7 +25,7 @@ namespace Services.Validators.Implementations
 
             if (!String.IsNullOrEmpty(ErrorMessage))
             {
-                MessageService.PutErrorMessage(this.ErrorMessages, Requirement.Attributes.CertificationDays, ErrorMessage);
+                MessageService.PutErrorMessage(this.ErrorMessages, Attributes.Requirement.CertificationDays, ErrorMessage);
 
                 return false;
             }
