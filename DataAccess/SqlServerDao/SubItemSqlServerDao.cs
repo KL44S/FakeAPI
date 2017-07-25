@@ -31,6 +31,16 @@ namespace DataAccess.SqlServerDao
             }
         }
 
+        public override void Delete(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IEnumerable<Model.SubItem> GetAll()
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
@@ -56,6 +66,11 @@ namespace DataAccess.SqlServerDao
 
                 return SubItems;
             }
+        }
+
+        public override IEnumerable<Model.SubItem> GetSubItemsByRequirementNumber(int RequirementNumber)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Update(Model.SubItem SubItem)

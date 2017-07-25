@@ -1,5 +1,6 @@
 ﻿using ExampleAPI.Filters;
 using ExampleAPI.Models;
+using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
@@ -79,10 +80,6 @@ namespace ExampleAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
         }
 
         private IHttpActionResult MapAndReturnRequirements(IEnumerable<Requirement> Requirements)
@@ -103,7 +100,7 @@ namespace ExampleAPI.Controllers
             try
             {
                 if (!this.UserHasRol(Constants.Constants.AdminRoleId))
-                    return Unauthorized();
+                    return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
                 {
@@ -145,7 +142,7 @@ namespace ExampleAPI.Controllers
             try
             {
                 if (!this.UserHasRol(Constants.Constants.AdminRoleId))
-                    return Unauthorized();
+                    return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
                 {
@@ -186,7 +183,7 @@ namespace ExampleAPI.Controllers
             try
             {
                 if (!this.UserHasRol(Constants.Constants.AdminRoleId))
-                    return Unauthorized();
+                    return new ForbiddenActionResult(Request, "");
 
                 this._requirementService.Delete(obra);
                 return Ok();

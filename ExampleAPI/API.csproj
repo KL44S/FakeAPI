@@ -224,9 +224,11 @@
     <Compile Include="Controllers\PlanillaController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AuthFilterAttribute.cs" />
+    <Compile Include="Filters\GenericExceptionFilterAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Results\ForbiddenActionResult.cs" />
     <Compile Include="Services\ItemMapping.cs" />
     <Compile Include="Services\ItemValidationObjectGeneratorServicecs.cs" />
     <Compile Include="Services\MappingService.cs" />

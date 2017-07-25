@@ -1,4 +1,6 @@
-﻿using ExampleAPI.Models;
+﻿using ExampleAPI.Filters;
+using ExampleAPI.Models;
+using ExampleAPI.Results;
 using ExampleAPI.Services;
 using ExampleAPI.ViewModel;
 using Exceptions;
@@ -15,6 +17,7 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
+    [AuthFilter]
     public class AsignacionesController : BaseController
     {
         private IRequirementUserService _requirementUserService = new RequirementUserService();
@@ -51,7 +54,7 @@ namespace ExampleAPI.Controllers
             try
             {
                 if (!this.UserHasRol(Constants.Constants.AdminRoleId))
-                    return Unauthorized();
+                    return new ForbiddenActionResult(Request, "");
 
                 if (String.IsNullOrEmpty(cuit))
                     return BadRequest();

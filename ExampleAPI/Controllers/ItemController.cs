@@ -1,4 +1,6 @@
-﻿using ExampleAPI.Models;
+﻿using ExampleAPI.Filters;
+using ExampleAPI.Models;
+using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
@@ -14,7 +16,8 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
-    public class ItemController : ApiController
+    [AuthFilter]
+    public class ItemController : BaseController
     {
         private IItemService _itemService = new ItemService();
         private ItemMapping _itemMapping = new ItemMapping();
@@ -74,6 +77,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
+
                 if (Item != null)
                 {
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
@@ -112,6 +118,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
+
                 if (Item != null)
                 {
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
@@ -151,6 +160,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
+
                 if (obra <= 0 || numeroItem <= 0)
                     return BadRequest();
 

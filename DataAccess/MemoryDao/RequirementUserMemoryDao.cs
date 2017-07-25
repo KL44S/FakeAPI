@@ -63,7 +63,7 @@ namespace DataAccess.MemoryDao
         {
             IEnumerable<RequirementUser> RequirementUsers = _requirementUsers.Where(RequirementUser => RequirementUser.Cuit.Equals(Cuit)).ToList();
 
-            if (RequirementUsers != null && RequirementUsers.Count() > 0)
+            if (RequirementUsers != null)
                 return RequirementUsers;
 
             throw new EntityNotFoundException();
@@ -74,7 +74,7 @@ namespace DataAccess.MemoryDao
             IEnumerable<RequirementUser> RequirementUsers = _requirementUsers.Where(RequirementUser => 
                                                                             RequirementUser.RequirementNumber.Equals(RequirementNumber)).ToList();
 
-            if (RequirementUsers != null && RequirementUsers.Count() > 0)
+            if (RequirementUsers != null)
                 return RequirementUsers;
 
             throw new EntityNotFoundException();
