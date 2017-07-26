@@ -81,8 +81,27 @@ namespace DataAccess.MemoryDao
             }
         };
 
+        private int GenerateAndGetNewSubItemNumber(int RequirementNumber, int ItemNumber)
+        {
+
+            IEnumerable<SubItem> LastSubItems = this.GetAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+
+            if (LastSubItems != null && LastSubItems.Count() > 0)
+            {
+                SubItem LastSubItem = LastSubItems.Last();
+                int NewSubItemNumber = LastSubItem.SubItemNumber + 1;
+
+                return NewSubItemNumber;
+            }
+
+            return 1;
+        }
+
         public override void Create(SubItem SubItem)
         {
+            int NewSubItemNumber = this.GenerateAndGetNewSubItemNumber(SubItem.RequirementNumber, SubItem.ItemNumber);
+            SubItem.SubItemNumber = NewSubItemNumber;
+
             _subItems.Add(SubItem);
         }
 
@@ -132,7 +151,18 @@ namespace DataAccess.MemoryDao
 
         public override void Update(SubItem SubItem)
         {
-            throw new NotImplementedException();
+            //Nothing to do
+        }
+
+        public override SubItem GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            SubItem SubItem = _subItems.FirstOrDefault(SItem => SItem.RequirementNumber.Equals(RequirementNumber) && SItem.ItemNumber.Equals(ItemNumber)
+                                                           && SItem.SubItemNumber.Equals(SubItemNumber));
+
+            if (SubItem == null)
+                throw new EntityNotFoundException();
+
+            return SubItem;
         }
     }
 }

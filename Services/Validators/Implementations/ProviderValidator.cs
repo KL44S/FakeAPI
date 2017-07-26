@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using DataAccess.Factories;
+using DataAccess.AbstractDao;
+using Model;
 using Services.Implementations;
 using Services.Validators.Abstractions;
 using System;
@@ -19,7 +21,13 @@ namespace Services.Validators.Implementations
         public bool Validate()
         {
             if (String.IsNullOrEmpty(this.ProviderToValidate))
-                throw new ArgumentNullException();
+            {
+                MessageDao MessageDao = (new MessageDaoFactory()).GetDaoInstance();
+                String Message = MessageDao.GetById(Constants.EmptyFieldErrorMessage);
+
+                this.ErrorMessages.Add(Attributes.Requirement.Provider, Message);
+                return false;
+            }
 
             String ErrorMessage = GenericTextValidator.GetValidationErrorMessage(this.ProviderToValidate, _minLength, _maxLength);
 

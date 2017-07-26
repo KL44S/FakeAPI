@@ -11,10 +11,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Exceptions;
+using ExampleAPI.Filters;
+using ExampleAPI.Results;
 
 namespace ExampleAPI.Controllers
 {
-    public class SubItemController : ApiController
+    [AuthFilter]
+    public class SubItemController : BaseController
     {
         private ISubItemService _subItemService = new SubItemService();
         private SubItemMappingService _subItemMappingService = new SubItemMappingService();
@@ -62,25 +65,85 @@ namespace ExampleAPI.Controllers
         }
 
 
-        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(SubItem Item)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Post(SubItemViewModel SubItem)
         {
             try
             {
-                if (Item != null && Item.obra != 0 && Item.numeroSubItem != 0 && Item.numeroSubItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
-                {
-                    SubItemService.Items.Add(Item);
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
 
-                    return Ok();
+                if (SubItem != null)
+                {
+                    SubItem SubItemModel = this._subItemMappingService.MapViewModel(SubItem);
+
+                    IDictionary<Attributes.SubItem, String> ValidationErrors = this._subItemService.GetValidationErrors(SubItemModel);
+
+                    if (ValidationErrors.Count() > 0)
+                    {
+                        var ItemValidationObject = SubItemValidationObjectGeneratorService.GetValidationObject(ValidationErrors, SubItemModel);
+
+                        return Content((HttpStatusCode)422, ItemValidationObject);
+                    }
+                    else
+                    {
+                        this._subItemService.Create(SubItemModel);
+                        return Ok();
+                    }
                 }
                 else
                 {
-                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
-
-                    return Content((HttpStatusCode)422, ItemViewModel);
+                    return BadRequest();
                 }
             }
-            catch (Exception)
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(SubItemViewModel SubItem)
+        {
+            try
+            {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
+
+                if (SubItem != null)
+                {
+                    SubItem SubItemModel = this._subItemMappingService.MapViewModel(SubItem);
+
+                    IDictionary<Attributes.SubItem, String> ValidationErrors = this._subItemService.GetValidationErrors(SubItemModel);
+
+                    if (ValidationErrors.Count() > 0)
+                    {
+                        var ItemValidationObject = SubItemValidationObjectGeneratorService.GetValidationObject(ValidationErrors, SubItemModel);
+
+                        return Content((HttpStatusCode)422, ItemValidationObject);
+                    }
+                    else
+                    {
+                        this._subItemService.Update(SubItemModel);
+                        return Ok();
+                    }
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
@@ -88,44 +151,13 @@ namespace ExampleAPI.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Put(SubItem Item)
-        {
-            try
-            {
-                if (Item != null && Item.obra != 0 && Item.numeroSubItem != 0 && Item.numeroSubItem != 85 && !String.IsNullOrEmpty(Item.descripcion))
-                {
-                    SubItem ItemExistente = SubItemService.Items.FirstOrDefault(x => x.numeroSubItem.Equals(Item.numeroSubItem));
-
-                    if (ItemExistente != null)
-                    {
-                        ItemExistente.descripcion = Item.descripcion;
-                        return Ok();
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                    
-                }
-                else
-                {
-                    var ItemViewModel = new { numeroItem = new { error = "item invalido" }, descripcion = new { error = "descripcion error" }, obra = new { error = "" } };
-
-                    return Content((HttpStatusCode)422, ItemViewModel);
-                }
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-
-        }*/
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Delete(int obra, int numeroItem, int numeroSubItem)
         {
             try
             {
+                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                    return new ForbiddenActionResult(Request, "");
+
                 if (obra <= 0 || numeroItem <= 0 || numeroSubItem <= 0)
                     return BadRequest();
 

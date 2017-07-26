@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Model;
 using DataAccess.AbstractDao;
 using DataAccess.Factories;
+using Services.Validators.Implementations;
 
 namespace Services.Implementations
 {
@@ -57,9 +58,36 @@ namespace Services.Implementations
             return SubItems;
         }
 
-        public IDictionary<SubItem.Attributes, string> GetValidationErrors(SubItem SubItem)
+        public IDictionary<Attributes.SubItem, string> GetValidationErrors(SubItem SubItem)
         {
-            throw new NotImplementedException();
+            IDictionary<Attributes.SubItem, String> ValidationErrors = new Dictionary<Attributes.SubItem, String>();
+
+            ExistingItemValidator ExistingItemValidator = new ExistingItemValidator();
+            ExistingItemValidator.RequirementNumberToValidate = SubItem.RequirementNumber;
+            ExistingItemValidator.ItemNumberToValidate = SubItem.ItemNumber;
+            ExistingItemValidator.Validate();
+
+            SubItemDescriptionValidator SubItemDescriptionValidator = new SubItemDescriptionValidator();
+            SubItemDescriptionValidator.SubItemDescription = SubItem.Description;
+            SubItemDescriptionValidator.ErrorMessages = ValidationErrors;
+            SubItemDescriptionValidator.Validate();
+
+            UnitPriceValidator UnitPriceValidator = new UnitPriceValidator();
+            UnitPriceValidator.UnitPriceToValidate = SubItem.UnitPrice;
+            UnitPriceValidator.ErrorMessages = ValidationErrors;
+            UnitPriceValidator.Validate();
+
+            UnitOfMeasurementValidator UnitOfMeasurementValidator = new UnitOfMeasurementValidator();
+            UnitOfMeasurementValidator.UnitOfMeasurementToValidate = SubItem.UnitOfMeasurement;
+            UnitOfMeasurementValidator.ErrorMessages = ValidationErrors;
+            UnitOfMeasurementValidator.Validate();
+
+            TotalQuantityValidator TotalQuantityValidator = new TotalQuantityValidator();
+            TotalQuantityValidator.TotalQuantityToValidate = SubItem.TotalQuantity;
+            TotalQuantityValidator.ErrorMessages = ValidationErrors;
+            TotalQuantityValidator.Validate();
+
+            return ValidationErrors;
         }
 
         public void Update(SubItem SubItem)
@@ -67,7 +95,16 @@ namespace Services.Implementations
             if (SubItem == null)
                 throw new ArgumentException();
 
-            this._subItemDao.Update(SubItem);
+            SubItem ExistingSubItem = this._subItemDao.GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(SubItem.RequirementNumber,
+                                                                                                         SubItem.ItemNumber, SubItem.SubItemNumber);
+
+            ExistingSubItem.Description = SubItem.Description;
+            ExistingSubItem.Sis = SubItem.Sis;
+            ExistingSubItem.TotalQuantity = SubItem.TotalQuantity;
+            ExistingSubItem.UnitOfMeasurement = SubItem.UnitOfMeasurement;
+            ExistingSubItem.UnitPrice = SubItem.UnitPrice;
+
+            this._subItemDao.Update(ExistingSubItem);
         }
     }
 }

@@ -10,30 +10,30 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class ItemDescriptionValidator : IValidator
+    public class UnitOfMeasurementValidator : IValidator
     {
-        public String ItemDescription { get; set; }
+        public String UnitOfMeasurementToValidate { get; set; }
         private static int _minDescriptionLength = 1;
-        private static int _maxDescriptionLength = 99;
-        public IDictionary<Attributes.Item, String> ErrorMessages { get; set; }
+        private static int _maxDescriptionLength = 50;
+        public IDictionary<Attributes.SubItem, String> ErrorMessages { get; set; }
 
         public bool Validate()
         {
-            if (String.IsNullOrEmpty(this.ItemDescription))
+            if (String.IsNullOrEmpty(this.UnitOfMeasurementToValidate))
             {
                 MessageDao MessageDao = (new MessageDaoFactory()).GetDaoInstance();
                 String Message = MessageDao.GetById(Constants.EmptyFieldErrorMessage);
 
-                this.ErrorMessages.Add(Attributes.Item.Description, Message);
+                this.ErrorMessages.Add(Attributes.SubItem.UnitOfMeasurement, Message);
                 return false;
             }
             else
             {
-                String ErrorMessage = GenericTextValidator.GetValidationErrorMessage(this.ItemDescription, _minDescriptionLength, _maxDescriptionLength);
+                String ErrorMessage = GenericTextValidator.GetValidationErrorMessage(this.UnitOfMeasurementToValidate, _minDescriptionLength, _maxDescriptionLength);
 
                 if (!String.IsNullOrEmpty(ErrorMessage))
                 {
-                    this.ErrorMessages.Add(Attributes.Item.Description, ErrorMessage);
+                    this.ErrorMessages.Add(Attributes.SubItem.UnitOfMeasurement, ErrorMessage);
                     return false;
                 }
 

@@ -8,8 +8,6 @@ namespace Model
 {
     public class SubItem
     {
-        public enum Attributes { RequirementNumber, ItemNumber, SubItemNumber, Description, Sis, UnitPrice, UnitOfMeasurement, TotalQuantity };
-
         public int RequirementNumber { get; set; }
         public int ItemNumber { get; set; }
         public int SubItemNumber { get; set; }

@@ -235,6 +235,7 @@
     <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
     <Compile Include="Services\SubItemMappingService.cs" />
+    <Compile Include="Services\SubItemValidationObjectGeneratorService.cs" />
     <Compile Include="Services\UserMappingService.cs" />
     <Compile Include="ViewModel\AccountBindingModels.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />

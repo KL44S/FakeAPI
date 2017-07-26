@@ -68,6 +68,11 @@ namespace DataAccess.SqlServerDao
             }
         }
 
+        public override Model.SubItem GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            throw new NotImplementedException();
+        }
+
         public override IEnumerable<Model.SubItem> GetSubItemsByRequirementNumber(int RequirementNumber)
         {
             throw new NotImplementedException();

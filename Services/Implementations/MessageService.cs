@@ -21,6 +21,21 @@ namespace Services.Implementations
             }
         }
 
+        public static void FillErrorMessages(IDictionary<Attributes.SubItem, String> Messages)
+        {
+            if (!Messages.ContainsKey(Attributes.SubItem.Description))
+                Messages.Add(Attributes.SubItem.Description, String.Empty);
+
+            if (!Messages.ContainsKey(Attributes.SubItem.TotalQuantity))
+                Messages.Add(Attributes.SubItem.TotalQuantity, String.Empty);
+
+            if (!Messages.ContainsKey(Attributes.SubItem.UnitOfMeasurement))
+                Messages.Add(Attributes.SubItem.UnitOfMeasurement, String.Empty);
+
+            if (!Messages.ContainsKey(Attributes.SubItem.UnitPrice))
+                Messages.Add(Attributes.SubItem.UnitPrice, String.Empty);
+        }
+
         public static void FillErrorMessages(IDictionary<Attributes.Item, String> Messages)
         {
             if (!Messages.ContainsKey(Attributes.Item.RequirementNumber))

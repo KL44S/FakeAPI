@@ -62,6 +62,7 @@
     <Compile Include="Validators\Abstractions\ValidatorType.cs" />
     <Compile Include="Validators\Implementations\AndValidatorType.cs" />
     <Compile Include="Validators\Implementations\CertificationDaysValidator.cs" />
+    <Compile Include="Validators\Implementations\ExistingItemValidator.cs" />
     <Compile Include="Validators\Implementations\ExistingRequirementNumberValidator.cs" />
     <Compile Include="Validators\Implementations\GenericNumberValidator.cs" />
     <Compile Include="Validators\Implementations\GenericTextValidator.cs" />
@@ -72,6 +73,10 @@
     <Compile Include="Validators\Implementations\PurchaseOrderExcerciseValidator.cs" />
     <Compile Include="Validators\Implementations\PurchaseOrderValidator.cs" />
     <Compile Include="Validators\Implementations\RequirementNumberValidator.cs" />
+    <Compile Include="Validators\Implementations\SubItemDescriptionValidator.cs" />
+    <Compile Include="Validators\Implementations\TotalQuantityValidator.cs" />
+    <Compile Include="Validators\Implementations\UnitOfMeasurementValidator.cs" />
+    <Compile Include="Validators\Implementations\UnitPriceValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
