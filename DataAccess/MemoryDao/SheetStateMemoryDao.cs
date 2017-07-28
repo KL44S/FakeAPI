@@ -26,6 +26,16 @@ namespace DataAccess.MemoryDao
             {
                 SheetStateId = 3,
                 Description = "Confirmada"
+            },
+            new SheetState()
+            {
+                SheetStateId = 4,
+                Description = "Observada"
+            },
+            new SheetState()
+            {
+                SheetStateId = 5,
+                Description = "Anulada"
             }
         };
 
@@ -37,6 +47,16 @@ namespace DataAccess.MemoryDao
         public override IEnumerable<SheetState> GetAll()
         {
             return _sheetStates;
+        }
+
+        public override SheetState GetSheetState(int SheetStateId)
+        {
+            SheetState FoundSheetState = _sheetStates.FirstOrDefault(SheetState => SheetState.SheetStateId.Equals(SheetStateId));
+
+            if (FoundSheetState != null)
+                return FoundSheetState;
+
+            throw new ArgumentException();
         }
 
         public override void Update(SheetState SheetState)

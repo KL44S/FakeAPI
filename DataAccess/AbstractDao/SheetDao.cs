@@ -13,5 +13,7 @@ namespace DataAccess.AbstractDao
         public abstract IEnumerable<Sheet> GetAll();
         public abstract void Update(Sheet Sheet);
         public abstract IEnumerable<Sheet> GetAllByRequirementNumber(int RequirementNumber);
+        public abstract Sheet GetSheetByRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber);
+        public abstract Sheet GetCurrentSheetByRequirementNumber(int RequirementNumber);
     }
 }

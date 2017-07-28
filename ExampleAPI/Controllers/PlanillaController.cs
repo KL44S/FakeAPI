@@ -1,5 +1,10 @@
-﻿using ExampleAPI.Models;
+﻿using ExampleAPI.Filters;
+using ExampleAPI.Models;
 using ExampleAPI.Services;
+using Exceptions;
+using Model;
+using Services.Abstractions;
+using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,34 +15,52 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
+    [AuthFilter]
     public class PlanillaController : ApiController
     {
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroPlanilla, int? obra)
+        private ISheetService _sheetService;
+        private SheetMappingService _sheetMappingService;
+
+        public PlanillaController()
         {
-            if (obra != null && obra > 0)
-            {
-                if (numeroPlanilla != null && numeroPlanilla > 0)
-                {
-                    var Planilla = PlanillaService.Planillas.FirstOrDefault(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra));
-
-                    if (Planilla != null)
-                        return Ok(Planilla);
-                    else
-                        return NotFound();
-                }
-
-                var Planillas = PlanillaService.Planillas.Where(x => x.obra.Equals(obra)).ToList();
-
-                if (Planillas != null && Planillas.Count() > 0)
-                    return Ok(Planillas);
-                else
-                    return NotFound();
-            }
-
-            return BadRequest();
+            this._sheetService = new SheetService();
+            this._sheetMappingService = new SheetMappingService();
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Get(int? numeroPlanilla, int obra)
+        {
+            try
+            {
+                if (obra > 0)
+                {
+                    if (numeroPlanilla != null && numeroPlanilla > 0)
+                    {
+                        Sheet Sheet = this._sheetService.GetSheetByRequirementNumberAndSheetNumber(obra, (int)numeroPlanilla);
+                        PlanillaViewModel SheetViewModel = this._sheetMappingService.UnMapEntity(Sheet);
+
+                        return Ok(Sheet);
+                    }
+                    else
+                    {
+                        IEnumerable<Sheet> Sheets = this._sheetService.GetAllSheetsFromRequirement(obra);
+                        IEnumerable<PlanillaViewModel> SheetViewModels = this._sheetMappingService.UnMapEntities(Sheets);
+
+                        return Ok(SheetViewModels);
+                    }
+                }
+
+                return BadRequest();
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+        }
 
 
         /*[EnableCors(origins: "*", headers: "*", methods: "*")]

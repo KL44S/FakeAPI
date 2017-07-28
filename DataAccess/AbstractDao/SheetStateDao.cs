@@ -12,5 +12,6 @@ namespace DataAccess.AbstractDao
         public abstract void Create(SheetState SheetState);
         public abstract IEnumerable<SheetState> GetAll();
         public abstract void Update(SheetState SheetState);
+        public abstract SheetState GetSheetState(int SheetStateId);
     }
 }

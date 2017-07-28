@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ExampleAPI.Models
 {
-    public class EstadoDePlanilla
+    public class EstadoDePlanillaViewModel
     {
         public int codigoDeEstado { get; set; }
         public String descripcion { get; set; }

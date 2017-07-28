@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractDao\ExpirationStateDao.cs" />
     <Compile Include="AbstractDao\IDao.cs" />
     <Compile Include="AbstractDao\ItemDao.cs" />
     <Compile Include="AbstractDao\MessageDao.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="AbstractDao\SheetStateDao.cs" />
     <Compile Include="AbstractDao\SubItemDao.cs" />
     <Compile Include="Factories\DaoFactory.cs" />
+    <Compile Include="Factories\ExpirationStateDaoFactory.cs" />
     <Compile Include="Factories\ItemDaoFactory.cs" />
     <Compile Include="Factories\MessageDaoFactory.cs" />
     <Compile Include="Factories\RequirementDaoFactory.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Factories\SheetStateDaoFactory.cs" />
     <Compile Include="Factories\SubItemDaoFactory.cs" />
     <Compile Include="Factories\UserDaoFactory.cs" />
+    <Compile Include="MemoryDao\ExpirationStateMemoryDao.cs" />
     <Compile Include="MemoryDao\ItemMemoryDao.cs" />
     <Compile Include="MemoryDao\MessageMemoryDao.cs" />
     <Compile Include="MemoryDao\RequirementMemoryDao.cs" />

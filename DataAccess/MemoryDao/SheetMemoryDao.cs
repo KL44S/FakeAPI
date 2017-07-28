@@ -18,23 +18,24 @@ namespace DataAccess.MemoryDao
                 SheetNumber = 1,
                 RequirementNumber = 1556,
                 SheetStateId = 1,
-                FromDate = DateTime.Now,
-                UntilDate = DateTime.Now.AddMonths(1)
+                FromDate = DateTime.Now.AddMonths(-1),
+                UntilDate = DateTime.Now.AddDays(-5)
             }
         };
 
         private int GenerateAndGetNewSheetNumberFromRequirement(int RequirementNumber)
         {
-            IEnumerable<Sheet> Sheets = this.GetAllByRequirementNumber(RequirementNumber);
-            int SheetNumber = 1;
-
-            if (Sheets != null && Sheets.Count() > 0)
+            try
             {
-                Sheet Sheet = Sheets.Last();
-                SheetNumber = Sheet.SheetNumber + 1;
-            }
+                Sheet CurrentSheet = this.GetCurrentSheetByRequirementNumber(RequirementNumber);
+                int NewSheetNumber = CurrentSheet.SheetNumber + 1;
 
-            return SheetNumber;
+                return NewSheetNumber;
+            }
+            catch (EntityNotFoundException)
+            {
+                return 1;
+            }
         }
 
         public override void Create(Sheet Sheet)
@@ -62,6 +63,27 @@ namespace DataAccess.MemoryDao
         public override void Update(Sheet Sheet)
         {
             throw new NotImplementedException();
+        }
+
+        public override Sheet GetSheetByRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber)
+        {
+            Sheet Sheet = _sheets.FirstOrDefault(ASheet => ASheet.RequirementNumber.Equals(RequirementNumber) && ASheet.SheetNumber.Equals(SheetNumber));
+
+            if (Sheet != null)
+                return Sheet;
+
+            throw new EntityNotFoundException();
+        }
+
+        public override Sheet GetCurrentSheetByRequirementNumber(int RequirementNumber)
+        {
+            Sheet Sheet = _sheets.Where(ASheet => ASheet.RequirementNumber.Equals(RequirementNumber))
+                                            .OrderByDescending(ASheet => ASheet.SheetNumber).FirstOrDefault();
+
+            if (Sheet != null)
+                return Sheet;
+
+            throw new EntityNotFoundException();
         }
     }
 }
