@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Model;
 using DataAccess.AbstractDao;
 using DataAccess.Factories;
+using Services.Validators.Implementations;
 using DataAccess;
 
 namespace Services.Implementations
@@ -15,10 +16,7 @@ namespace Services.Implementations
     {
         private SheetDao _sheetDao;
         private static int _enteredStateId = 1;
-        private static int _warningDaysBeforeExpiration = 5;
-        private static int _expiredStateId = 3;
-        private static int _almostExpiredId = 2;
-        private static int _activeStateId = 1;
+        private static int _finalStateId = 3;
 
         public SheetService()
         {
@@ -43,10 +41,8 @@ namespace Services.Implementations
 
         private Requirement GetRequirement(int RequirementNumber)
         {
-            RequirementDaoFactory RequirementDaoFactory = new RequirementDaoFactory();
-            RequirementDao RequirementDao = RequirementDaoFactory.GetDaoInstance();
-
-            Requirement Requirement = RequirementDao.GetRequirementByRequirementNumber(RequirementNumber);
+            RequirementService RequirementService = new RequirementService();
+            Requirement Requirement = RequirementService.GetRequirementByRequirementNumber(RequirementNumber);
 
             return Requirement;
         }
@@ -82,42 +78,38 @@ namespace Services.Implementations
 
             return Sheet;
         }
-
-        private ExpirationStateDao GetExpirationStateDao()
-        {
-            ExpirationStateDaoFactory ExpirationStateDaoFactory = new ExpirationStateDaoFactory();
-            ExpirationStateDao ExpirationStateDao = ExpirationStateDaoFactory.GetDaoInstance();
-
-            return ExpirationStateDao;
-        }
-
+        
         public ExpirationState GetExpirationStateFromSheet(Sheet Sheet)
         {
-            DateTime Now = DateTime.Now;
-            DateTime ExpirationDate = Sheet.UntilDate;
-            ExpirationStateDao ExpirationStateDao = this.GetExpirationStateDao();
+            ExpirationStateService AlmostExpiredStateService = new AlmostExpiredStateService();
 
-            int RemainingDays = (ExpirationDate - Now).Days;
-            ExpirationState ExpirationState = null;
+            ExpirationStateService ActiveStateService = new ActiveStateService();
+            ActiveStateService.NextExpirationStateService = AlmostExpiredStateService;
 
+            ExpirationStateService ExpiredStateService = new ExpiredStateService();
+            ExpiredStateService.NextExpirationStateService = ActiveStateService;
 
-            if (RemainingDays < 0)
-            {
-                ExpirationState = ExpirationStateDao.GetById(_expiredStateId);
-            }
-            else
-            {
-                if (RemainingDays > _warningDaysBeforeExpiration)
-                {
-                    ExpirationState = ExpirationStateDao.GetById(_activeStateId);
-                }
-                else
-                {
-                    ExpirationState = ExpirationStateDao.GetById(_almostExpiredId);
-                }
-            }
+            ExpirationStateService ExpirationStateService = ExpiredStateService;
 
+            ExpirationState ExpirationState = ExpirationStateService.GetExpirationStateFromSheet(Sheet);
             return ExpirationState;
         }
+
+        public void UpdateSheet(Sheet Sheet)
+        {
+            Sheet CurrentSheet = this.GetSheetByRequirementNumberAndSheetNumber(Sheet.RequirementNumber, Sheet.SheetNumber);
+            SheetChangesValidator SheetChangesValidator = new SheetChangesValidator(CurrentSheet, Sheet);
+
+            if (!SheetChangesValidator.Validate())
+                throw new ArgumentException();
+
+            this._sheetDao.Update(Sheet);
+
+            if (Sheet.SheetStateId.Equals(_finalStateId))
+            {
+                this.GenerateSheet(Sheet.RequirementNumber);
+            }
+        }
+
     }
 }

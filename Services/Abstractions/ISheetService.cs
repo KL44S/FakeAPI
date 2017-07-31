@@ -13,5 +13,6 @@ namespace Services.Abstractions
         IEnumerable<Sheet> GetAllSheetsFromRequirement(int RequirementNumber);
         Sheet GetSheetByRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber);
         ExpirationState GetExpirationStateFromSheet(Sheet Sheet);
+        void UpdateSheet(Sheet Sheet);
     }
 }
