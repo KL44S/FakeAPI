@@ -5,7 +5,7 @@ using System.Web;
 
 namespace ExampleAPI.Models
 {
-    public class ItemDePlanilla
+    public class ItemDePlanillaViewModel
     {
         public int numeroItem { get; set; }
         public int numeroSubItem { get; set; }

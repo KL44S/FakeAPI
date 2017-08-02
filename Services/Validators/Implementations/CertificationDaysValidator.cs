@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using DataAccess.Factories;
+using DataAccess.AbstractDao;
+using Model;
 using Services.Implementations;
 using Services.Validators.Abstractions;
 using System;
@@ -9,12 +11,18 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class CertificationDaysValidator : IValidator
+    public class CertificationDaysValidator : RangeFieldValidator, IValidator
     {
         public int CertificationDaysToValidate { get; set; }
         public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
-        private static int _minNumberRange = 15;
-        private static int _maxNumberRange = 60;
+        private static int _minNumberRange;
+        private static int _maxNumberRange;
+
+        public CertificationDaysValidator() : base()
+        {
+            _minNumberRange = int.Parse(this._parameterDao.GetParameterById(Constants.MinCertificationDaysParameter));
+            _maxNumberRange = int.Parse(this._parameterDao.GetParameterById(Constants.MaxCertificationDaysParameter));
+        }
 
         public bool Validate()
         {

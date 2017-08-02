@@ -10,12 +10,18 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class UnitOfMeasurementValidator : IValidator
+    public class UnitOfMeasurementValidator : RangeFieldValidator, IValidator
     {
         public String UnitOfMeasurementToValidate { get; set; }
-        private static int _minDescriptionLength = 1;
-        private static int _maxDescriptionLength = 50;
+        private static int _minDescriptionLength;
+        private static int _maxDescriptionLength;
         public IDictionary<Attributes.SubItem, String> ErrorMessages { get; set; }
+
+        public UnitOfMeasurementValidator() : base()
+        {
+            _minDescriptionLength = int.Parse(this._parameterDao.GetParameterById(Constants.MinUnitOfMeasurementLengthParameter));
+            _maxDescriptionLength = int.Parse(this._parameterDao.GetParameterById(Constants.MaxUnitOfMeasurementLengthParameter));
+        }
 
         public bool Validate()
         {

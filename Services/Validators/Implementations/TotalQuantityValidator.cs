@@ -8,12 +8,18 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class TotalQuantityValidator : IValidator
+    public class TotalQuantityValidator : RangeFieldValidator, IValidator
     {
         public float TotalQuantityToValidate { get; set; }
         public IDictionary<Attributes.SubItem, String> ErrorMessages { get; set; }
-        private static float _minNumberRange = 0.0f;
-        private static float _maxNumberRange = 9999999.0f;
+        private static float _minNumberRange;
+        private static float _maxNumberRange;
+
+        public TotalQuantityValidator() : base()
+        {
+            _minNumberRange = float.Parse(this._parameterDao.GetParameterById(Constants.MinTotalQuantityParameter));
+            _maxNumberRange = float.Parse(this._parameterDao.GetParameterById(Constants.MaxTotalQuantityParameter));
+        }
 
         public bool Validate()
         {

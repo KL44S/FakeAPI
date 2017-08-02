@@ -13,6 +13,6 @@ namespace Model
         public int SubItemNumber { get; set; }
         public int SheetNumber { get; set; }
         public decimal PartialQuantity { get; set; }
-        public int PercentQuantity { get; set; }
+        public decimal PercentQuantity { get; set; }
     }
 }

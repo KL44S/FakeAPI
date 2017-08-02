@@ -1,5 +1,10 @@
-﻿using ExampleAPI.Models;
+﻿using ExampleAPI.Filters;
+using ExampleAPI.Models;
 using ExampleAPI.Services;
+using Exceptions;
+using Model;
+using Services.Abstractions;
+using Services.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,51 +15,48 @@ using System.Web.Http.Cors;
 
 namespace ExampleAPI.Controllers
 {
-    public class ItemDePlanillaController : ApiController
+    [AuthFilter]
+    public class ItemDePlanillaController : BaseController
     {
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroPlanilla, int? numeroItem, int? numeroSubItem, int? obra)
+        private ISheetItemService _sheetItemService;
+        private SheetItemMappingService _sheetItemMappingService;
+
+        public ItemDePlanillaController()
         {
-            if (numeroPlanilla != null && numeroPlanilla > 0 && obra != null && obra > 0)
-            {
-                if (numeroItem != null && numeroItem > 0)
-                {
-                    if (numeroSubItem != null && numeroSubItem > 0)
-                    {
-                        ItemDePlanilla Item = ItemDePlanillaService.Items.FirstOrDefault(x => x.numeroPlanilla.Equals(numeroPlanilla) && 
-                                                        x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem) && x.numeroSubItem.Equals(numeroSubItem));
-
-                        if (Item != null)
-                            return Ok(Item);
-                        else
-                            return NotFound();
-                    }
-                    else
-                    {
-                        var Items = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) &&
-                                x.obra.Equals(obra) && x.numeroItem.Equals(numeroItem)).ToList();
-
-                        if (Items != null && Items.Count() > 0)
-                            return Ok(Items);
-                        else
-                            return NotFound();
-                    }
-                }
-
-                var ItemDePlanilla = ItemDePlanillaService.Items.Where(x => x.numeroPlanilla.Equals(numeroPlanilla) && x.obra.Equals(obra)).ToList();
-
-                if (ItemDePlanilla != null && ItemDePlanilla.Count() > 0)
-                    return Ok(ItemDePlanilla);
-                else
-                    return NotFound();
-            }
-            else
-            {
-                return BadRequest();
-            }
+            this._sheetItemService = new SheetItemService();
+            this._sheetItemMappingService = new SheetItemMappingService();
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Get(int obra, int numeroPlanilla)
+        {
+            try
+            {
+                if (obra >= 0 && numeroPlanilla >= 0)
+                {
+                    IEnumerable<SheetItem> SheetItems = this._sheetItemService.GetSheetItemsFromRequirementNumberAndSheetNumber(obra,
+                                                                                                    numeroPlanilla);
+                    IEnumerable<ItemDePlanillaViewModel> SheetItemsViewModels = this._sheetItemMappingService.UnMapEntities(SheetItems);
+
+                    return Ok(SheetItemsViewModels);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+                
+            }
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+        }
+
+        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Put(ItemDePlanilla Item)
         {
             try
@@ -87,6 +89,6 @@ namespace ExampleAPI.Controllers
                 return BadRequest();
             }
 
-        }
+        }*/
     }
 }

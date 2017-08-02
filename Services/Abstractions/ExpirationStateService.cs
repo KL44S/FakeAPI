@@ -11,7 +11,7 @@ namespace Services.Abstractions
 {
     public abstract class ExpirationStateService
     {
-        protected static int _warningDaysBeforeExpiration = 5;
+        protected static int _warningDaysBeforeExpiration;
         protected int _expirationStateId;
         public ExpirationStateService NextExpirationStateService { get; set; }
         protected ExpirationStateDao _expirationStateDao;
@@ -20,6 +20,12 @@ namespace Services.Abstractions
         {
             ExpirationStateDaoFactory ExpirationStateDaoFactory = new ExpirationStateDaoFactory();
             this._expirationStateDao = ExpirationStateDaoFactory.GetDaoInstance();
+
+            ParameterDaoFactory ParameterDaoFactory = new ParameterDaoFactory();
+            ParameterDao ParameterDao = ParameterDaoFactory.GetDaoInstance();
+
+            String WarningDaysBeforeExpiration = ParameterDao.GetParameterById(Constants.WarningDaysBeforeExpirationParameter);
+            _warningDaysBeforeExpiration = int.Parse(WarningDaysBeforeExpiration);
         }
 
         protected abstract Boolean MustIPerform(int RemainingDays);

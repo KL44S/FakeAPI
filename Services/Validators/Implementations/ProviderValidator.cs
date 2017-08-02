@@ -11,12 +11,18 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class ProviderValidator : IValidator
+    public class ProviderValidator : RangeFieldValidator, IValidator
     {
         public String ProviderToValidate { get; set; }
         public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
-        private static int _minLength = 1;
-        private static int _maxLength = 99;
+        private static int _minLength;
+        private static int _maxLength;
+
+        public ProviderValidator() : base()
+        {
+            _minLength = int.Parse(this._parameterDao.GetParameterById(Constants.MinProviderDescriptionLengthParameter));
+            _maxLength = int.Parse(this._parameterDao.GetParameterById(Constants.MaxProviderDescriptionLengthParameter));
+        }
 
         public bool Validate()
         {

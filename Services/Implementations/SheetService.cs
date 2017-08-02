@@ -15,8 +15,6 @@ namespace Services.Implementations
     public class SheetService : ISheetService
     {
         private SheetDao _sheetDao;
-        private static int _enteredStateId = 1;
-        private static int _finalStateId = 3;
 
         public SheetService()
         {
@@ -25,13 +23,33 @@ namespace Services.Implementations
             this._sheetDao = SheetDaoFactory.GetDaoInstance();
         }
 
+        private int GetFirstStateId()
+        {
+            ParameterDaoFactory ParameterDaoFactory = new ParameterDaoFactory();
+            ParameterDao ParameterDao = ParameterDaoFactory.GetDaoInstance();
+
+            int FirstSheetStateId = int.Parse(ParameterDao.GetParameterById(Constants.FirstSheetStateIdParameter));
+
+            return FirstSheetStateId;
+        }
+
+        private int GetFinalStateId()
+        {
+            ParameterDaoFactory ParameterDaoFactory = new ParameterDaoFactory();
+            ParameterDao ParameterDao = ParameterDaoFactory.GetDaoInstance();
+
+            int FinalSheetStateId = int.Parse(ParameterDao.GetParameterById(Constants.FinalSheetStateIdParameter));
+
+            return FinalSheetStateId;
+        }
+
         private Sheet GenerateAndGetNewSheet(Sheet CurrentSheet, int DaysOfCertification)
         {
             DateTime NewFromDate = CurrentSheet.UntilDate.AddDays(1);
             DateTime NewUntilDate = NewFromDate.AddDays(DaysOfCertification);
 
             Sheet NewSheet = new Sheet();
-            NewSheet.SheetStateId = _enteredStateId;
+            NewSheet.SheetStateId = this.GetFirstStateId();
             NewSheet.RequirementNumber = CurrentSheet.RequirementNumber;
             NewSheet.FromDate = NewFromDate;
             NewSheet.UntilDate = NewUntilDate;
@@ -47,6 +65,12 @@ namespace Services.Implementations
             return Requirement;
         }
 
+        private void GenerateSheetItemsFromSheet(Sheet Sheet)
+        {
+            ISheetItemService SheetItemService = new SheetItemService();
+            SheetItemService.GenerateSheetItemsFromSheet(Sheet);
+        }
+
         public void GenerateSheet(int RequirementNumber)
         {
             Sheet CurrentSheet = this._sheetDao.GetCurrentSheetByRequirementNumber(RequirementNumber);
@@ -56,7 +80,7 @@ namespace Services.Implementations
             Sheet NewSheet = this.GenerateAndGetNewSheet(CurrentSheet, DaysOfCertification);
             this._sheetDao.Create(NewSheet);
 
-            //TODO: generar los items
+            this.GenerateSheetItemsFromSheet(NewSheet);
         }
 
         public IEnumerable<Sheet> GetAllSheetsFromRequirement(int RequirementNumber)
@@ -105,7 +129,7 @@ namespace Services.Implementations
 
             this._sheetDao.Update(Sheet);
 
-            if (Sheet.SheetStateId.Equals(_finalStateId))
+            if (Sheet.SheetStateId.Equals(this.GetFinalStateId()))
             {
                 this.GenerateSheet(Sheet.RequirementNumber);
             }

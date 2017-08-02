@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace Services.Validators.Implementations
 {
-    public class PurchaseOrderExcerciseValidator : IValidator
+    public class PurchaseOrderExcerciseValidator : RangeFieldValidator, IValidator
     {
         public int PurchaseOrderExcerciseToValidate { get; set; }
         public IDictionary<Attributes.Requirement, String> ErrorMessages { get; set; }
-        private static int _minNumberRange = 1950;
-        private static int _maxNumberRange = 2050;
+        private static int _minNumberRange;
+        private static int _maxNumberRange;
+
+        public PurchaseOrderExcerciseValidator() : base()
+        {
+            _minNumberRange = int.Parse(this._parameterDao.GetParameterById(Constants.MinPurchaseOrderExcerciseParameter));
+            _maxNumberRange = int.Parse(this._parameterDao.GetParameterById(Constants.MaxPurchaseOrderExcerciseParameter));
+        }
 
         public bool Validate()
         {

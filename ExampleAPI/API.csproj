@@ -234,6 +234,7 @@
     <Compile Include="Services\MappingService.cs" />
     <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
+    <Compile Include="Services\SheetItemMappingService.cs" />
     <Compile Include="Services\SheetMappingService.cs" />
     <Compile Include="Services\SheetStateMapping.cs" />
     <Compile Include="Services\SubItemMappingService.cs" />
@@ -246,13 +247,12 @@
     <Compile Include="ViewModel\IdentityModels.cs" />
     <Compile Include="ViewModel\ItemViewModel.cs" />
     <Compile Include="ViewModel\SubItemViewModel.cs" />
-    <Compile Include="ViewModel\ItemDePlanilla.cs" />
+    <Compile Include="ViewModel\ItemDePlanillaViewModel.cs" />
     <Compile Include="ViewModel\ObraViewModel.cs" />
     <Compile Include="ViewModel\PlanillaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Services\ItemDePlanillaService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\User.cs" />
   </ItemGroup>
