@@ -28,7 +28,7 @@ namespace ExampleAPI.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int? numeroPlanilla, int obra)
+        public IHttpActionResult Get(int obra, int? numeroPlanilla)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace ExampleAPI.Controllers
                         Sheet Sheet = this._sheetService.GetSheetByRequirementNumberAndSheetNumber(obra, (int)numeroPlanilla);
                         PlanillaViewModel SheetViewModel = this._sheetMappingService.UnMapEntity(Sheet);
 
-                        return Ok(Sheet);
+                        return Ok(SheetViewModel);
                     }
                     else
                     {

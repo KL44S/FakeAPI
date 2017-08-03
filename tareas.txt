@@ -1,0 +1,3 @@
+1. Validar que si se edita una obra no se esté intentando guardar sobre una obra que no pertenece al usuario logeado.
+2. Misma historia para la creación/edición de items/subitems.
+3. Parametrizar acciones por rol.
