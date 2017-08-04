@@ -28,7 +28,12 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                //TODO: filtrar por usuario
+                if (obra <= 0)
+                    return BadRequest();
+
+                if (!this.IsUserAssignedToRequirement(obra))
+                    return new ForbiddenActionResult(Request, "");
+
                 IEnumerable<User> Users = this._requirementUserService.GetUsersFromRequirementNumber(obra);
                 IEnumerable<UserViewModel> UserViewModels = _userMappingService.UnMapEntities(Users);
 
@@ -42,10 +47,6 @@ namespace ExampleAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -53,7 +54,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.AssignUsersAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (String.IsNullOrEmpty(cuit))
@@ -74,10 +75,6 @@ namespace ExampleAPI.Controllers
             catch (EntityNotFoundException)
             {
                 return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
             }
         }
     }

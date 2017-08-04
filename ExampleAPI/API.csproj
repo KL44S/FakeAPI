@@ -218,6 +218,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EstadoDePlanillaController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\AccionesController.cs" />
     <Compile Include="Controllers\SubItemController.cs" />
     <Compile Include="Controllers\ItemDePlanillaController.cs" />
     <Compile Include="Controllers\ObraController.cs" />

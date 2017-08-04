@@ -1,5 +1,6 @@
 ﻿using ExampleAPI.Filters;
 using ExampleAPI.Models;
+using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
@@ -31,6 +32,9 @@ namespace ExampleAPI.Controllers
             {
                 if (obra >= 0 && numeroPlanilla >= 0)
                 {
+                    if (!this.IsUserAssignedToRequirement(obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     IEnumerable<SheetItem> SheetItems = this._sheetItemService.GetSheetItemsFromRequirementNumberAndSheetNumber(obra,
                                                                                                     numeroPlanilla);
                     IEnumerable<ItemDePlanillaViewModel> SheetItemsViewModels = this._sheetItemMappingService.UnMapEntities(SheetItems);

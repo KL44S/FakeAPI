@@ -1,5 +1,6 @@
 ﻿using ExampleAPI.Filters;
 using ExampleAPI.Models;
+using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
@@ -16,7 +17,7 @@ using System.Web.Http.Cors;
 namespace ExampleAPI.Controllers
 {
     [AuthFilter]
-    public class PlanillaController : ApiController
+    public class PlanillaController : BaseController
     {
         private ISheetService _sheetService;
         private SheetMappingService _sheetMappingService;
@@ -34,6 +35,9 @@ namespace ExampleAPI.Controllers
             {
                 if (obra > 0)
                 {
+                    if (!this.IsUserAssignedToRequirement(obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     if (numeroPlanilla != null && numeroPlanilla > 0)
                     {
                         Sheet Sheet = this._sheetService.GetSheetByRequirementNumberAndSheetNumber(obra, (int)numeroPlanilla);

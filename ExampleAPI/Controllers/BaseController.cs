@@ -19,13 +19,39 @@ namespace ExampleAPI.Controllers
             return CurrentUserCuit;
         }
 
-        protected Boolean UserHasRol(int RoleId)
+        protected User GetCurrentUser()
         {
             IUserService UserService = new UserService();
+
             String CurrentUserCuit = this.GetCurrentUserCuit();
             User User = UserService.GetUserByCuit(CurrentUserCuit);
 
-            return User.RoleId.Equals(RoleId);
+            return User;
+        }
+
+        protected Boolean MayCurrentUserDoAction(int ActionId)
+        {
+            User CurrentUser = this.GetCurrentUser();
+            IRoleActionService RoleActionService = new RoleActionService();
+
+            return RoleActionService.HasUserAction(CurrentUser, ActionId);
+        }
+
+        protected Boolean IsUserAssignedToRequirement(int RequirementNumber)
+        {
+            IRequirementUserService RequirementUserService = new RequirementUserService();
+            String CurrentUserCuit = this.GetCurrentUserCuit();
+            Boolean DoesRequirementHaveTheUser = RequirementUserService.DoesRequirementHaveTheUser(RequirementNumber, CurrentUserCuit);
+
+            if (!DoesRequirementHaveTheUser)
+            {
+                IRequirementService RequirementService = new RequirementService();
+                RequirementService.GetRequirementByRequirementNumber(RequirementNumber);
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -28,6 +28,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
+                if (!this.IsUserAssignedToRequirement(obra))
+                    return new ForbiddenActionResult(Request, "");
+
                 IEnumerable<SubItem> SubItems;
 
                 if (numeroItem != null)
@@ -66,11 +69,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (SubItem != null)
                 {
+                    if (!this.IsUserAssignedToRequirement(SubItem.obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     SubItem SubItemModel = this._subItemMappingService.MapViewModel(SubItem);
 
                     IDictionary<Attributes.SubItem, String> ValidationErrors = this._subItemService.GetValidationErrors(SubItemModel);
@@ -109,11 +115,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.EditSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (SubItem != null)
                 {
+                    if (!this.IsUserAssignedToRequirement(SubItem.obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     SubItem SubItemModel = this._subItemMappingService.MapViewModel(SubItem);
 
                     IDictionary<Attributes.SubItem, String> ValidationErrors = this._subItemService.GetValidationErrors(SubItemModel);
@@ -151,7 +160,10 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.IsUserAssignedToRequirement(obra))
+                    return new ForbiddenActionResult(Request, "");
+
+                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (obra <= 0 || numeroItem <= 0 || numeroSubItem <= 0)
@@ -168,10 +180,6 @@ namespace ExampleAPI.Controllers
             catch (ArgumentException)
             {
                 return BadRequest();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
             }
         }
     }

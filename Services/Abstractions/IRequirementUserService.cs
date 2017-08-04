@@ -10,6 +10,7 @@ namespace Services.Abstractions
     public interface IRequirementUserService
     {
         IEnumerable<User> GetUsersFromRequirementNumber(int RequirementNumber);
+        Boolean DoesRequirementHaveTheUser(int RequirementNumber, String Cuit);
         void SaveRequirementUser(RequirementUser RequirementUser);
     }
 }

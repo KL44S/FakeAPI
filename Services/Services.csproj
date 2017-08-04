@@ -46,6 +46,7 @@
     <Compile Include="Abstractions\IItemService.cs" />
     <Compile Include="Abstractions\IRequirementService.cs" />
     <Compile Include="Abstractions\IRequirementUserService.cs" />
+    <Compile Include="Abstractions\IRoleActionService.cs" />
     <Compile Include="Abstractions\ISheetItemService.cs" />
     <Compile Include="Abstractions\ISheetService.cs" />
     <Compile Include="Abstractions\ISheetStateService.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Implementations\MessageService.cs" />
     <Compile Include="Implementations\RequirementService.cs" />
     <Compile Include="Implementations\RequirementUserService.cs" />
+    <Compile Include="Implementations\RoleActionService.cs" />
     <Compile Include="Implementations\SheetItemService.cs" />
     <Compile Include="Implementations\SheetService.cs" />
     <Compile Include="Implementations\SheetStateService.cs" />

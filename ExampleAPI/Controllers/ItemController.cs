@@ -32,6 +32,9 @@ namespace ExampleAPI.Controllers
 
                 if (obra != null)
                 {
+                    if (!this.IsUserAssignedToRequirement((int)obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     if (numeroItem != null)
                     {
                         Item Item = this._itemService.GetItemByRequirementNumberAndItemNumber((int)(obra), (int)numeroItem);
@@ -65,10 +68,6 @@ namespace ExampleAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
 
         }
 
@@ -77,11 +76,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Item != null)
                 {
+                    if (!this.IsUserAssignedToRequirement(Item.obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
 
                     IDictionary<Attributes.Item, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
@@ -118,11 +120,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.EditItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Item != null)
                 {
+                    if (!this.IsUserAssignedToRequirement(Item.obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     Item ModelItem = this._itemMapping.MapViewModel(Item);
 
                     IDictionary<Attributes.Item, String> ValidationErrors = this._itemService.GetValidationErrors(ModelItem);
@@ -148,10 +153,6 @@ namespace ExampleAPI.Controllers
             {
                 return BadRequest();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
 
         }
         
@@ -160,11 +161,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId) && !this.UserHasRol(Constants.Constants.BuilderRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (obra <= 0 || numeroItem <= 0)
                     return BadRequest();
+
+                if (!this.IsUserAssignedToRequirement(obra))
+                    return new ForbiddenActionResult(Request, "");
 
                 this._itemService.Delete(obra, numeroItem);
 
@@ -177,10 +181,6 @@ namespace ExampleAPI.Controllers
             catch (ArgumentException)
             {
                 return BadRequest();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
             }
         }
     }

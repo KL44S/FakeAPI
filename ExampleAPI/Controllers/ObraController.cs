@@ -55,6 +55,9 @@ namespace ExampleAPI.Controllers
             {
                 if (obra != null && obra >= 0)
                 {
+                    if (!this.IsUserAssignedToRequirement((int)obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     Requirement Requirement = this._requirementService.GetRequirementByRequirementNumber((int)obra);
 
                     if (Requirement != null)
@@ -99,7 +102,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateRequirementAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
@@ -141,11 +144,14 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.EditRequirementAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
                 {
+                    if (!this.IsUserAssignedToRequirement(Obra.obra))
+                        return new ForbiddenActionResult(Request, "");
+
                     Requirement Requirement = this._requirementMappingService.MapViewModel(Obra);
                     IDictionary<Attributes.Requirement, String> ValidationErrors = this._requirementService.GetValidationErrors(Requirement);
 
@@ -170,10 +176,6 @@ namespace ExampleAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
         }
 
         // DELETE: api/Obra/5
@@ -182,7 +184,10 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.UserHasRol(Constants.Constants.AdminRoleId))
+                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveRequirementAction))
+                    return new ForbiddenActionResult(Request, "");
+
+                if (!this.IsUserAssignedToRequirement(obra))
                     return new ForbiddenActionResult(Request, "");
 
                 this._requirementService.Delete(obra);
@@ -191,10 +196,6 @@ namespace ExampleAPI.Controllers
             catch (EntityNotFoundException)
             {
                 return NotFound();
-            }
-            catch (Exception)
-            {
-                return InternalServerError();
             }
         }
     }

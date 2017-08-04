@@ -90,5 +90,21 @@ namespace Services.Implementations
                 this.Save(RequirementUser);
             }
         }
+
+        public bool DoesRequirementHaveTheUser(int RequirementNumber, string Cuit)
+        {
+            if (RequirementNumber <= 0 || String.IsNullOrEmpty(Cuit))
+                throw new ArgumentException();
+
+            try
+            {
+                RequirementUser ExistinRequirementUser = this._requirementUserDao.GetByCuitAndRequirementNumber(Cuit, RequirementNumber);
+                return true;
+            }
+            catch (EntityNotFoundException)
+            {
+                return false;
+            }
+        }
     }
 }
