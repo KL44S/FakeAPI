@@ -25,7 +25,11 @@ namespace DataAccess.SqlServerDao.EntityModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Action> Action { get; set; }
+        public virtual DbSet<ExpirationState> ExpirationState { get; set; }
         public virtual DbSet<Item> Item { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
+        public virtual DbSet<Parameter> Parameter { get; set; }
         public virtual DbSet<Requirement> Requirement { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Sheet> Sheet { get; set; }
@@ -33,6 +37,5 @@ namespace DataAccess.SqlServerDao.EntityModel
         public virtual DbSet<SheetState> SheetState { get; set; }
         public virtual DbSet<SubItem> SubItem { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Message> Message { get; set; }
     }
 }

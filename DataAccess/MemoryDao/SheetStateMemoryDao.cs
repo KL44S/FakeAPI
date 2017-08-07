@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
+using Exceptions;
 
 namespace DataAccess.MemoryDao
 {
@@ -56,7 +57,7 @@ namespace DataAccess.MemoryDao
             if (FoundSheetState != null)
                 return FoundSheetState;
 
-            throw new ArgumentException();
+            throw new EntityNotFoundException();
         }
 
         public override void Update(SheetState SheetState)

@@ -1,5 +1,6 @@
 ﻿using DataAccess.AbstractDao;
 using DataAccess.MemoryDao;
+using DataAccess.SqlServerDao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace DataAccess.Factories
 
         protected override SheetStateDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new SheetStateSqlServerDao();
         }
     }
 }

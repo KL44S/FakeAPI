@@ -17,7 +17,7 @@ namespace DataAccess.Factories
 
         protected override RoleActionDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new RoleActionMemoryDao();
         }
     }
 }

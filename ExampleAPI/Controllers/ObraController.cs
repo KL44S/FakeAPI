@@ -41,10 +41,6 @@ namespace ExampleAPI.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
-            {
-                return InternalServerError();
-            }
         }
 
         // GET: api/Obra

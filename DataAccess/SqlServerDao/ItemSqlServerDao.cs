@@ -20,11 +20,30 @@ namespace DataAccess.SqlServerDao
             this._itemMapping = new ItemMapping();
         }
 
+        private int GenerateAndGetNewItemNumber(int RequirementNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                int NewItemNumber = 1;
+
+                EntityModel.Item LastItem = ObrasEntities.Item.Where(Item => Item.requirementNumber.Equals(RequirementNumber)).OrderBy(Item => Item.itemNumber)
+                                                                        .FirstOrDefault();
+
+                if (LastItem != null)
+                {
+                    NewItemNumber = LastItem.itemNumber + 1;
+                }
+
+                return NewItemNumber;
+            }
+        }
+
         public override void Create(Model.Item Item)
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
                 EntityModel.Item EntityItem = this._itemMapping.MapModel(Item);
+                EntityItem.itemNumber = this.GenerateAndGetNewItemNumber(EntityItem.requirementNumber);
 
                 ObrasEntities.Item.Add(EntityItem);
                 ObrasEntities.SaveChanges();

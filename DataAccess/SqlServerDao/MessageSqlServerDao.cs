@@ -25,7 +25,7 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                EntityModel.Message FoundMessage = ObrasEntities.Message.FirstOrDefault(Message => Message.id.Equals(Id));
+                Message FoundMessage = ObrasEntities.Message.FirstOrDefault(Message => Message.id.Equals(Id));
 
                 if (FoundMessage == null)
                     throw new EntityNotFoundException();

@@ -20,11 +20,32 @@ namespace DataAccess.SqlServerDao
             this._subItemMappig = new SubItemMapping();
         }
 
+        private int GenerateAndGetNewSubItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                int NewSubItemNumber = 1;
+
+                EntityModel.SubItem LastSubItem = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber) 
+                                                                                && SubItem.itemNumber.Equals(ItemNumber)).OrderBy(SubItem => SubItem.subItemNumber)
+                                                                                .FirstOrDefault();
+
+                if (LastSubItem != null)
+                {
+                    NewSubItemNumber = LastSubItem.subItemNumber + 1;
+                }
+
+                return NewSubItemNumber;
+            }
+
+        }
+
         public override void Create(Model.SubItem SubItem)
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
                 EntityModel.SubItem SubItemEntity = this._subItemMappig.MapModel(SubItem);
+                SubItemEntity.subItemNumber = this.GenerateAndGetNewSubItemNumber(SubItemEntity.requirementNumber, SubItemEntity.itemNumber);
 
                 ObrasEntities.SubItem.Add(SubItemEntity);
                 ObrasEntities.SaveChanges();

@@ -90,6 +90,9 @@
     <Compile Include="AbstractDao\RequirementDao.cs" />
     <Compile Include="AbstractDao\RequirementUserDao.cs" />
     <Compile Include="AbstractDao\RoleDao.cs" />
+    <Compile Include="SqlServerDao\EntityModel\Action.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerDao\EntityModel\EntitiesModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -105,10 +108,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EntitiesModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerDao\EntityModel\ExpirationState.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SqlServerDao\EntityModel\Item.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Message.cs">
+      <DependentUpon>EntitiesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerDao\EntityModel\Parameter.cs">
       <DependentUpon>EntitiesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SqlServerDao\EntityModel\Requirement.cs">
@@ -136,11 +145,16 @@
     <Compile Include="SqlServerDao\Mapping\ItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\Mapping.cs" />
     <Compile Include="SqlServerDao\Mapping\RequirementMapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\SheetMapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\SheetStateMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\SubItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\UserMapping.cs" />
     <Compile Include="SqlServerDao\MessageSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\ParameterSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementUserSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\SheetSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\SheetStateSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SubItemSqlServerDao.cs" />
     <Compile Include="SqlServerDao\UserSqlServerDao.cs" />
     <Compile Include="AbstractDao\UserDao.cs" />

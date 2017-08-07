@@ -17,7 +17,7 @@ namespace DataAccess.Factories
 
         protected override SheetItemDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new SheetItemMemoryDao();
         }
     }
 }

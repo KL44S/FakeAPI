@@ -4,25 +4,43 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObrasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ObrasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="actionId" />
+          </Key>
+          <Property Name="actionId" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpirationState">
+          <Key>
+            <PropertyRef Name="expirationStateId" />
+          </Key>
+          <Property Name="expirationStateId" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="requirementNumber" />
             <PropertyRef Name="itemNumber" />
           </Key>
           <Property Name="requirementNumber" Type="int" Nullable="false" />
-          <Property Name="itemNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="itemNumber" Type="int" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Message">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="message" />
           </Key>
           <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="message" Type="varchar" MaxLength="99" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="value" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Requirement">
           <Key>
@@ -49,13 +67,21 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           <Property Name="roleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="description" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="RoleAction">
+          <Key>
+            <PropertyRef Name="roleId" />
+            <PropertyRef Name="actionId" />
+          </Key>
+          <Property Name="roleId" Type="int" Nullable="false" />
+          <Property Name="actionId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Sheet">
           <Key>
             <PropertyRef Name="requirementNumber" />
             <PropertyRef Name="sheetNumber" />
           </Key>
           <Property Name="requirementNumber" Type="int" Nullable="false" />
-          <Property Name="sheetNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sheetNumber" Type="int" Nullable="false" />
           <Property Name="sheetStateId" Type="int" Nullable="false" />
           <Property Name="fromDate" Type="date" Nullable="false" />
           <Property Name="untilDate" Type="date" Nullable="false" />
@@ -142,6 +168,30 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RoleAction_Action">
+          <End Role="Action" Type="Self.Action" Multiplicity="1" />
+          <End Role="RoleAction" Type="Self.RoleAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="actionId" />
+            </Principal>
+            <Dependent Role="RoleAction">
+              <PropertyRef Name="actionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoleAction_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="RoleAction" Type="Self.RoleAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="roleId" />
+            </Principal>
+            <Dependent Role="RoleAction">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Sheet_Requirement">
           <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
           <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
@@ -223,21 +273,20 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ObrasModelStoreContainer">
+          <EntitySet Name="Action" EntityType="Self.Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpirationState" EntityType="Self.ExpirationState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requirement" EntityType="Self.Requirement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequirementUser" EntityType="Self.RequirementUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleAction" EntityType="Self.RoleAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sheet" EntityType="Self.Sheet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SheetItem" EntityType="Self.SheetItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SheetState" EntityType="Self.SheetState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubItem" EntityType="Self.SubItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Message" EntityType="Self.Message" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Message].[id] AS [id], 
-    [Message].[message] AS [message]
-    FROM [dbo].[Message] AS [Message]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
             <End Role="Requirement" EntitySet="Requirement" />
             <End Role="Item" EntitySet="Item" />
@@ -249,6 +298,14 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           <AssociationSet Name="FK_RequirementUser_User" Association="Self.FK_RequirementUser_User">
             <End Role="User" EntitySet="User" />
             <End Role="RequirementUser" EntitySet="RequirementUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAction_Action" Association="Self.FK_RoleAction_Action">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="RoleAction" EntitySet="RoleAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoleAction_Role" Association="Self.FK_RoleAction_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="RoleAction" EntitySet="RoleAction" />
           </AssociationSet>
           <AssociationSet Name="FK_Sheet_Requirement" Association="Self.FK_Sheet_Requirement">
             <End Role="Requirement" EntitySet="Requirement" />
@@ -275,21 +332,99 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ObrasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ObrasEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Action" EntityType="ObrasModel.Action" />
+          <EntitySet Name="ExpirationState" EntityType="ObrasModel.ExpirationState" />
+          <EntitySet Name="Item" EntityType="ObrasModel.Item" />
+          <EntitySet Name="Message" EntityType="ObrasModel.Message" />
+          <EntitySet Name="Parameter" EntityType="ObrasModel.Parameter" />
+          <EntitySet Name="Requirement" EntityType="ObrasModel.Requirement" />
+          <EntitySet Name="Role" EntityType="ObrasModel.Role" />
+          <EntitySet Name="Sheet" EntityType="ObrasModel.Sheet" />
+          <EntitySet Name="SheetItem" EntityType="ObrasModel.SheetItem" />
+          <EntitySet Name="SheetState" EntityType="ObrasModel.SheetState" />
+          <EntitySet Name="SubItem" EntityType="ObrasModel.SubItem" />
+          <EntitySet Name="User" EntityType="ObrasModel.User" />
+          <AssociationSet Name="FK_Item_Requirement" Association="ObrasModel.FK_Item_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubItem_Item" Association="ObrasModel.FK_SubItem_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="SubItem" EntitySet="SubItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_Requirement" Association="ObrasModel.FK_Sheet_Requirement">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="ObrasModel.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sheet_SheetState" Association="ObrasModel.FK_Sheet_SheetState">
+            <End Role="SheetState" EntitySet="SheetState" />
+            <End Role="Sheet" EntitySet="Sheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_Sheet" Association="ObrasModel.FK_SheetItem_Sheet">
+            <End Role="Sheet" EntitySet="Sheet" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SheetItem_SubItem" Association="ObrasModel.FK_SheetItem_SubItem">
+            <End Role="SubItem" EntitySet="SubItem" />
+            <End Role="SheetItem" EntitySet="SheetItem" />
+          </AssociationSet>
+          <AssociationSet Name="RequirementUser" Association="ObrasModel.RequirementUser">
+            <End Role="Requirement" EntitySet="Requirement" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="RoleAction" Association="ObrasModel.RoleAction">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="Role" EntitySet="Role" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="actionId" />
+          </Key>
+          <Property Name="actionId" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Role" Relationship="ObrasModel.RoleAction" FromRole="Action" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="ExpirationState">
+          <Key>
+            <PropertyRef Name="expirationStateId" />
+          </Key>
+          <Property Name="expirationStateId" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Item">
           <Key>
             <PropertyRef Name="requirementNumber" />
             <PropertyRef Name="itemNumber" />
           </Key>
           <Property Name="requirementNumber" Type="Int32" Nullable="false" />
-          <Property Name="itemNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Requirement" Relationship="Self.FK_Item_Requirement" FromRole="Item" ToRole="Requirement" />
-          <NavigationProperty Name="SubItem" Relationship="Self.FK_SubItem_Item" FromRole="Item" ToRole="SubItem" />
+          <Property Name="itemNumber" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Requirement" Relationship="ObrasModel.FK_Item_Requirement" FromRole="Item" ToRole="Requirement" />
+          <NavigationProperty Name="SubItem" Relationship="ObrasModel.FK_SubItem_Item" FromRole="Item" ToRole="SubItem" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="message1" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="value" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Requirement">
           <Key>
@@ -299,18 +434,19 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           <Property Name="purchaseOrderNumber" Type="Int32" Nullable="false" />
           <Property Name="purchaseOrderExcercise" Type="Int32" Nullable="false" />
           <Property Name="certificationDays" Type="Int32" Nullable="false" />
-          <Property Name="provider" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_Item_Requirement" FromRole="Requirement" ToRole="Item" />
-          <NavigationProperty Name="Sheet" Relationship="Self.FK_Sheet_Requirement" FromRole="Requirement" ToRole="Sheet" />
-          <NavigationProperty Name="User" Relationship="Self.RequirementUser" FromRole="Requirement" ToRole="User" />
+          <Property Name="provider" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Item" Relationship="ObrasModel.FK_Item_Requirement" FromRole="Requirement" ToRole="Item" />
+          <NavigationProperty Name="Sheet" Relationship="ObrasModel.FK_Sheet_Requirement" FromRole="Requirement" ToRole="Sheet" />
+          <NavigationProperty Name="User" Relationship="ObrasModel.RequirementUser" FromRole="Requirement" ToRole="User" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="roleId" />
           </Key>
           <Property Name="roleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="ObrasModel.FK_User_Role" FromRole="Role" ToRole="User" />
+          <NavigationProperty Name="Action" Relationship="ObrasModel.RoleAction" FromRole="Role" ToRole="Action" />
         </EntityType>
         <EntityType Name="Sheet">
           <Key>
@@ -318,13 +454,13 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
             <PropertyRef Name="sheetNumber" />
           </Key>
           <Property Name="requirementNumber" Type="Int32" Nullable="false" />
-          <Property Name="sheetNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sheetNumber" Type="Int32" Nullable="false" />
           <Property Name="sheetStateId" Type="Int32" Nullable="false" />
           <Property Name="fromDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="untilDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Requirement" Relationship="Self.FK_Sheet_Requirement" FromRole="Sheet" ToRole="Requirement" />
-          <NavigationProperty Name="SheetState" Relationship="Self.FK_Sheet_SheetState" FromRole="Sheet" ToRole="SheetState" />
-          <NavigationProperty Name="SheetItem" Relationship="Self.FK_SheetItem_Sheet" FromRole="Sheet" ToRole="SheetItem" />
+          <NavigationProperty Name="Requirement" Relationship="ObrasModel.FK_Sheet_Requirement" FromRole="Sheet" ToRole="Requirement" />
+          <NavigationProperty Name="SheetState" Relationship="ObrasModel.FK_Sheet_SheetState" FromRole="Sheet" ToRole="SheetState" />
+          <NavigationProperty Name="SheetItem" Relationship="ObrasModel.FK_SheetItem_Sheet" FromRole="Sheet" ToRole="SheetItem" />
         </EntityType>
         <EntityType Name="SheetItem">
           <Key>
@@ -337,18 +473,18 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           <Property Name="itemNumber" Type="Int32" Nullable="false" />
           <Property Name="subItemNumber" Type="Int32" Nullable="false" />
           <Property Name="sheetNumber" Type="Int32" Nullable="false" />
-          <Property Name="partialQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="partialQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="percentQuantity" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Sheet" Relationship="Self.FK_SheetItem_Sheet" FromRole="SheetItem" ToRole="Sheet" />
-          <NavigationProperty Name="SubItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SheetItem" ToRole="SubItem" />
+          <NavigationProperty Name="Sheet" Relationship="ObrasModel.FK_SheetItem_Sheet" FromRole="SheetItem" ToRole="Sheet" />
+          <NavigationProperty Name="SubItem" Relationship="ObrasModel.FK_SheetItem_SubItem" FromRole="SheetItem" ToRole="SubItem" />
         </EntityType>
         <EntityType Name="SheetState">
           <Key>
             <PropertyRef Name="sheetStateId" />
           </Key>
           <Property Name="sheetStateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Sheet" Relationship="Self.FK_Sheet_SheetState" FromRole="SheetState" ToRole="Sheet" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sheet" Relationship="ObrasModel.FK_Sheet_SheetState" FromRole="SheetState" ToRole="Sheet" />
         </EntityType>
         <EntityType Name="SubItem">
           <Key>
@@ -359,37 +495,29 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           <Property Name="requirementNumber" Type="Int32" Nullable="false" />
           <Property Name="itemNumber" Type="Int32" Nullable="false" />
           <Property Name="subItemNumber" Type="Int32" Nullable="false" />
-          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="sis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="unitPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="unitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="totalQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Item" Relationship="Self.FK_SubItem_Item" FromRole="SubItem" ToRole="Item" />
-          <NavigationProperty Name="SheetItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SubItem" ToRole="SheetItem" />
+          <Property Name="unitPrice" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="unitOfMeasurement" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="totalQuantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="Item" Relationship="ObrasModel.FK_SubItem_Item" FromRole="SubItem" ToRole="Item" />
+          <NavigationProperty Name="SheetItem" Relationship="ObrasModel.FK_SheetItem_SubItem" FromRole="SubItem" ToRole="SheetItem" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="cuit" />
           </Key>
-          <Property Name="cuit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cuit" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lastname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="roleId" Type="Int32" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="99" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="Requirement" Relationship="Self.RequirementUser" FromRole="User" ToRole="Requirement" />
-        </EntityType>
-        <EntityType Name="Message">
-          <Key>
-            <PropertyRef Name="id" />
-            <PropertyRef Name="message1" />
-          </Key>
-          <Property Name="id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="message1" Type="String" MaxLength="99" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="99" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Role" Relationship="ObrasModel.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Requirement" Relationship="ObrasModel.RequirementUser" FromRole="User" ToRole="Requirement" />
         </EntityType>
         <Association Name="FK_Item_Requirement">
-          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <End Type="ObrasModel.Requirement" Role="Requirement" Multiplicity="1" />
+          <End Type="ObrasModel.Item" Role="Item" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Requirement">
               <PropertyRef Name="requirementNumber" />
@@ -400,8 +528,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SubItem_Item">
-          <End Role="Item" Type="Self.Item" Multiplicity="1" />
-          <End Role="SubItem" Type="Self.SubItem" Multiplicity="*" />
+          <End Type="ObrasModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="ObrasModel.SubItem" Role="SubItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Item">
               <PropertyRef Name="requirementNumber" />
@@ -414,8 +542,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Sheet_Requirement">
-          <End Role="Requirement" Type="Self.Requirement" Multiplicity="1" />
-          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <End Type="ObrasModel.Requirement" Role="Requirement" Multiplicity="1" />
+          <End Type="ObrasModel.Sheet" Role="Sheet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Requirement">
               <PropertyRef Name="requirementNumber" />
@@ -426,8 +554,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_User_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Type="ObrasModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="ObrasModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="roleId" />
@@ -438,8 +566,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Sheet_SheetState">
-          <End Role="SheetState" Type="Self.SheetState" Multiplicity="1" />
-          <End Role="Sheet" Type="Self.Sheet" Multiplicity="*" />
+          <End Type="ObrasModel.SheetState" Role="SheetState" Multiplicity="1" />
+          <End Type="ObrasModel.Sheet" Role="Sheet" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SheetState">
               <PropertyRef Name="sheetStateId" />
@@ -450,8 +578,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SheetItem_Sheet">
-          <End Role="Sheet" Type="Self.Sheet" Multiplicity="1" />
-          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <End Type="ObrasModel.Sheet" Role="Sheet" Multiplicity="1" />
+          <End Type="ObrasModel.SheetItem" Role="SheetItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sheet">
               <PropertyRef Name="requirementNumber" />
@@ -464,8 +592,8 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SheetItem_SubItem">
-          <End Role="SubItem" Type="Self.SubItem" Multiplicity="1" />
-          <End Role="SheetItem" Type="Self.SheetItem" Multiplicity="*" />
+          <End Type="ObrasModel.SubItem" Role="SubItem" Multiplicity="1" />
+          <End Type="ObrasModel.SheetItem" Role="SheetItem" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SubItem">
               <PropertyRef Name="requirementNumber" />
@@ -480,156 +608,149 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
           </ReferentialConstraint>
         </Association>
         <Association Name="RequirementUser">
-          <End Role="Requirement" Type="Self.Requirement" Multiplicity="*" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <End Type="ObrasModel.Requirement" Role="Requirement" Multiplicity="*" />
+          <End Type="ObrasModel.User" Role="User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="ObrasEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Item" EntityType="Self.Item" />
-          <EntitySet Name="Requirement" EntityType="Self.Requirement" />
-          <EntitySet Name="Role" EntityType="Self.Role" />
-          <EntitySet Name="Sheet" EntityType="Self.Sheet" />
-          <EntitySet Name="SheetItem" EntityType="Self.SheetItem" />
-          <EntitySet Name="SheetState" EntityType="Self.SheetState" />
-          <EntitySet Name="SubItem" EntityType="Self.SubItem" />
-          <EntitySet Name="User" EntityType="Self.User" />
-          <EntitySet Name="Message" EntityType="Self.Message" />
-          <AssociationSet Name="FK_Item_Requirement" Association="Self.FK_Item_Requirement">
-            <End Role="Requirement" EntitySet="Requirement" />
-            <End Role="Item" EntitySet="Item" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SubItem_Item" Association="Self.FK_SubItem_Item">
-            <End Role="Item" EntitySet="Item" />
-            <End Role="SubItem" EntitySet="SubItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sheet_Requirement" Association="Self.FK_Sheet_Requirement">
-            <End Role="Requirement" EntitySet="Requirement" />
-            <End Role="Sheet" EntitySet="Sheet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Sheet_SheetState" Association="Self.FK_Sheet_SheetState">
-            <End Role="SheetState" EntitySet="SheetState" />
-            <End Role="Sheet" EntitySet="Sheet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SheetItem_Sheet" Association="Self.FK_SheetItem_Sheet">
-            <End Role="Sheet" EntitySet="Sheet" />
-            <End Role="SheetItem" EntitySet="SheetItem" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SheetItem_SubItem" Association="Self.FK_SheetItem_SubItem">
-            <End Role="SubItem" EntitySet="SubItem" />
-            <End Role="SheetItem" EntitySet="SheetItem" />
-          </AssociationSet>
-          <AssociationSet Name="RequirementUser" Association="Self.RequirementUser">
-            <End Role="Requirement" EntitySet="Requirement" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="RoleAction">
+          <End Type="ObrasModel.Action" Role="Action" Multiplicity="*" />
+          <End Type="ObrasModel.Role" Role="Role" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ObrasModelStoreContainer" CdmEntityContainer="ObrasEntities">
+          <EntitySetMapping Name="Action">
+            <EntityTypeMapping TypeName="ObrasModel.Action">
+              <MappingFragment StoreEntitySet="Action">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="actionId" ColumnName="actionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpirationState">
+            <EntityTypeMapping TypeName="ObrasModel.ExpirationState">
+              <MappingFragment StoreEntitySet="ExpirationState">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="expirationStateId" ColumnName="expirationStateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Item">
             <EntityTypeMapping TypeName="ObrasModel.Item">
               <MappingFragment StoreEntitySet="Item">
-                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+                <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
-                <ScalarProperty Name="description" ColumnName="description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Requirement">
-            <EntityTypeMapping TypeName="ObrasModel.Requirement">
-              <MappingFragment StoreEntitySet="Requirement">
                 <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
-                <ScalarProperty Name="purchaseOrderNumber" ColumnName="purchaseOrderNumber" />
-                <ScalarProperty Name="purchaseOrderExcercise" ColumnName="purchaseOrderExcercise" />
-                <ScalarProperty Name="certificationDays" ColumnName="certificationDays" />
-                <ScalarProperty Name="provider" ColumnName="provider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="ObrasModel.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="roleId" ColumnName="roleId" />
-                <ScalarProperty Name="description" ColumnName="description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sheet">
-            <EntityTypeMapping TypeName="ObrasModel.Sheet">
-              <MappingFragment StoreEntitySet="Sheet">
-                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
-                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
-                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
-                <ScalarProperty Name="fromDate" ColumnName="fromDate" />
-                <ScalarProperty Name="untilDate" ColumnName="untilDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SheetItem">
-            <EntityTypeMapping TypeName="ObrasModel.SheetItem">
-              <MappingFragment StoreEntitySet="SheetItem">
-                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
-                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
-                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
-                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
-                <ScalarProperty Name="partialQuantity" ColumnName="partialQuantity" />
-                <ScalarProperty Name="percentQuantity" ColumnName="percentQuantity" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SheetState">
-            <EntityTypeMapping TypeName="ObrasModel.SheetState">
-              <MappingFragment StoreEntitySet="SheetState">
-                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
-                <ScalarProperty Name="description" ColumnName="description" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SubItem">
-            <EntityTypeMapping TypeName="ObrasModel.SubItem">
-              <MappingFragment StoreEntitySet="SubItem">
-                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
-                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
-                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="sis" ColumnName="sis" />
-                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
-                <ScalarProperty Name="unitOfMeasurement" ColumnName="unitOfMeasurement" />
-                <ScalarProperty Name="totalQuantity" ColumnName="totalQuantity" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="ObrasModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="cuit" ColumnName="cuit" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="lastname" ColumnName="lastname" />
-                <ScalarProperty Name="roleId" ColumnName="roleId" />
-                <ScalarProperty Name="password" ColumnName="password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Message">
             <EntityTypeMapping TypeName="ObrasModel.Message">
               <MappingFragment StoreEntitySet="Message">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="message1" ColumnName="message" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameter">
+            <EntityTypeMapping TypeName="ObrasModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requirement">
+            <EntityTypeMapping TypeName="ObrasModel.Requirement">
+              <MappingFragment StoreEntitySet="Requirement">
+                <ScalarProperty Name="provider" ColumnName="provider" />
+                <ScalarProperty Name="certificationDays" ColumnName="certificationDays" />
+                <ScalarProperty Name="purchaseOrderExcercise" ColumnName="purchaseOrderExcercise" />
+                <ScalarProperty Name="purchaseOrderNumber" ColumnName="purchaseOrderNumber" />
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="ObrasModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sheet">
+            <EntityTypeMapping TypeName="ObrasModel.Sheet">
+              <MappingFragment StoreEntitySet="Sheet">
+                <ScalarProperty Name="untilDate" ColumnName="untilDate" />
+                <ScalarProperty Name="fromDate" ColumnName="fromDate" />
+                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
+                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SheetItem">
+            <EntityTypeMapping TypeName="ObrasModel.SheetItem">
+              <MappingFragment StoreEntitySet="SheetItem">
+                <ScalarProperty Name="percentQuantity" ColumnName="percentQuantity" />
+                <ScalarProperty Name="partialQuantity" ColumnName="partialQuantity" />
+                <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
+                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
+                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SheetState">
+            <EntityTypeMapping TypeName="ObrasModel.SheetState">
+              <MappingFragment StoreEntitySet="SheetState">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubItem">
+            <EntityTypeMapping TypeName="ObrasModel.SubItem">
+              <MappingFragment StoreEntitySet="SubItem">
+                <ScalarProperty Name="totalQuantity" ColumnName="totalQuantity" />
+                <ScalarProperty Name="unitOfMeasurement" ColumnName="unitOfMeasurement" />
+                <ScalarProperty Name="unitPrice" ColumnName="unitPrice" />
+                <ScalarProperty Name="sis" ColumnName="sis" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="subItemNumber" ColumnName="subItemNumber" />
+                <ScalarProperty Name="itemNumber" ColumnName="itemNumber" />
+                <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="ObrasModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="cuit" ColumnName="cuit" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="RequirementUser" TypeName="ObrasModel.RequirementUser" StoreEntitySet="RequirementUser">
+            <EndProperty Name="User">
+              <ScalarProperty Name="cuit" ColumnName="cuit" />
+            </EndProperty>
             <EndProperty Name="Requirement">
               <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
             </EndProperty>
-            <EndProperty Name="User">
-              <ScalarProperty Name="cuit" ColumnName="cuit" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="RoleAction" TypeName="ObrasModel.RoleAction" StoreEntitySet="RoleAction">
+            <EndProperty Name="Role">
+              <ScalarProperty Name="roleId" ColumnName="roleId" />
+            </EndProperty>
+            <EndProperty Name="Action">
+              <ScalarProperty Name="actionId" ColumnName="actionId" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
@@ -647,7 +768,7 @@ warning 6002: The table/view 'Obras.dbo.Message' does not have a primary key def
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

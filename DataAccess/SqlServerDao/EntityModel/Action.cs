@@ -12,21 +12,18 @@ namespace DataAccess.SqlServerDao.EntityModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class Action
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public Action()
         {
-            this.User = new HashSet<User>();
-            this.Action = new HashSet<Action>();
+            this.Role = new HashSet<Role>();
         }
     
-        public int roleId { get; set; }
+        public int actionId { get; set; }
         public string description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Action> Action { get; set; }
+        public virtual ICollection<Role> Role { get; set; }
     }
 }

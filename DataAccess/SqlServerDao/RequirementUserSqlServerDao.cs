@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 using DataAccess.SqlServerDao.EntityModel;
+using Exceptions;
 
 namespace DataAccess.SqlServerDao
 {
@@ -105,12 +106,40 @@ namespace DataAccess.SqlServerDao
 
         public override RequirementUser GetByCuitAndRequirementNumber(string Cuit, int RequirementNumber)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.User EntityUser = ObrasEntities.User.FirstOrDefault(User => User.cuit.Equals(Cuit)
+                                                                                && (User.Requirement.FirstOrDefault(Requirement =>
+                                                                                    Requirement.requirementNumber.Equals(RequirementNumber))) != null);
+
+                if (EntityUser == null)
+                    throw new EntityNotFoundException();
+
+                RequirementUser RequirementUser = new RequirementUser();
+                RequirementUser.Cuit = Cuit;
+                RequirementUser.RequirementNumber = RequirementNumber;
+
+                return RequirementUser;
+            }
         }
 
         public override void Update(RequirementUser RequirementUser)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.Requirement Requirement = ObrasEntities.Requirement.FirstOrDefault(Req => Req.requirementNumber.Equals(RequirementUser.RequirementNumber));
+                EntityModel.User CurrentUser = ObrasEntities.User.FirstOrDefault(User => User.cuit.Equals(RequirementUser.Cuit));
+                EntityModel.User OldUser = ObrasEntities.User.FirstOrDefault(User => User.roleId.Equals(CurrentUser.roleId) && (User.Requirement.FirstOrDefault(Req =>
+                                                                                    Req.requirementNumber.Equals(Requirement.requirementNumber))) != null);
+
+                OldUser.Requirement.Remove(Requirement);
+                Requirement.User.Remove(OldUser);
+
+                CurrentUser.Requirement.Add(Requirement);
+                Requirement.User.Add(CurrentUser);
+
+                ObrasEntities.SaveChanges();
+            }
         }
     }
 }

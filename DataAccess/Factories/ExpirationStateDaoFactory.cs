@@ -17,7 +17,7 @@ namespace DataAccess.Factories
 
         protected override ExpirationStateDao GetSqlServerDaoInstance()
         {
-            throw new NotImplementedException();
+            return new ExpirationStateMemoryDao();
         }
     }
 }
