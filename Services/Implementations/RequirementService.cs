@@ -11,6 +11,7 @@ using DataAccess.MemoryDao;
 using DataAccess.AbstractDao;
 using Services.Validators.Abstractions;
 using Services.Validators.Implementations;
+using Exceptions;
 
 namespace Services.Implementations
 {
@@ -95,7 +96,19 @@ namespace Services.Implementations
             if (RequirementNumber <= 0)
                 throw new ArgumentNullException();
 
-            this._requirementDao.Delete(RequirementNumber);
+            IItemService ItemService = new ItemService();
+            ISheetService SheetService = new SheetService();
+            IRequirementUserService RequirementUserService = new RequirementUserService();
+
+            try
+            {
+                ItemService.DeleteAllByRequirementNumber(RequirementNumber);
+                SheetService.DeleteAllByRequirementNumber(RequirementNumber);
+                RequirementUserService.DeleteByRequirementNumber(RequirementNumber);
+
+                this._requirementDao.Delete(RequirementNumber);
+            }
+            catch (EntityNotFoundException) { }       
         }
 
         public IEnumerable<Requirement> GetAllRequirementsByCuit(string Cuit)

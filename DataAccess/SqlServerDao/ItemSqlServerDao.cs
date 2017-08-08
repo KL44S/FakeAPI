@@ -78,9 +78,12 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                IEnumerable<EntityModel.Item> EntityItems = ObrasEntities.Item.Where(Item => Item.requirementNumber.Equals(RequirementNumber)).ToList();
+                IEnumerable<EntityModel.Item> EntityItems = ObrasEntities.Item.Where(Item => Item.requirementNumber.Equals(RequirementNumber));
 
-                IEnumerable<Model.Item> Items = this._itemMapping.UnMapEntities(EntityItems);
+                if (EntityItems == null)
+                    throw new EntityNotFoundException();
+
+                IEnumerable<Model.Item> Items = this._itemMapping.UnMapEntities(EntityItems.ToList());
 
                 return Items;
             }

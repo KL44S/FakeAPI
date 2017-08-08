@@ -54,6 +54,13 @@ namespace DataAccess.MemoryDao
             _requirementUsers.Add(RequirementUser);
         }
 
+        public override void DeleteAllByRequirementNumber(int RequirementNumber)
+        {
+            List<RequirementUser> RequirementUsers = _requirementUsers.ToList();
+            RequirementUsers.RemoveAll(Requirement => Requirement.RequirementNumber.Equals(RequirementNumber));
+            _requirementUsers = RequirementUsers;
+        }
+
         public override IEnumerable<RequirementUser> GetAll()
         {
             return _requirementUsers;

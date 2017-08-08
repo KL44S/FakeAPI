@@ -14,5 +14,6 @@ namespace Services.Abstractions
         Sheet GetSheetByRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber);
         ExpirationState GetExpirationStateFromSheet(Sheet Sheet);
         void UpdateSheet(Sheet Sheet);
+        void DeleteAllByRequirementNumber(int RequirementNumber);
     }
 }

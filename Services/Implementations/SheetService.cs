@@ -12,11 +12,11 @@ using DataAccess;
 
 namespace Services.Implementations
 {
-    public class SheetService : ISheetService
+    public class SheetService : Observable, ISheetService
     {
         private SheetDao _sheetDao;
 
-        public SheetService()
+        public SheetService() : base()
         {
             SheetDaoFactory SheetDaoFactory = new SheetDaoFactory();
 
@@ -31,16 +31,6 @@ namespace Services.Implementations
             int FirstSheetStateId = int.Parse(ParameterDao.GetParameterById(Constants.FirstSheetStateIdParameter));
 
             return FirstSheetStateId;
-        }
-
-        private int GetFinalStateId()
-        {
-            ParameterDaoFactory ParameterDaoFactory = new ParameterDaoFactory();
-            ParameterDao ParameterDao = ParameterDaoFactory.GetDaoInstance();
-
-            int FinalSheetStateId = int.Parse(ParameterDao.GetParameterById(Constants.FinalSheetStateIdParameter));
-
-            return FinalSheetStateId;
         }
 
         private Sheet GenerateAndGetNewSheet(Sheet CurrentSheet, int DaysOfCertification)
@@ -128,10 +118,20 @@ namespace Services.Implementations
                 throw new ArgumentException();
 
             this._sheetDao.Update(Sheet);
+            this.NotifyObservers(Sheet);
+        }
 
-            if (Sheet.SheetStateId.Equals(this.GetFinalStateId()))
+        public void DeleteAllByRequirementNumber(int RequirementNumber)
+        {
+            if (RequirementNumber <= 0)
+                throw new ArgumentException();
+
+            IEnumerable<Sheet> Sheets = this.GetAllSheetsFromRequirement(RequirementNumber);
+            
+            foreach (Sheet Sheet in Sheets)
             {
-                this.GenerateSheet(Sheet.RequirementNumber);
+                //TODO: eliminar item sheets
+                this._sheetDao.Delete(RequirementNumber, Sheet.SheetNumber);
             }
         }
 

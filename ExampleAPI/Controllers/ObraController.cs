@@ -29,8 +29,9 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                //TODO: filtrar por usuario
-                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirements();
+                String CurrentUserCuit = this.GetCurrentUserCuit();
+                IEnumerable<Requirement> Requirements = this._requirementService.GetAllRequirementsByCuit(CurrentUserCuit);
+
                 return this.MapAndReturnRequirements(Requirements);
             }
             catch (ArgumentNullException)
@@ -92,6 +93,16 @@ namespace ExampleAPI.Controllers
             return NotFound();
         }
 
+        private void CreateAndSaveAssignment(int RequirementNumber)
+        {
+            RequirementUser RequirementUser = new RequirementUser();
+            RequirementUser.RequirementNumber = RequirementNumber;
+            RequirementUser.Cuit = this.GetCurrentUserCuit();
+
+            IRequirementUserService RequirementUserService = new RequirementUserService();
+            RequirementUserService.SaveRequirementUser(RequirementUser);
+        }
+
         // POST: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Post(ObraViewModel Obra)
@@ -121,6 +132,22 @@ namespace ExampleAPI.Controllers
                     else
                     {
                         this._requirementService.Create(Requirement);
+        
+                        try
+                        {
+                            this.CreateAndSaveAssignment(Requirement.RequirementNumber);
+                        }
+                        catch (Exception Exception)
+                        {
+                            try
+                            {
+                                this._requirementService.Delete(Requirement.RequirementNumber);
+                            }
+                            catch (EntityNotFoundException) { }
+
+                            throw Exception;
+                        }
+
                         return Ok();
                     }
                 }

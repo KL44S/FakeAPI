@@ -15,5 +15,6 @@ namespace DataAccess
         public abstract IEnumerable<RequirementUser> GetAllByRequirementNumber(int RequirementNumber);
         public abstract IEnumerable<RequirementUser> GetAllByCuit(String Cuit);
         public abstract RequirementUser GetByCuitAndRequirementNumber(String Cuit, int RequirementNumber);
+        public abstract void DeleteAllByRequirementNumber(int RequirementNumber);
     }
 }

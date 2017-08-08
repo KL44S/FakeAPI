@@ -62,7 +62,10 @@ namespace DataAccess.MemoryDao
 
         public override void Update(Sheet Sheet)
         {
-            throw new NotImplementedException();
+            Sheet CurrentSheet = this.GetSheetByRequirementNumberAndSheetNumber(Sheet.RequirementNumber, Sheet.SheetNumber);
+            CurrentSheet.FromDate = Sheet.FromDate;
+            CurrentSheet.UntilDate = Sheet.UntilDate;
+            CurrentSheet.SheetStateId = Sheet.SheetStateId;
         }
 
         public override Sheet GetSheetByRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber)
@@ -84,6 +87,13 @@ namespace DataAccess.MemoryDao
                 return Sheet;
 
             throw new EntityNotFoundException();
+        }
+
+        public override void Delete(int RequirementNumber, int SheetNumber)
+        {
+            List<Sheet> Sheets = _sheets.ToList();
+            Sheets.RemoveAll(Sheet => Sheet.RequirementNumber.Equals(RequirementNumber) && Sheet.SheetNumber.Equals(SheetNumber));
+            _sheets = Sheets;
         }
     }
 }

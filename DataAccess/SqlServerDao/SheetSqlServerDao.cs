@@ -136,5 +136,20 @@ namespace DataAccess.SqlServerDao
                 ObrasEntities.SaveChanges();
             }
         }
+
+        public override void Delete(int RequirementNumber, int SheetNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.Sheet Sheet = ObrasEntities.Sheet.FirstOrDefault(Sh => Sh.requirementNumber.Equals(RequirementNumber) 
+                                                                                && Sh.sheetNumber.Equals(SheetNumber));
+
+                if (Sheet == null)
+                    throw new EntityNotFoundException();
+
+                ObrasEntities.Sheet.Remove(Sheet);
+                ObrasEntities.SaveChanges();
+            }
+        }
     }
 }

@@ -141,5 +141,24 @@ namespace DataAccess.SqlServerDao
                 ObrasEntities.SaveChanges();
             }
         }
+
+        public override void DeleteAllByRequirementNumber(int RequirementNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.Requirement Requirement = ObrasEntities.Requirement.FirstOrDefault(Req => Req.requirementNumber.Equals(RequirementNumber));
+                Requirement.User.Clear();
+
+                IEnumerable<EntityModel.User> Users = ObrasEntities.User.Where(User => User.Requirement.FirstOrDefault(Req =>
+                                                                                    Req.requirementNumber.Equals(RequirementNumber)) != null);
+
+                foreach (EntityModel.User User in Users)
+                {
+                    User.Requirement.Remove(Requirement);
+                }
+
+                ObrasEntities.SaveChanges();
+            }
+        }
     }
 }

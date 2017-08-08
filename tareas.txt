@@ -1,1 +1,1 @@
-1. Elimincación en cascada
+1. Elimincación en cascada de sheet items.

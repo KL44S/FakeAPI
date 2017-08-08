@@ -12,8 +12,8 @@ namespace DataAccess.MemoryDao
     {
         private static IDictionary<String, String> _parameters = new Dictionary<String, String>()
         {
-            { "FirstSheetStateId", "1" },
-            { "FinalSheetStateId", "3" },
+            { "firstSheetStateId", "1" },
+            { "finalSheetStateId", "3" },
             { "maxItemDescriptionLength", "99" },
             { "minItemDescriptionLength", "1" },
             { "maxUnitOfMeasurementLength", "50" },

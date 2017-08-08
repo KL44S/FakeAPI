@@ -44,6 +44,7 @@
     <Compile Include="Abstractions\ExpirationStateService.cs" />
     <Compile Include="Abstractions\IEncryptionService.cs" />
     <Compile Include="Abstractions\IItemService.cs" />
+    <Compile Include="Abstractions\IObserver.cs" />
     <Compile Include="Abstractions\IRequirementService.cs" />
     <Compile Include="Abstractions\IRequirementUserService.cs" />
     <Compile Include="Abstractions\IRoleActionService.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Abstractions\ISubItemService.cs" />
     <Compile Include="Abstractions\ITokenService.cs" />
     <Compile Include="Abstractions\IUserService.cs" />
+    <Compile Include="Abstractions\Observable.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Implementations\ActiveStateService.cs" />
     <Compile Include="Implementations\AlmostExpiredStateService.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Implementations\RequirementService.cs" />
     <Compile Include="Implementations\RequirementUserService.cs" />
     <Compile Include="Implementations\RoleActionService.cs" />
+    <Compile Include="Implementations\SheetGeneratorService.cs" />
     <Compile Include="Implementations\SheetItemService.cs" />
     <Compile Include="Implementations\SheetService.cs" />
     <Compile Include="Implementations\SheetStateService.cs" />
@@ -87,10 +90,12 @@
     <Compile Include="Validators\Implementations\PurchaseOrderValidator.cs" />
     <Compile Include="Validators\Implementations\RequirementNumberValidator.cs" />
     <Compile Include="Validators\Implementations\SheetChangesValidator.cs" />
+    <Compile Include="Validators\Implementations\SheetStateChangeValidator.cs" />
     <Compile Include="Validators\Implementations\SubItemDescriptionValidator.cs" />
     <Compile Include="Validators\Implementations\TotalQuantityValidator.cs" />
     <Compile Include="Validators\Implementations\UnitOfMeasurementValidator.cs" />
     <Compile Include="Validators\Implementations\UnitPriceValidator.cs" />
+    <Compile Include="Validators\Implementations\UserSheetStateChangeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

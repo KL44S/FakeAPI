@@ -9,6 +9,6 @@ namespace DataAccess
     public class Constants
     {
         public enum Techs { SqlServer, Memory };
-        internal static Techs CurrentTech = Techs.SqlServer;
+        internal static Techs CurrentTech = Techs.Memory;
     }
 }

@@ -8,6 +8,7 @@ using Model;
 using DataAccess.AbstractDao;
 using DataAccess.Factories;
 using Services.Validators.Implementations;
+using Exceptions;
 
 namespace Services.Implementations
 {
@@ -87,6 +88,23 @@ namespace Services.Implementations
             NotExistingRequirementValidator.Validate();
 
             return ValidationErrors;
+        }
+
+        public void DeleteAllByRequirementNumber(int RequirementNumber)
+        {
+            if (RequirementNumber <= 0)
+                throw new ArgumentException();
+
+            IEnumerable<Item> Items = this.GetItemsByRequirementNumber(RequirementNumber);
+
+            foreach (Item Item in Items)
+            {
+                try
+                {
+                    this.Delete(RequirementNumber, Item.ItemNumber);
+                }
+                catch (EntityNotFoundException) { }
+            }
         }
     }
 }

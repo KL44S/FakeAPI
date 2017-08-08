@@ -106,5 +106,13 @@ namespace Services.Implementations
                 return false;
             }
         }
+
+        public void DeleteByRequirementNumber(int RequirementNumber)
+        {
+            if (RequirementNumber <= 0)
+                throw new ArgumentException();
+
+            this._requirementUserDao.DeleteAllByRequirementNumber(RequirementNumber);
+        }
     }
 }

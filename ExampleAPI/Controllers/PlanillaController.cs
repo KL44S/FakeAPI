@@ -24,7 +24,10 @@ namespace ExampleAPI.Controllers
 
         public PlanillaController()
         {
-            this._sheetService = new SheetService();
+            SheetService SheetService = new SheetService();
+            SheetService.AddObserver(new SheetGeneratorService());
+            this._sheetService = SheetService;
+
             this._sheetMappingService = new SheetMappingService();
         }
 
@@ -67,35 +70,33 @@ namespace ExampleAPI.Controllers
         }
 
 
-        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Post(int? obra)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(PlanillaViewModel PlanillaViewModel)
         {
-            if (obra != null && obra > 0)
+            try
             {
-                Planilla Planilla = new Planilla();
-                Planilla.obra = (int)obra;
-                Planilla.fechaHasta = DateTime.Now;
-                Planilla.fechaDesde = DateTime.Now;
-                Planilla.codigoDeEstado = 1;
-                Planilla.numeroPlanilla = PlanillaService.Planillas.Last().numeroPlanilla + 1;
-
-                PlanillaService.Planillas.Add(Planilla);
-                IList<ItemDePlanilla> ItemsDePlanilla = new List<ItemDePlanilla>();
-
-                foreach (var Item in SubItemService.Items)
+                if (PlanillaViewModel != null)
                 {
-                    ItemDePlanilla ItemDePlanilla = new ItemDePlanilla()
-                    {
-                        numeroItem = Item.numeroSubItem, obra = (int)obra, cantidadParcial = 0.0f, porcentajeParcial = 0.0f, numeroPlanilla = Planilla.numeroPlanilla
-                    };
+                    Sheet Sheet = this._sheetMappingService.MapViewModel(PlanillaViewModel);
 
-                    ItemDePlanillaService.Items.Add(ItemDePlanilla);
+                    //Validas el cambio de estado de la planilla
+                    this._sheetService.UpdateSheet(Sheet);
+
+                    return Ok();
                 }
-
-                return Ok();
+                else
+                {
+                    return BadRequest();
+                }
             }
-
-            return BadRequest();
-        }*/
+            catch (ArgumentException)
+            {
+                return BadRequest();
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

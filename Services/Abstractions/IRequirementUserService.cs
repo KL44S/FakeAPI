@@ -12,5 +12,6 @@ namespace Services.Abstractions
         IEnumerable<User> GetUsersFromRequirementNumber(int RequirementNumber);
         Boolean DoesRequirementHaveTheUser(int RequirementNumber, String Cuit);
         void SaveRequirementUser(RequirementUser RequirementUser);
+        void DeleteByRequirementNumber(int RequirementNumber);
     }
 }

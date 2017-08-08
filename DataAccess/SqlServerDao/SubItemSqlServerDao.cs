@@ -40,6 +40,36 @@ namespace DataAccess.SqlServerDao
 
         }
 
+        private EntityModel.SubItem GetSubItemEntityByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.SubItem SubItemFound = ObrasEntities.SubItem.FirstOrDefault(SubItemEntity => SubItemEntity.requirementNumber.Equals(RequirementNumber)
+                                                                && SubItemEntity.itemNumber.Equals(ItemNumber)
+                                                                && SubItemEntity.subItemNumber.Equals(SubItemNumber));
+
+                if (SubItemFound == null)
+                    throw new EntityNotFoundException();
+
+                return SubItemFound;
+            }
+
+        }
+
+        private IEnumerable<EntityModel.SubItem> GetSubItemEntitiesByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                IEnumerable<EntityModel.SubItem> SubItemEntities = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber)
+                                                                && SubItem.itemNumber.Equals(ItemNumber));
+
+                if (SubItemEntities == null)
+                    throw new EntityNotFoundException();
+
+                return SubItemEntities;
+            }
+        }
+
         public override void Create(Model.SubItem SubItem)
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
@@ -54,12 +84,25 @@ namespace DataAccess.SqlServerDao
 
         public override void Delete(int RequirementNumber, int ItemNumber, int SubItemNumber)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.SubItem SubItemFound = this.GetSubItemEntityByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber,
+                                                                                                                            SubItemNumber);
+
+                ObrasEntities.SubItem.Remove(SubItemFound);
+                ObrasEntities.SaveChanges();
+            }
         }
 
         public override void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                IEnumerable<EntityModel.SubItem> SubItemEntities = this.GetSubItemEntitiesByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+
+                ObrasEntities.SubItem.RemoveRange(SubItemEntities);
+                ObrasEntities.SaveChanges();
+            }
         }
 
         public override IEnumerable<Model.SubItem> GetAll()
@@ -91,12 +134,29 @@ namespace DataAccess.SqlServerDao
 
         public override Model.SubItem GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                EntityModel.SubItem SubItemFound = this.GetSubItemEntityByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber,
+                                                                                                                            SubItemNumber);
+                Model.SubItem SubItemModel = this._subItemMappig.UnMapEntity(SubItemFound);
+
+                return SubItemModel;
+            }
         }
 
         public override IEnumerable<Model.SubItem> GetSubItemsByRequirementNumber(int RequirementNumber)
         {
-            throw new NotImplementedException();
+            using (ObrasEntities ObrasEntities = new ObrasEntities())
+            {
+                IEnumerable<EntityModel.SubItem> SubItemEntities = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber));
+
+                if (SubItemEntities == null)
+                    throw new EntityNotFoundException();
+
+                IEnumerable<Model.SubItem> SubItemModels = this._subItemMappig.UnMapEntities(SubItemEntities.ToList());
+
+                return SubItemModels;
+            }
         }
 
         public override void Update(Model.SubItem SubItem)
