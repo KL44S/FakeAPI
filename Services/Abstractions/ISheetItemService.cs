@@ -11,6 +11,7 @@ namespace Services.Abstractions
     {
         void GenerateSheetItemsFromSheet(Sheet Sheet);
         IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber);
+        IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumberAndItemNumber(int RequirementNumber, int SheetNumber, int ItemNumber);
         void Update(SheetItem SheetItem);
     }
 }

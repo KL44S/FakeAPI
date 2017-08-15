@@ -4,6 +4,7 @@ using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
+using Services;
 using Services.Abstractions;
 using Services.Implementations;
 using Services.Validators.Implementations;
@@ -109,7 +110,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateRequirementAction))
+                if (!this.MayCurrentUserDoAction(Constants.CreateRequirementAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
@@ -167,7 +168,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.EditRequirementAction))
+                if (!this.MayCurrentUserDoAction(Constants.EditRequirementAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Obra != null)
@@ -207,7 +208,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveRequirementAction))
+                if (!this.MayCurrentUserDoAction(Constants.RemoveRequirementAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (!this.IsUserAssignedToRequirement(obra))

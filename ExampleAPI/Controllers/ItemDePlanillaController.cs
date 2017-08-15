@@ -26,7 +26,7 @@ namespace ExampleAPI.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Get(int obra, int numeroPlanilla)
+        public IHttpActionResult Get(int obra, int numeroPlanilla, int? numeroItem)
         {
             try
             {
@@ -35,8 +35,19 @@ namespace ExampleAPI.Controllers
                     if (!this.IsUserAssignedToRequirement(obra))
                         return new ForbiddenActionResult(Request, "");
 
-                    IEnumerable<SheetItem> SheetItems = this._sheetItemService.GetSheetItemsFromRequirementNumberAndSheetNumber(obra,
+                    IEnumerable<SheetItem> SheetItems = null;
+
+                    if (numeroItem != null)
+                    {
+                        SheetItems = this._sheetItemService.GetSheetItemsFromRequirementNumberAndSheetNumberAndItemNumber(obra, numeroPlanilla,
+                                                                                                                            (int)numeroItem);
+                    }
+                    else
+                    {
+                        SheetItems = this._sheetItemService.GetSheetItemsFromRequirementNumberAndSheetNumber(obra,
                                                                                                     numeroPlanilla);
+                    }
+
                     IEnumerable<ItemDePlanillaViewModel> SheetItemsViewModels = this._sheetItemMappingService.UnMapEntities(SheetItems);
 
                     return Ok(SheetItemsViewModels);

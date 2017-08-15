@@ -13,6 +13,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Services;
 
 namespace ExampleAPI.Controllers
 {
@@ -76,7 +77,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.CreateItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Item != null)
@@ -120,7 +121,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.EditItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.EditItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (Item != null)
@@ -161,7 +162,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.RemoveItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (obra <= 0 || numeroItem <= 0)

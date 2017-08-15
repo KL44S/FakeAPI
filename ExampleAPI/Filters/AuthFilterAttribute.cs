@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using Model;
+using Services;
 
 namespace ExampleAPI.Filters
 {
@@ -35,7 +36,7 @@ namespace ExampleAPI.Filters
                     if (User == null)
                         PutUnauthorizedResult(ActionContext);
 
-                    ActionContext.ActionArguments.Add(Constants.Constants.CurrentUserCuitKey, User.Cuit);
+                    ActionContext.ActionArguments.Add(Constants.CurrentUserCuitKey, User.Cuit);
                 }
                 catch (Exception)
                 {

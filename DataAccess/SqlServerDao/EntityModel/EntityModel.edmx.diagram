@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bea188ed18af4e0c9096f476cffe1af2" Name="Diagram1">
+        <EntityTypeShape EntityType="ObrasModel.Action" Width="1.5" PointX="1.5" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.ExpirationState" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Item" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Message" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Parameter" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Requirement" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Role" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.Sheet" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.SheetItem" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.SheetState" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.SubItem" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ObrasModel.User" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="ObrasModel.FK_Item_Requirement" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_SubItem_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_Sheet_Requirement" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_User_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_Sheet_SheetState" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_SheetItem_Sheet" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.FK_SheetItem_SubItem" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.RequirementUser" ManuallyRouted="false" />
+        <AssociationConnector Association="ObrasModel.RoleAction" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

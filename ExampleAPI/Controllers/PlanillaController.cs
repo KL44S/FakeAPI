@@ -79,9 +79,15 @@ namespace ExampleAPI.Controllers
                 {
                     Sheet Sheet = this._sheetMappingService.MapViewModel(PlanillaViewModel);
 
-                    //Validas el cambio de estado de la planilla
-                    this._sheetService.UpdateSheet(Sheet);
+                    if (!this._sheetService.MayUserUpdateSheet(this.GetCurrentUserCuit(), Sheet))
+                        return new ForbiddenActionResult(Request, "");
 
+                    String ErrorMessage = this._sheetService.GetValidationErrorMessage(Sheet);
+
+                    if (!String.IsNullOrEmpty(ErrorMessage))
+                        return Content((HttpStatusCode)422, ErrorMessage);
+
+                    this._sheetService.UpdateSheet(Sheet);
                     return Ok();
                 }
                 else

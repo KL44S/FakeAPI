@@ -90,6 +90,17 @@ namespace DataAccess.MemoryDao
             return SheetItems;
         }
 
+        public override IEnumerable<SheetItem> GetSheetItemByRequirementNumberAndSheetNumberAndItemNumber(int RequirementNumber, int SheetNumber, int ItemNumber)
+        {
+            IEnumerable<SheetItem> SheetItems = _sheetItems.Where(SheetItem => SheetItem.RequirementNumber.Equals(RequirementNumber) &&
+                                                        SheetItem.SheetNumber.Equals(SheetNumber) && SheetItem.ItemNumber.Equals(ItemNumber));
+
+            if (SheetItems == null)
+                throw new EntityNotFoundException();
+
+            return SheetItems;
+        }
+
         public override SheetItem GetSheetItemByRequirementNumberAndSheetNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int SheetNumber, 
                                                                                                                 int ItemNumber, int SubItemNumber)
         {

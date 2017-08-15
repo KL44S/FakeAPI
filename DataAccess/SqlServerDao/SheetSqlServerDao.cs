@@ -46,6 +46,7 @@ namespace DataAccess.SqlServerDao
                 EntitySheet.sheetNumber = this.GenerateAndGetNewSheetNumberFromRequirement(EntitySheet.requirementNumber);
 
                 ObrasEntities.Sheet.Add(EntitySheet);
+                ObrasEntities.SaveChanges();
             }
         }
 
@@ -132,6 +133,9 @@ namespace DataAccess.SqlServerDao
             {
                 EntityModel.Sheet EntitySheet = this.GetEntitySheetByRequirementNumberAndSheetNumber(Sheet.RequirementNumber, Sheet.SheetNumber);
                 this._sheetMapping.MapModel(Sheet, EntitySheet);
+
+                if (EntitySheet == null)
+                    throw new EntityNotFoundException();
 
                 ObrasEntities.SaveChanges();
             }

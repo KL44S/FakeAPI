@@ -15,5 +15,7 @@ namespace Services.Abstractions
         ExpirationState GetExpirationStateFromSheet(Sheet Sheet);
         void UpdateSheet(Sheet Sheet);
         void DeleteAllByRequirementNumber(int RequirementNumber);
+        Boolean MayUserUpdateSheet(String UserCuit, Sheet Sheet);
+        String GetValidationErrorMessage(Sheet Sheet);
     }
 }

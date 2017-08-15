@@ -22,9 +22,9 @@ namespace Services.Implementations
             return FinalSheetStateId;
         }
 
-        private Boolean MustAnewSheetBeGenerated(Sheet Sheet)
-        {
-            return (Sheet.SheetStateId.Equals(this.GetFinalStateId()));
+        private Boolean MustAnewSheetBeGenerated(SheetService SheetService, Sheet Sheet)
+        {       
+            return (Sheet.SheetStateId.Equals(this.GetFinalStateId()) && SheetService.IsSheetTheCurrentSheet(Sheet));
         }
 
         public void IhaveBeenChanged(object InvokingObject)
@@ -35,9 +35,9 @@ namespace Services.Implementations
         public void IhaveBeenChanged(object InvokingObject, object Params)
         {
             Sheet Sheet = (Sheet)Params;
-            ISheetService SheetService = (ISheetService)InvokingObject;
+            SheetService SheetService = (SheetService)InvokingObject;
 
-            if (this.MustAnewSheetBeGenerated(Sheet))
+            if (this.MustAnewSheetBeGenerated(SheetService, Sheet))
             {
                 SheetService.GenerateSheet(Sheet.RequirementNumber);
             }

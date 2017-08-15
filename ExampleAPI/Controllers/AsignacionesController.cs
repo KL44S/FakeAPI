@@ -5,6 +5,7 @@ using ExampleAPI.Services;
 using ExampleAPI.ViewModel;
 using Exceptions;
 using Model;
+using Services;
 using Services.Abstractions;
 using Services.Implementations;
 using System;
@@ -54,7 +55,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.AssignUsersAction))
+                if (!this.MayCurrentUserDoAction(Constants.AssignUsersAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (String.IsNullOrEmpty(cuit))

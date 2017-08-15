@@ -13,6 +13,7 @@ using System.Web.Http.Cors;
 using Exceptions;
 using ExampleAPI.Filters;
 using ExampleAPI.Results;
+using Services;
 
 namespace ExampleAPI.Controllers
 {
@@ -69,7 +70,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.CreateSubItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.CreateSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (SubItem != null)
@@ -115,7 +116,7 @@ namespace ExampleAPI.Controllers
         {
             try
             {
-                if (!this.MayCurrentUserDoAction(Constants.Constants.EditSubItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.EditSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (SubItem != null)
@@ -163,7 +164,7 @@ namespace ExampleAPI.Controllers
                 if (!this.IsUserAssignedToRequirement(obra))
                     return new ForbiddenActionResult(Request, "");
 
-                if (!this.MayCurrentUserDoAction(Constants.Constants.RemoveSubItemAction))
+                if (!this.MayCurrentUserDoAction(Constants.RemoveSubItemAction))
                     return new ForbiddenActionResult(Request, "");
 
                 if (obra <= 0 || numeroItem <= 0 || numeroSubItem <= 0)

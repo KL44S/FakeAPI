@@ -7,6 +7,7 @@ using System.Web.Http;
 using Model;
 using Services.Abstractions;
 using Services.Implementations;
+using Services;
 
 namespace ExampleAPI.Controllers
 {
@@ -14,7 +15,7 @@ namespace ExampleAPI.Controllers
     {
         protected String GetCurrentUserCuit()
         {
-            String CurrentUserCuit = (String)(ActionContext.ActionArguments[Constants.Constants.CurrentUserCuitKey]);
+            String CurrentUserCuit = (String)(ActionContext.ActionArguments[Constants.CurrentUserCuitKey]);
 
             return CurrentUserCuit;
         }

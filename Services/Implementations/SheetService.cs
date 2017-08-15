@@ -9,17 +9,21 @@ using DataAccess.AbstractDao;
 using DataAccess.Factories;
 using Services.Validators.Implementations;
 using DataAccess;
+using Services.Validators.Abstractions;
 
 namespace Services.Implementations
 {
     public class SheetService : Observable, ISheetService
     {
         private SheetDao _sheetDao;
+        private MessageDao _messageDao;
 
         public SheetService() : base()
         {
             SheetDaoFactory SheetDaoFactory = new SheetDaoFactory();
+            MessageDaoFactory MessageDaoFactory = new MessageDaoFactory();
 
+            this._messageDao = MessageDaoFactory.GetDaoInstance();
             this._sheetDao = SheetDaoFactory.GetDaoInstance();
         }
 
@@ -109,14 +113,38 @@ namespace Services.Implementations
             return ExpirationState;
         }
 
-        public void UpdateSheet(Sheet Sheet)
+        public String GetValidationErrorMessage(Sheet Sheet)
         {
             Sheet CurrentSheet = this.GetSheetByRequirementNumberAndSheetNumber(Sheet.RequirementNumber, Sheet.SheetNumber);
+            String ErrorMessage = String.Empty;
+
+            IList<IValidator> Validators = new List<IValidator>();
+
             SheetChangesValidator SheetChangesValidator = new SheetChangesValidator(CurrentSheet, Sheet);
+            SheetStateChangeValidator SheetStateChangeValidator = new SheetStateChangeValidator(CurrentSheet.SheetStateId, Sheet.SheetStateId);
 
-            if (!SheetChangesValidator.Validate())
-                throw new ArgumentException();
+            Validators.Add(SheetChangesValidator);
+            Validators.Add(SheetStateChangeValidator);
 
+            Boolean ValidationSuccessful = true;
+            int i = 0;
+
+            while (i < Validators.Count() && ValidationSuccessful)
+            {
+                ValidationSuccessful = Validators.ElementAt(i).Validate();
+                i++;
+            }
+
+            if (!ValidationSuccessful)
+            {
+                ErrorMessage = this._messageDao.GetById(Constants.NoActionAllowedErrorMessage);
+            }
+
+            return ErrorMessage;
+        }
+
+        public void UpdateSheet(Sheet Sheet)
+        {
             this._sheetDao.Update(Sheet);
             this.NotifyObservers(Sheet);
         }
@@ -135,5 +163,18 @@ namespace Services.Implementations
             }
         }
 
+        public Boolean IsSheetTheCurrentSheet(Sheet Sheet)
+        {
+            Sheet CurrentSheet = this._sheetDao.GetCurrentSheetByRequirementNumber(Sheet.RequirementNumber);
+
+            return (CurrentSheet.SheetNumber.Equals(Sheet.SheetNumber));
+        }
+
+        public bool MayUserUpdateSheet(string UserCuit, Sheet Sheet)
+        {
+            UserSheetStateChangeValidator UserSheetStateChangeValidator = new UserSheetStateChangeValidator(Sheet.SheetStateId, UserCuit);
+
+            return UserSheetStateChangeValidator.Validate();
+        }
     }
 }

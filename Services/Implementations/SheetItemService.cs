@@ -43,7 +43,21 @@ namespace Services.Implementations
 
         public IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber)
         {
+            if (RequirementNumber <= 0 || SheetNumber <= 0)
+                throw new ArgumentException();
+
             IEnumerable<SheetItem> SheetItems = this._sheetItemDao.GetAllByRequirementNumberAndSheetNumber(RequirementNumber, SheetNumber);
+            return SheetItems;
+        }
+
+        public IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumberAndItemNumber(int RequirementNumber, int SheetNumber, 
+                                                                                                        int ItemNumber)
+        {
+            if (RequirementNumber <= 0 || SheetNumber <= 0 || ItemNumber <= 0)
+                throw new ArgumentException();
+
+            IEnumerable<SheetItem> SheetItems = this._sheetItemDao.GetSheetItemByRequirementNumberAndSheetNumberAndItemNumber(RequirementNumber,
+                                                                                                                        SheetNumber, ItemNumber);
             return SheetItems;
         }
 
