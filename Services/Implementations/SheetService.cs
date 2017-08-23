@@ -13,7 +13,7 @@ using Services.Validators.Abstractions;
 
 namespace Services.Implementations
 {
-    public class SheetService : Observable, ISheetService
+    public class SheetService : Observable, ISheetService, IObserver
     {
         private SheetDao _sheetDao;
         private MessageDao _messageDao;
@@ -175,6 +175,61 @@ namespace Services.Implementations
             UserSheetStateChangeValidator UserSheetStateChangeValidator = new UserSheetStateChangeValidator(Sheet.SheetStateId, UserCuit);
 
             return UserSheetStateChangeValidator.Validate();
+        }
+
+        public void IhaveBeenChanged(object InvokingObject, object Params)
+        {
+            Requirement Requirement = (Requirement)Params;
+            ParameterDao ParameterDao = (new ParameterDaoFactory()).GetDaoInstance();
+            int FinalStateSheetId = int.Parse(ParameterDao.GetParameterById(Constants.FinalSheetStateIdParameter));
+
+            IEnumerable<Sheet> Sheets = this._sheetDao.GetAllByRequirementNumber(Requirement.RequirementNumber);
+            DateTime LastUntilDate = DateTime.Now;
+            int i = 0;
+            Boolean MustKeepProcessing = true;
+
+            while (i < Sheets.Count() && MustKeepProcessing)
+            {
+                Sheet Sheet = Sheets.ElementAt(i);
+
+                if (i != 0)
+                {
+                    if (!Sheet.SheetStateId.Equals(FinalStateSheetId))
+                    {
+                        Sheet.FromDate = LastUntilDate.AddDays(1);
+                        Sheet.UntilDate = Sheet.FromDate.AddDays(Requirement.CertificationDays);
+                        this._sheetDao.Update(Sheet);
+                    }
+
+                    LastUntilDate = Sheet.UntilDate;
+                }
+                else
+                {
+                    int DifferenceDays = (Sheet.UntilDate - Sheet.FromDate).Days;
+
+                    if (DifferenceDays.Equals(Requirement.CertificationDays))
+                    {
+                        MustKeepProcessing = false;
+                    }
+                    else
+                    {
+                        if (!Sheet.SheetStateId.Equals(FinalStateSheetId))
+                        {
+                            Sheet.UntilDate = Sheet.FromDate.AddDays(Requirement.CertificationDays);
+                            this._sheetDao.Update(Sheet);
+                        }
+
+                        LastUntilDate = Sheet.UntilDate;
+                    }
+                }
+
+                i++;
+            }
+        }
+
+        public void IhaveBeenChanged(object InvokingObject)
+        {
+            throw new NotImplementedException();
         }
     }
 }

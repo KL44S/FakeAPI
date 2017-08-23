@@ -17,6 +17,8 @@ namespace ExampleAPI.Services
             SheetItem.SubItemNumber = SheetItemViewModel.numeroSubItem;
             SheetItem.PartialQuantity = (Decimal)(SheetItemViewModel.cantidadParcial);
             SheetItem.PercentQuantity = (Decimal)(SheetItemViewModel.porcentajeParcial);
+            SheetItem.AccumulatedPercent = (Decimal)(SheetItemViewModel.porcentajeAcumulado);
+            SheetItem.AccumulatedQuantity = (Decimal)(SheetItemViewModel.cantidadAcumulada);
 
             return SheetItem;
         }
@@ -29,6 +31,8 @@ namespace ExampleAPI.Services
             SheetItemViewModel.numeroSubItem = SheetItem.SubItemNumber;
             SheetItemViewModel.porcentajeParcial = (float)SheetItem.PercentQuantity;
             SheetItemViewModel.cantidadParcial = (float)SheetItem.PartialQuantity;
+            SheetItemViewModel.porcentajeAcumulado = (float)(SheetItem.AccumulatedPercent);
+            SheetItemViewModel.cantidadAcumulada = (float)(SheetItem.AccumulatedQuantity);
 
             return SheetItemViewModel;
 

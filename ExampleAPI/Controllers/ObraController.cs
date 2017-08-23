@@ -21,9 +21,17 @@ namespace ExampleAPI.Controllers
     [AuthFilter]
     public class ObraController : BaseController
     {
-        private IRequirementService _requirementService = new RequirementService();
+        private IRequirementService _requirementService;
         private IUserService _userService = new UserService();
         private MappingService<Requirement, ObraViewModel> _requirementMappingService = new RequirementMappingService();
+
+        public ObraController()
+        {
+            RequirementService RequirementService = new RequirementService();
+            RequirementService.AddObserver(new SheetService());
+        
+            this._requirementService = RequirementService;
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Get()

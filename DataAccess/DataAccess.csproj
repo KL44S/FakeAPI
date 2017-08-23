@@ -145,6 +145,7 @@
     <Compile Include="SqlServerDao\Mapping\ItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\Mapping.cs" />
     <Compile Include="SqlServerDao\Mapping\RequirementMapping.cs" />
+    <Compile Include="SqlServerDao\Mapping\SheetItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\SheetMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\SheetStateMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\SubItemMapping.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="SqlServerDao\ParameterSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementUserSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\SheetItemSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SheetSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SheetStateSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SubItemSqlServerDao.cs" />

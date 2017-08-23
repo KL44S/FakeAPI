@@ -33,6 +33,9 @@ namespace Services.Implementations
             if (RequirementNumber <= 0 || ItemNumber <= 0 || SubItemNumber <= 0)
                 throw new ArgumentException();
 
+            ISheetItemService SheetItemService = new SheetItemService();
+            SheetItemService.DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber, SubItemNumber);
+
             this._subItemDao.Delete(RequirementNumber, ItemNumber, SubItemNumber);
         }
 
@@ -40,6 +43,9 @@ namespace Services.Implementations
         {
             if (RequirementNumber <= 0 || ItemNumber <= 0)
                 throw new ArgumentException();
+
+            ISheetItemService SheetItemService = new SheetItemService();
+            SheetItemService.DeleteAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
 
             this._subItemDao.DeleteAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
         }

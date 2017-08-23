@@ -131,11 +131,15 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                EntityModel.Sheet EntitySheet = this.GetEntitySheetByRequirementNumberAndSheetNumber(Sheet.RequirementNumber, Sheet.SheetNumber);
-                this._sheetMapping.MapModel(Sheet, EntitySheet);
+                EntityModel.Sheet EntitySheet = ObrasEntities.Sheet.FirstOrDefault(x => x.requirementNumber.Equals(Sheet.RequirementNumber)
+                                                     && x.sheetNumber.Equals(Sheet.SheetNumber));
 
                 if (EntitySheet == null)
                     throw new EntityNotFoundException();
+
+                EntitySheet.fromDate = Sheet.FromDate;
+                EntitySheet.untilDate = Sheet.UntilDate;
+                EntitySheet.sheetStateId = Sheet.SheetStateId;
 
                 ObrasEntities.SaveChanges();
             }

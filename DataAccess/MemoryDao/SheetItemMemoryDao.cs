@@ -19,8 +19,8 @@ namespace DataAccess.MemoryDao
                 SubItemNumber = 1,
                 RequirementNumber = 1556,
                 SheetNumber = 1,
-                PartialQuantity = 0,
-                PercentQuantity = 0
+                PartialQuantity = 17,
+                PercentQuantity = 50
             },
             new SheetItem()
             {
@@ -74,6 +74,21 @@ namespace DataAccess.MemoryDao
             _sheetItems.Add(SheetItem);
         }
 
+        public override void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            List<SheetItem> SheetItemsAsList = _sheetItems.ToList();
+            SheetItemsAsList.RemoveAll(x => x.RequirementNumber.Equals(RequirementNumber) && x.ItemNumber.Equals(ItemNumber));
+            _sheetItems = SheetItemsAsList;
+        }
+
+        public override void DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            List<SheetItem> SheetItemsAsList = _sheetItems.ToList();
+            SheetItemsAsList.RemoveAll(x => x.RequirementNumber.Equals(RequirementNumber) && x.ItemNumber.Equals(ItemNumber) 
+                                                                                && x.SubItemNumber.Equals(SubItemNumber));
+            _sheetItems = SheetItemsAsList;
+        }
+
         public override IEnumerable<SheetItem> GetAll()
         {
             return _sheetItems;
@@ -83,6 +98,18 @@ namespace DataAccess.MemoryDao
         {
             IEnumerable<SheetItem> SheetItems = _sheetItems.Where(SheetItem => SheetItem.RequirementNumber.Equals(RequirementNumber) &&
                                                                     SheetItem.SheetNumber.Equals(SheetNumber));
+
+            if (SheetItems == null)
+                throw new EntityNotFoundException();
+
+            return SheetItems;
+        }
+
+        public override IEnumerable<SheetItem> GetAllFilledSheetItems(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            IEnumerable<SheetItem> SheetItems = _sheetItems.Where(SheetItem => SheetItem.RequirementNumber.Equals(RequirementNumber) 
+                                                                        && SheetItem.ItemNumber.Equals(ItemNumber) 
+                                                                        && SheetItem.SubItemNumber.Equals(SubItemNumber));
 
             if (SheetItems == null)
                 throw new EntityNotFoundException();

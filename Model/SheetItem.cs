@@ -14,5 +14,7 @@ namespace Model
         public int SheetNumber { get; set; }
         public decimal PartialQuantity { get; set; }
         public decimal PercentQuantity { get; set; }
+        public decimal AccumulatedQuantity { get; set; }
+        public decimal AccumulatedPercent { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace ExampleAPI.Models
         public int numeroSubItem { get; set; }
         public float cantidadParcial { get; set; }
         public float porcentajeParcial { get; set; }
+        public float cantidadAcumulada { get; set; }
+        public float porcentajeAcumulado { get; set; }
         public int obra { get; set; }
         public int numeroPlanilla { get; set; }
     }

@@ -17,7 +17,7 @@ namespace DataAccess.MemoryDao
             {
                 SheetNumber = 1,
                 RequirementNumber = 1556,
-                SheetStateId = 1,
+                SheetStateId = 3,
                 FromDate = DateTime.Now,
                 UntilDate = DateTime.Now.AddDays(30)
             }
@@ -95,5 +95,6 @@ namespace DataAccess.MemoryDao
             Sheets.RemoveAll(Sheet => Sheet.RequirementNumber.Equals(RequirementNumber) && Sheet.SheetNumber.Equals(SheetNumber));
             _sheets = Sheets;
         }
+
     }
 }

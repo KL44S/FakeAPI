@@ -20,6 +20,33 @@ namespace Services.Implementations
             this._sheetItemDao = SheetItemDaoFactory.GetDaoInstance();
         }
 
+        private void FillSheetItemsWithAccumulated(IEnumerable<SheetItem> SheetItems)
+        {
+            foreach (SheetItem SheetItem in SheetItems)
+            {
+                this.FillSheetItemWithAccumulated(SheetItem);
+            }
+        }
+
+        private void FillSheetItemWithAccumulated(SheetItem SheetItem)
+        {
+            IEnumerable<SheetItem> SheetItems = this._sheetItemDao.GetAllFilledSheetItems(SheetItem.RequirementNumber, SheetItem.ItemNumber, 
+                                                                                                SheetItem.SubItemNumber);
+
+            SheetItem.AccumulatedQuantity = 0;
+            SheetItem.AccumulatedPercent = 0;
+
+            foreach (SheetItem SItem in SheetItems)
+            {
+                if (!SItem.SheetNumber.Equals(SheetItem.SheetNumber))
+                {
+                    SheetItem.AccumulatedQuantity += SItem.PartialQuantity;
+                    SheetItem.AccumulatedPercent += SItem.PercentQuantity;
+                }
+            }
+
+        }
+
         public void GenerateSheetItemsFromSheet(Sheet Sheet)
         {
             if (Sheet == null)
@@ -47,6 +74,8 @@ namespace Services.Implementations
                 throw new ArgumentException();
 
             IEnumerable<SheetItem> SheetItems = this._sheetItemDao.GetAllByRequirementNumberAndSheetNumber(RequirementNumber, SheetNumber);
+            this.FillSheetItemsWithAccumulated(SheetItems);
+
             return SheetItems;
         }
 
@@ -58,6 +87,8 @@ namespace Services.Implementations
 
             IEnumerable<SheetItem> SheetItems = this._sheetItemDao.GetSheetItemByRequirementNumberAndSheetNumberAndItemNumber(RequirementNumber,
                                                                                                                         SheetNumber, ItemNumber);
+            this.FillSheetItemsWithAccumulated(SheetItems);
+
             return SheetItems;
         }
 
@@ -71,6 +102,22 @@ namespace Services.Implementations
 
             ExistingSheetItem.PartialQuantity = SheetItem.PartialQuantity;
             ExistingSheetItem.PercentQuantity = SheetItem.PercentQuantity;
+        }
+
+        public void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
+        {
+            if (RequirementNumber <= 0 || ItemNumber <= 0)
+                throw new ArgumentException();
+
+            this._sheetItemDao.DeleteAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+        }
+
+        public void DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            if (RequirementNumber <= 0 || SubItemNumber <= 0 || ItemNumber <= 0)
+                throw new ArgumentException();
+
+            this._sheetItemDao.DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber, SubItemNumber);
         }
     }
 }

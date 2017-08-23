@@ -15,6 +15,9 @@ namespace DataAccess.AbstractDao
         public abstract IEnumerable<SheetItem> GetSheetItemByRequirementNumberAndSheetNumberAndItemNumber(int RequirementNumber, int SheetNumber, int ItemNumber);
         public abstract SheetItem GetSheetItemByRequirementNumberAndSheetNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int SheetNumber,
                                                                                                 int ItemNumber, int SubItemNumber);
+        public abstract IEnumerable<SheetItem> GetAllFilledSheetItems(int RequirementNumber, int ItemNumber, int SubItemNumber);
         public abstract void Update(SheetItem SheetItem);
+        public abstract void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber);
+        public abstract void DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber);
     }
 }

@@ -15,7 +15,7 @@ using Exceptions;
 
 namespace Services.Implementations
 {
-    public class RequirementService : IRequirementService
+    public class RequirementService : Observable, IRequirementService
     {
         private RequirementDao _requirementDao;
 
@@ -31,6 +31,7 @@ namespace Services.Implementations
                 throw new ArgumentNullException();
 
             this._requirementDao.Update(Requirement);
+            this.NotifyObservers(Requirement);
         }
 
         public void Create(Requirement Requirement)

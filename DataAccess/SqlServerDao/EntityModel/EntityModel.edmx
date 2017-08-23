@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ObrasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ObrasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Action">
           <Key>
             <PropertyRef Name="actionId" />
@@ -98,7 +98,7 @@
           <Property Name="subItemNumber" Type="int" Nullable="false" />
           <Property Name="sheetNumber" Type="int" Nullable="false" />
           <Property Name="partialQuantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="percentQuantity" Type="int" Nullable="false" />
+          <Property Name="percentQuantity" Type="decimal" Precision="5" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="SheetState">
           <Key>
@@ -332,8 +332,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ObrasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -425,7 +424,7 @@
           <Property Name="subItemNumber" Type="Int32" Nullable="false" />
           <Property Name="sheetNumber" Type="Int32" Nullable="false" />
           <Property Name="partialQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="percentQuantity" Type="Int32" Nullable="false" />
+          <Property Name="percentQuantity" Type="Decimal" Nullable="false" />
           <NavigationProperty Name="Sheet" Relationship="Self.FK_SheetItem_Sheet" FromRole="SheetItem" ToRole="Sheet" />
           <NavigationProperty Name="SubItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SheetItem" ToRole="SubItem" />
         </EntityType>

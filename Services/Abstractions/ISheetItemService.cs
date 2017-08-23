@@ -13,5 +13,7 @@ namespace Services.Abstractions
         IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumber(int RequirementNumber, int SheetNumber);
         IEnumerable<SheetItem> GetSheetItemsFromRequirementNumberAndSheetNumberAndItemNumber(int RequirementNumber, int SheetNumber, int ItemNumber);
         void Update(SheetItem SheetItem);
+        void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber);
+        void DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber);
     }
 }

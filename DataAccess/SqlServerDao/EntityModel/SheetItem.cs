@@ -19,7 +19,7 @@ namespace DataAccess.SqlServerDao.EntityModel
         public int subItemNumber { get; set; }
         public int sheetNumber { get; set; }
         public decimal partialQuantity { get; set; }
-        public int percentQuantity { get; set; }
+        public decimal percentQuantity { get; set; }
     
         public virtual Sheet Sheet { get; set; }
         public virtual SubItem SubItem { get; set; }
