@@ -235,6 +235,7 @@
     <Compile Include="Services\RequirementMappingService.cs" />
     <Compile Include="Services\RequirementValidationObjectGeneratorService.cs" />
     <Compile Include="Services\SheetItemMappingService.cs" />
+    <Compile Include="Services\SheetItemValidationObjectGeneratorService.cs" />
     <Compile Include="Services\SheetMappingService.cs" />
     <Compile Include="Services\SheetStateMapping.cs" />
     <Compile Include="Services\SubItemMappingService.cs" />

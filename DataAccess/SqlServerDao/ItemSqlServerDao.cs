@@ -26,7 +26,7 @@ namespace DataAccess.SqlServerDao
             {
                 int NewItemNumber = 1;
 
-                EntityModel.Item LastItem = ObrasEntities.Item.Where(Item => Item.requirementNumber.Equals(RequirementNumber)).OrderBy(Item => Item.itemNumber)
+                EntityModel.Item LastItem = ObrasEntities.Item.Where(Item => Item.requirementNumber.Equals(RequirementNumber)).OrderByDescending(Item => Item.itemNumber)
                                                                         .FirstOrDefault();
 
                 if (LastItem != null)

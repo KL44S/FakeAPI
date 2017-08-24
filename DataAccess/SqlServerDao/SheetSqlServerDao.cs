@@ -80,7 +80,7 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                EntityModel.Sheet LastSheet = ObrasEntities.Sheet.Where(ESheet => ESheet.requirementNumber.Equals(RequirementNumber)).OrderBy(ESheet => ESheet.sheetNumber)
+                EntityModel.Sheet LastSheet = ObrasEntities.Sheet.Where(ESheet => ESheet.requirementNumber.Equals(RequirementNumber)).OrderByDescending(ESheet => ESheet.sheetNumber)
                                         .FirstOrDefault();
 
                 if (LastSheet == null)

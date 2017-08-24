@@ -50,6 +50,16 @@ namespace Services.Implementations
             this._subItemDao.DeleteAllByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
         }
 
+        public SubItem GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber)
+        {
+            if (RequirementNumber <= 0 || ItemNumber <= 0 && SubItemNumber <= 0)
+                throw new ArgumentException();
+
+            SubItem SubItem = this._subItemDao.GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber, SubItemNumber);
+
+            return SubItem;
+        }
+
         public IEnumerable<SubItem> GetSubItemsByRequirementNumber(int RequirementNumber)
         {
             IEnumerable<SubItem> SubItems = this._subItemDao.GetSubItemsByRequirementNumber(RequirementNumber);

@@ -143,7 +143,11 @@ namespace DataAccess.MemoryDao
 
         public override void Update(SheetItem SheetItem)
         {
-            //Nothing to do
+            SheetItem ExistingSheetItem = this.GetSheetItemByRequirementNumberAndSheetNumberAndItemNumberAndSubItemNumber(
+                                   SheetItem.RequirementNumber, SheetItem.SheetNumber, SheetItem.ItemNumber, SheetItem.SubItemNumber);
+
+            ExistingSheetItem.PartialQuantity = SheetItem.PartialQuantity;
+            ExistingSheetItem.PercentQuantity = SheetItem.PercentQuantity;
         }
     }
 }

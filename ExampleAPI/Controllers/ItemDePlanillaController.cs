@@ -4,10 +4,12 @@ using ExampleAPI.Results;
 using ExampleAPI.Services;
 using Exceptions;
 using Model;
+using Services;
 using Services.Abstractions;
 using Services.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -68,39 +70,54 @@ namespace ExampleAPI.Controllers
             }
         }
 
-        /*[EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult Put(ItemDePlanilla Item)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Put(ItemDePlanillaViewModel SheetItemViewModel)
         {
             try
             {
-                if (Item != null && Item.obra > 0 && Item.numeroItem > 0 && Item.numeroItem != 85 && Item.numeroPlanilla > 0)
+                if (SheetItemViewModel != null)
                 {
-                    ItemDePlanilla ItemExistente = ItemDePlanillaService.Items.FirstOrDefault(x => x.numeroItem.Equals(Item.numeroItem) && x.numeroPlanilla.Equals(Item.numeroPlanilla) && x.obra.Equals(Item.obra));
+                    if (!this.IsUserAssignedToRequirement(SheetItemViewModel.obra))
+                        return new ForbiddenActionResult(Request, "");
 
-                    if (ItemExistente != null)
+                    if (!this.MayCurrentUserDoAction(Constants.EditSheetItemAction))
+                        return new ForbiddenActionResult(Request, "");
+
+                    SheetItem SheetItem = this._sheetItemMappingService.MapViewModel(SheetItemViewModel);
+                    String Cuit = this.GetCurrentUserCuit();
+
+                    if (!this._sheetItemService.MayUserEditSubItem(Cuit, SheetItem))
+                        return new ForbiddenActionResult(Request, "");
+
+                    IDictionary<Attributes.SheetItem, String> ValidationErrors = this._sheetItemService.GetValidationErrors(SheetItem);
+
+                    if (ValidationErrors.Count > 0)
                     {
-                        ItemExistente.cantidadParcial = Item.cantidadParcial;
-                        ItemExistente.porcentajeParcial = Item.porcentajeParcial;
-                        return Ok();
+                        var SheetItemValidationObject = SheetItemValidationObjectGeneratorService.GetValidationObject(ValidationErrors, SheetItem);
+
+                        return Content((HttpStatusCode)422, SheetItemValidationObject);
                     }
                     else
                     {
-                        return NotFound();
+                        this._sheetItemService.Update(SheetItem);
+                        return Ok();
                     }
-
                 }
                 else
                 {
-                    var ItemViewModel = new { cantidadParcial = new { error = "item invalido" }, porcentajeParcial = new { error = "descripcion error" } };
-
-                    return Content((HttpStatusCode)422, ItemViewModel);
+                    return BadRequest();
                 }
+
             }
-            catch (Exception)
+            catch (ArgumentException)
             {
                 return BadRequest();
             }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
 
-        }*/
+        }
     }
 }

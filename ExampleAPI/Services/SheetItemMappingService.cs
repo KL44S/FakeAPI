@@ -13,6 +13,7 @@ namespace ExampleAPI.Services
         {
             SheetItem SheetItem = new SheetItem();
             SheetItem.RequirementNumber = SheetItemViewModel.obra;
+            SheetItem.SheetNumber = SheetItemViewModel.numeroPlanilla;
             SheetItem.ItemNumber = SheetItemViewModel.numeroItem;
             SheetItem.SubItemNumber = SheetItemViewModel.numeroSubItem;
             SheetItem.PartialQuantity = (Decimal)(SheetItemViewModel.cantidadParcial);
@@ -27,6 +28,7 @@ namespace ExampleAPI.Services
         {
             ItemDePlanillaViewModel SheetItemViewModel = new ItemDePlanillaViewModel();
             SheetItemViewModel.obra = SheetItem.RequirementNumber;
+            SheetItemViewModel.numeroPlanilla = SheetItem.SheetNumber;
             SheetItemViewModel.numeroItem = SheetItem.ItemNumber;
             SheetItemViewModel.numeroSubItem = SheetItem.SubItemNumber;
             SheetItemViewModel.porcentajeParcial = (float)SheetItem.PercentQuantity;

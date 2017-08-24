@@ -97,11 +97,7 @@ namespace Services.Implementations
             if (SheetItem == null)
                 throw new ArgumentException();
 
-            SheetItem ExistingSheetItem = this._sheetItemDao.GetSheetItemByRequirementNumberAndSheetNumberAndItemNumberAndSubItemNumber(
-                                               SheetItem.RequirementNumber, SheetItem.SheetNumber, SheetItem.ItemNumber, SheetItem.SubItemNumber);
-
-            ExistingSheetItem.PartialQuantity = SheetItem.PartialQuantity;
-            ExistingSheetItem.PercentQuantity = SheetItem.PercentQuantity;
+            this._sheetItemDao.Update(SheetItem);
         }
 
         public void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
@@ -118,6 +114,45 @@ namespace Services.Implementations
                 throw new ArgumentException();
 
             this._sheetItemDao.DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber, SubItemNumber);
+        }
+
+        public bool MayUserEditSubItem(string Cuit, SheetItem SheetItem)
+        {
+            return true;
+        }
+
+        public IDictionary<Attributes.SheetItem, string> GetValidationErrors(SheetItem SheetItem)
+        {
+            IDictionary<Attributes.SheetItem, string> ValidationErrors = new Dictionary<Attributes.SheetItem, string>();
+            ISubItemService SubItemService = new SubItemService();
+            this.FillSheetItemWithAccumulated(SheetItem);
+
+            SubItem SubItem = SubItemService.GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(SheetItem.RequirementNumber, SheetItem.ItemNumber,
+                                                                                                                SheetItem.SubItemNumber);
+            decimal TotalQuantityAccumulated = SheetItem.PartialQuantity + SheetItem.AccumulatedQuantity;
+
+            if ((float)TotalQuantityAccumulated > SubItem.TotalQuantity)
+            {
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "Este valor excede la cantidad total del sub-item");
+            }
+
+            decimal TotalPercentAccumulated = SheetItem.PercentQuantity + SheetItem.AccumulatedPercent;
+
+            if (TotalPercentAccumulated > 100)
+            {
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "El porcentaje no puede ser mayor a 100");
+            }
+
+            decimal PartialPercent = TotalQuantityAccumulated * 100 / (decimal)SubItem.TotalQuantity;
+            PartialPercent = Math.Round(PartialPercent, 2, MidpointRounding.AwayFromZero);
+            TotalPercentAccumulated = Math.Round(TotalPercentAccumulated, 2, MidpointRounding.AwayFromZero);
+
+            if (!PartialPercent.Equals(TotalPercentAccumulated))
+            {
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "El porcentaje no coincide con la cantidad ingresada");
+            }
+
+            return ValidationErrors;
         }
     }
 }

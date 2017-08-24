@@ -27,7 +27,7 @@ namespace DataAccess.SqlServerDao
                 int NewSubItemNumber = 1;
 
                 EntityModel.SubItem LastSubItem = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber) 
-                                                                                && SubItem.itemNumber.Equals(ItemNumber)).OrderBy(SubItem => SubItem.subItemNumber)
+                                                                                && SubItem.itemNumber.Equals(ItemNumber)).OrderByDescending(SubItem => SubItem.subItemNumber)
                                                                                 .FirstOrDefault();
 
                 if (LastSubItem != null)
@@ -56,20 +56,6 @@ namespace DataAccess.SqlServerDao
 
         }
 
-        private IEnumerable<EntityModel.SubItem> GetSubItemEntitiesByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber)
-        {
-            using (ObrasEntities ObrasEntities = new ObrasEntities())
-            {
-                IEnumerable<EntityModel.SubItem> SubItemEntities = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber)
-                                                                && SubItem.itemNumber.Equals(ItemNumber));
-
-                if (SubItemEntities == null)
-                    throw new EntityNotFoundException();
-
-                return SubItemEntities;
-            }
-        }
-
         public override void Create(Model.SubItem SubItem)
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
@@ -86,8 +72,12 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                EntityModel.SubItem SubItemFound = this.GetSubItemEntityByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber,
-                                                                                                                            SubItemNumber);
+                EntityModel.SubItem SubItemFound = ObrasEntities.SubItem.FirstOrDefault(SubItemEntity => SubItemEntity.requirementNumber.Equals(RequirementNumber)
+                                                                && SubItemEntity.itemNumber.Equals(ItemNumber)
+                                                                && SubItemEntity.subItemNumber.Equals(SubItemNumber));
+
+                if (SubItemFound == null)
+                    throw new EntityNotFoundException();
 
                 ObrasEntities.SubItem.Remove(SubItemFound);
                 ObrasEntities.SaveChanges();
@@ -98,7 +88,11 @@ namespace DataAccess.SqlServerDao
         {
             using (ObrasEntities ObrasEntities = new ObrasEntities())
             {
-                IEnumerable<EntityModel.SubItem> SubItemEntities = this.GetSubItemEntitiesByRequirementNumberAndItemNumber(RequirementNumber, ItemNumber);
+                IEnumerable<EntityModel.SubItem> SubItemEntities = ObrasEntities.SubItem.Where(SubItem => SubItem.requirementNumber.Equals(RequirementNumber)
+                                                && SubItem.itemNumber.Equals(ItemNumber));
+
+                if (SubItemEntities == null)
+                    throw new EntityNotFoundException();
 
                 ObrasEntities.SubItem.RemoveRange(SubItemEntities);
                 ObrasEntities.SaveChanges();

@@ -16,5 +16,6 @@ namespace Services.Abstractions
         void Delete(int RequirementNumber, int ItemNumber, int SubItemNumber);
         IDictionary<Attributes.SubItem, String> GetValidationErrors(SubItem SubItem);
         void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber);
+        SubItem GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber);
     }
 }

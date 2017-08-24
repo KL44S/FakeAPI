@@ -39,6 +39,7 @@ namespace DataAccess.SqlServerDao
                                                                                                     && x.itemNumber.Equals(ItemNumber));
 
                 ObrasEntities.SheetItem.RemoveRange(SheetItemEntities);
+                ObrasEntities.SaveChanges();
             }
         }
 
@@ -50,6 +51,7 @@ namespace DataAccess.SqlServerDao
                                                                             && x.itemNumber.Equals(ItemNumber) && x.subItemNumber.Equals(SubItemNumber));
 
                 ObrasEntities.SheetItem.RemoveRange(SheetItemEntities);
+                ObrasEntities.SaveChanges();
             }
         }
 

@@ -11,5 +11,6 @@ namespace Model
         public enum Item { RequirementNumber, ItemNumber, Description };
         public enum Requirement { RequirementNumber, PurchaseOrder, PurchaseOrderExcercise, Provider, CertificationDays };
         public enum SubItem { RequirementNumber, ItemNumber, SubItemNumber, Description, Sis, UnitPrice, UnitOfMeasurement, TotalQuantity };
+        public enum SheetItem { PartialQuantity, PercentQuantity};
     }
 }

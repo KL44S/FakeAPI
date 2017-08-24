@@ -48,6 +48,15 @@ namespace Services.Implementations
                 Messages.Add(Attributes.Item.Description, String.Empty);
         }
 
+        public static void FillErrorMessages(IDictionary<Attributes.SheetItem, String> Messages)
+        {
+            if (!Messages.ContainsKey(Attributes.SheetItem.PartialQuantity))
+                Messages.Add(Attributes.SheetItem.PartialQuantity, String.Empty);
+
+            if (!Messages.ContainsKey(Attributes.SheetItem.PercentQuantity))
+                Messages.Add(Attributes.SheetItem.PercentQuantity, String.Empty);
+        }
+
         public static void FillErrorMessages(IDictionary<Attributes.Requirement, String> Messages)
         {
             if (!Messages.ContainsKey(Attributes.Requirement.RequirementNumber))
