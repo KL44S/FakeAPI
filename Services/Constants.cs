@@ -39,6 +39,9 @@ namespace Services
         internal static String NoActionAllowedErrorMessage = "noActionAllowed";
         internal static String FirstSheetStateIdParameter = "firstSheetStateId";
         internal static String FinalSheetStateIdParameter = "finalSheetStateId";
+        internal static String PartialQuantityExcededParameter = "partialQuantityExceded";
+        internal static String PartialPercentExcededParameter = "partialPercentExceded";
+        internal static String PartialInputsNotMatchedParameter = "partialInputsNotMatched";
 
         //Actions
         public static int CreateRequirementAction = 1;
@@ -63,6 +66,8 @@ namespace Services
         public static int ApprovedSheetStateId = 3;
         public static int ObservedSheetStateId = 4;
         public static int RejectEnterSheetStateId = 5;
+
+        public static int ExpiredSheetState = 3;
 
         public static int AdminRoleId = 1;
         public static int BuilderRoleId = 2;

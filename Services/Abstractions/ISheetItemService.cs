@@ -15,7 +15,7 @@ namespace Services.Abstractions
         void Update(SheetItem SheetItem);
         void DeleteAllByRequirementNumberAndItemNumber(int RequirementNumber, int ItemNumber);
         void DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(int RequirementNumber, int ItemNumber, int SubItemNumber);
-        bool MayUserEditSubItem(String Cuit, SheetItem SheetItem);
+        bool MayUserEditSubItem(User User, SheetItem SheetItem);
         IDictionary<Attributes.SheetItem, String> GetValidationErrors(SheetItem SheetItem);
     }
 }

@@ -11,7 +11,7 @@ using Services.Validators.Implementations;
 
 namespace Services.Implementations
 {
-    public class SubItemService : ISubItemService
+    public class SubItemService : Observable, ISubItemService
     {
         private SubItemDao _subItemDao;
 
@@ -26,6 +26,7 @@ namespace Services.Implementations
                 throw new ArgumentException();
 
             this._subItemDao.Create(SubItem);
+            this.NotifyObservers(SubItem);
         }
 
         public void Delete(int RequirementNumber, int ItemNumber, int SubItemNumber)

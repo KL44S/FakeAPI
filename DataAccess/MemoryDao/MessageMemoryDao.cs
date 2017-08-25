@@ -17,7 +17,10 @@ namespace DataAccess.MemoryDao
             { "numberRangeField", "Este campo debe estar entre " },
             { "textRangeField", "Este campo debe tener entre " },
             { "andRangeField", " y " },
-            { "textRangeFieldChars", " caracteres" }
+            { "textRangeFieldChars", " caracteres" },
+            { "PartialQuantityExcededParameter", "Este valor excede la cantidad total del sub-item" },
+            { "PartialPercentExcededParameter",  "El porcentaje no puede ser mayor a 100" },
+            { "PartialInputsNotMatchedParameter", "El porcentaje no coincide con la cantidad ingresada" }
         };
 
         public override void Create(string Entity)

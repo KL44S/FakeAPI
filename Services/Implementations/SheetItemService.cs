@@ -10,7 +10,7 @@ using DataAccess.Factories;
 
 namespace Services.Implementations
 {
-    public class SheetItemService : ISheetItemService
+    public class SheetItemService : ISheetItemService, IObserver
     {
         private SheetItemDao _sheetItemDao;
 
@@ -116,15 +116,32 @@ namespace Services.Implementations
             this._sheetItemDao.DeleteAllByRequirementNumberAndItemNumberAndSubItemNumber(RequirementNumber, ItemNumber, SubItemNumber);
         }
 
-        public bool MayUserEditSubItem(string Cuit, SheetItem SheetItem)
+        public bool MayUserEditSubItem(User User, SheetItem SheetItem)
         {
-            return true;
+            ISheetService SheetService = new SheetService();
+            Sheet Sheet = SheetService.GetSheetByRequirementNumberAndSheetNumber(SheetItem.RequirementNumber, SheetItem.SheetNumber);
+
+            if (User.RoleId.Equals(Constants.BuilderRoleId))
+            {
+                if (Sheet.SheetStateId.Equals(Constants.PartialEnteredSheetStateId) || Sheet.SheetStateId.Equals(Constants.ObservedSheetStateId))
+                    return true;
+            }
+            else if (User.RoleId.Equals(Constants.SupervisorRoleId))
+            {
+                ExpirationState ExpirationState = SheetService.GetExpirationStateFromSheet(Sheet);
+
+                if (Sheet.SheetStateId.Equals(Constants.PartialEnteredSheetStateId) && ExpirationState.ExpirationStateId.Equals(Constants.ExpiredSheetState))
+                    return true;
+            }
+
+            return false;
         }
 
         public IDictionary<Attributes.SheetItem, string> GetValidationErrors(SheetItem SheetItem)
         {
             IDictionary<Attributes.SheetItem, string> ValidationErrors = new Dictionary<Attributes.SheetItem, string>();
             ISubItemService SubItemService = new SubItemService();
+            MessageDao MessageDao = (new MessageDaoFactory()).GetDaoInstance();
             this.FillSheetItemWithAccumulated(SheetItem);
 
             SubItem SubItem = SubItemService.GetSubItemByRequirementNumberAndItemNumberAndSubItemNumber(SheetItem.RequirementNumber, SheetItem.ItemNumber,
@@ -133,14 +150,14 @@ namespace Services.Implementations
 
             if ((float)TotalQuantityAccumulated > SubItem.TotalQuantity)
             {
-                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "Este valor excede la cantidad total del sub-item");
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, MessageDao.GetById(Constants.PartialQuantityExcededParameter));
             }
 
             decimal TotalPercentAccumulated = SheetItem.PercentQuantity + SheetItem.AccumulatedPercent;
 
             if (TotalPercentAccumulated > 100)
             {
-                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "El porcentaje no puede ser mayor a 100");
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, MessageDao.GetById(Constants.PartialPercentExcededParameter));
             }
 
             decimal PartialPercent = TotalQuantityAccumulated * 100 / (decimal)SubItem.TotalQuantity;
@@ -149,10 +166,45 @@ namespace Services.Implementations
 
             if (!PartialPercent.Equals(TotalPercentAccumulated))
             {
-                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, "El porcentaje no coincide con la cantidad ingresada");
+                ValidationErrors.Add(Attributes.SheetItem.PartialQuantity, MessageDao.GetById(Constants.PartialInputsNotMatchedParameter));
             }
 
             return ValidationErrors;
+        }
+
+        private void Create (SheetItem SheetItem)
+        {
+            if (SheetItem == null)
+                throw new ArgumentException();
+
+            this._sheetItemDao.Create(SheetItem);
+        }
+
+        public void IhaveBeenChanged(object InvokingObject, object Params)
+        {
+            SubItem SubItem = (SubItem)Params;
+
+            ISheetService SheetService = new SheetService();
+            IEnumerable<Sheet> Sheets = SheetService.GetAllSheetsFromRequirement(SubItem.RequirementNumber);
+
+            foreach (Sheet Sheet in Sheets)
+            {
+                SheetItem SheetItem = new SheetItem();
+                SheetItem.RequirementNumber = SubItem.RequirementNumber;
+                SheetItem.ItemNumber = SubItem.ItemNumber;
+                SheetItem.SubItemNumber = SubItem.SubItemNumber;
+                SheetItem.SheetNumber = Sheet.SheetNumber;
+                SheetItem.PartialQuantity = 0;
+                SheetItem.PercentQuantity = 0;
+
+                this.Create(SheetItem);
+            }
+
+        }
+
+        public void IhaveBeenChanged(object InvokingObject)
+        {
+            throw new NotImplementedException();
         }
     }
 }

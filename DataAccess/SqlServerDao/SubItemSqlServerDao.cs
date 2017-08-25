@@ -62,6 +62,7 @@ namespace DataAccess.SqlServerDao
             {
                 EntityModel.SubItem SubItemEntity = this._subItemMappig.MapModel(SubItem);
                 SubItemEntity.subItemNumber = this.GenerateAndGetNewSubItemNumber(SubItemEntity.requirementNumber, SubItemEntity.itemNumber);
+                SubItem.SubItemNumber = SubItemEntity.subItemNumber;
 
                 ObrasEntities.SubItem.Add(SubItemEntity);
                 ObrasEntities.SaveChanges();

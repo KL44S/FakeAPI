@@ -84,9 +84,9 @@ namespace ExampleAPI.Controllers
                         return new ForbiddenActionResult(Request, "");
 
                     SheetItem SheetItem = this._sheetItemMappingService.MapViewModel(SheetItemViewModel);
-                    String Cuit = this.GetCurrentUserCuit();
+                    User User = this.GetCurrentUser();
 
-                    if (!this._sheetItemService.MayUserEditSubItem(Cuit, SheetItem))
+                    if (!this._sheetItemService.MayUserEditSubItem(User, SheetItem))
                         return new ForbiddenActionResult(Request, "");
 
                     IDictionary<Attributes.SheetItem, String> ValidationErrors = this._sheetItemService.GetValidationErrors(SheetItem);
@@ -107,7 +107,6 @@ namespace ExampleAPI.Controllers
                 {
                     return BadRequest();
                 }
-
             }
             catch (ArgumentException)
             {

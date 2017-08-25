@@ -1,4 +1,1 @@
-1. Creación de sheetItem al crear un subitem.
-2. Validar si el usuario puede editar el sheet item.
-3. Exponer roles y acciones de usuarios.
-4. Mensajes de error al validar sheet item parametrizados
+1. Exponer roles y acciones de usuarios.

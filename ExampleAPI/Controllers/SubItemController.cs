@@ -20,8 +20,16 @@ namespace ExampleAPI.Controllers
     [AuthFilter]
     public class SubItemController : BaseController
     {
-        private ISubItemService _subItemService = new SubItemService();
+        private ISubItemService _subItemService;
         private SubItemMappingService _subItemMappingService = new SubItemMappingService();
+
+        public SubItemController()
+        {
+            SubItemService SubItemService = new SubItemService();
+            SubItemService.AddObserver(new SheetItemService());
+
+            this._subItemService = SubItemService;
+        }
 
         // GET: api/Obra
         [EnableCors(origins: "*", headers: "*", methods: "*")]
