@@ -141,7 +141,9 @@
     <Compile Include="SqlServerDao\EntityModel\User.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerDao\ExpirationStateSqlServerDao.cs" />
     <Compile Include="SqlServerDao\ItemSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\Mapping\ExpirationStateMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\ItemMapping.cs" />
     <Compile Include="SqlServerDao\Mapping\Mapping.cs" />
     <Compile Include="SqlServerDao\Mapping\RequirementMapping.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="SqlServerDao\ParameterSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementSqlServerDao.cs" />
     <Compile Include="SqlServerDao\RequirementUserSqlServerDao.cs" />
+    <Compile Include="SqlServerDao\RoleActionSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SheetItemSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SheetSqlServerDao.cs" />
     <Compile Include="SqlServerDao\SheetStateSqlServerDao.cs" />

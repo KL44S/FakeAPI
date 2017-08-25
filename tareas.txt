@@ -1,1 +1,2 @@
-1. Exponer roles y acciones de usuarios.
+1. Crear planilla con obra.
+2. ¿Fecha de inicio de obra?.
