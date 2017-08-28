@@ -44,6 +44,7 @@ namespace DataAccess.SqlServerDao
             {
                 EntityModel.Sheet EntitySheet = this._sheetMapping.MapModel(Sheet);
                 EntitySheet.sheetNumber = this.GenerateAndGetNewSheetNumberFromRequirement(EntitySheet.requirementNumber);
+                Sheet.SheetNumber = EntitySheet.sheetNumber;
 
                 ObrasEntities.Sheet.Add(EntitySheet);
                 ObrasEntities.SaveChanges();
@@ -137,9 +138,7 @@ namespace DataAccess.SqlServerDao
                 if (EntitySheet == null)
                     throw new EntityNotFoundException();
 
-                EntitySheet.fromDate = Sheet.FromDate;
-                EntitySheet.untilDate = Sheet.UntilDate;
-                EntitySheet.sheetStateId = Sheet.SheetStateId;
+                this._sheetMapping.MapModel(Sheet, EntitySheet);
 
                 ObrasEntities.SaveChanges();
             }

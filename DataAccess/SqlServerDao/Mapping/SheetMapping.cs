@@ -27,6 +27,7 @@ namespace DataAccess.SqlServerDao.Mapping
             SheetEntity.requirementNumber = SheetModel.RequirementNumber;
             SheetEntity.sheetNumber = SheetModel.SheetNumber;
             SheetEntity.sheetStateId = SheetModel.SheetStateId;
+            SheetEntity.observation = SheetModel.Observation;
         }
 
         internal override void UnMapEntity(EntityModel.Sheet SheetEntity, Model.Sheet SheetModel)
@@ -36,6 +37,7 @@ namespace DataAccess.SqlServerDao.Mapping
             SheetModel.RequirementNumber = SheetEntity.requirementNumber;
             SheetModel.SheetNumber = SheetEntity.sheetNumber;
             SheetModel.SheetStateId = SheetEntity.sheetStateId;
+            SheetModel.Observation = SheetEntity.observation;
         }
     }
 }

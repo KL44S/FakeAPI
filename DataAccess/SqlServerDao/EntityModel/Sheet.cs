@@ -25,6 +25,7 @@ namespace DataAccess.SqlServerDao.EntityModel
         public int sheetStateId { get; set; }
         public System.DateTime fromDate { get; set; }
         public System.DateTime untilDate { get; set; }
+        public string observation { get; set; }
     
         public virtual Requirement Requirement { get; set; }
         public virtual SheetState SheetState { get; set; }

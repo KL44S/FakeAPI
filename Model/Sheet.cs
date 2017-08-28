@@ -13,5 +13,6 @@ namespace Model
         public int SheetStateId { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime UntilDate { get; set; }
+        public String Observation { get; set; }
     }
 }

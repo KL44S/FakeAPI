@@ -26,6 +26,7 @@ namespace ExampleAPI.Services
             Sheet.SheetNumber = ViewModel.numeroPlanilla;
             Sheet.SheetStateId = ViewModel.codigoDeEstado;
             Sheet.UntilDate = ViewModel.fechaHasta;
+            Sheet.Observation = ViewModel.observacion;
 
             return Sheet;
         }
@@ -46,6 +47,7 @@ namespace ExampleAPI.Services
             PlanillaViewModel.numeroPlanilla = Sheet.SheetNumber;
             PlanillaViewModel.obra = Sheet.RequirementNumber;
             PlanillaViewModel.codigoDeEstadoDeExpiracion = this.GetExpirationStateId(Sheet);
+            PlanillaViewModel.observacion = Sheet.Observation;
 
             return PlanillaViewModel;
         }

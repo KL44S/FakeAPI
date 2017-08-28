@@ -86,6 +86,7 @@
           <Property Name="sheetStateId" Type="int" Nullable="false" />
           <Property Name="fromDate" Type="date" Nullable="false" />
           <Property Name="untilDate" Type="date" Nullable="false" />
+          <Property Name="observation" Type="varchar" MaxLength="999" />
         </EntityType>
         <EntityType Name="SheetItem">
           <Key>
@@ -413,6 +414,7 @@
           <NavigationProperty Name="Requirement" Relationship="Self.FK_Sheet_Requirement" FromRole="Sheet" ToRole="Requirement" />
           <NavigationProperty Name="SheetState" Relationship="Self.FK_Sheet_SheetState" FromRole="Sheet" ToRole="SheetState" />
           <NavigationProperty Name="SheetItem" Relationship="Self.FK_SheetItem_Sheet" FromRole="Sheet" ToRole="SheetItem" />
+          <Property Name="observation" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SheetItem">
           <Key>
@@ -687,6 +689,7 @@
           <EntitySetMapping Name="Sheet">
             <EntityTypeMapping TypeName="ObrasModel.Sheet">
               <MappingFragment StoreEntitySet="Sheet">
+                <ScalarProperty Name="observation" ColumnName="observation" />
                 <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
                 <ScalarProperty Name="sheetNumber" ColumnName="sheetNumber" />
                 <ScalarProperty Name="sheetStateId" ColumnName="sheetStateId" />

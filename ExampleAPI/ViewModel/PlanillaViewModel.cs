@@ -13,5 +13,6 @@ namespace ExampleAPI.Models
         public DateTime fechaHasta { get; set; }
         public int codigoDeEstado { get; set; }
         public int codigoDeEstadoDeExpiracion { get; set; }
+        public String observacion { get; set; }
     }
 }

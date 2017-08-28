@@ -33,6 +33,9 @@ namespace Services.Validators.Implementations
             if (this._oldSheetStateIdToValidate <= 0 || this._newSheetStateIdToValidate <= 0)
                 throw new ArgumentException();
 
+            if (this._oldSheetStateIdToValidate.Equals(this._newSheetStateIdToValidate))
+                return true;
+
             KeyValuePair<int, int> SheetStateChange = _sheetStatesPossiblyChanges.FirstOrDefault(s =>
                                                               s.Key.Equals(this._oldSheetStateIdToValidate)
                                                               && s.Value.Equals(this._newSheetStateIdToValidate));
