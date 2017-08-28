@@ -96,7 +96,7 @@ namespace Services.Implementations
 
             return Sheet;
         }
-        
+
         public ExpirationState GetExpirationStateFromSheet(Sheet Sheet)
         {
             ExpirationStateService AlmostExpiredStateService = new AlmostExpiredStateService();
@@ -155,7 +155,7 @@ namespace Services.Implementations
                 throw new ArgumentException();
 
             IEnumerable<Sheet> Sheets = this.GetAllSheetsFromRequirement(RequirementNumber);
-            
+
             foreach (Sheet Sheet in Sheets)
             {
                 //TODO: eliminar item sheets
@@ -177,9 +177,33 @@ namespace Services.Implementations
             return UserSheetStateChangeValidator.Validate();
         }
 
-        public void IhaveBeenChanged(object InvokingObject, object Params)
+        private Boolean CreateFirstSheetIfItIsNeccesary(Requirement Requirement)
         {
-            Requirement Requirement = (Requirement)Params;
+            IEnumerable<Sheet> Sheets = this._sheetDao.GetAllByRequirementNumber(Requirement.RequirementNumber);
+
+            if (Sheets.Count().Equals(0) && Requirement.InitDate != null)
+            {
+                DateTime NewFromDate = (DateTime)Requirement.InitDate;
+                DateTime NewUntilDate = NewFromDate.AddDays(Requirement.CertificationDays);
+                int FirsSheetNumber = 1;
+
+                Sheet Sheet = new Sheet();
+                Sheet.RequirementNumber = Requirement.RequirementNumber;
+                Sheet.SheetNumber = FirsSheetNumber;
+                Sheet.SheetStateId = this.GetFirstStateId();
+                Sheet.FromDate = NewFromDate;
+                Sheet.UntilDate = NewUntilDate;
+
+                this._sheetDao.Create(Sheet);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void UpdateSheets(Requirement Requirement)
+        {
             ParameterDao ParameterDao = (new ParameterDaoFactory()).GetDaoInstance();
             int FinalStateSheetId = int.Parse(ParameterDao.GetParameterById(Constants.FinalSheetStateIdParameter));
 
@@ -225,6 +249,17 @@ namespace Services.Implementations
 
                 i++;
             }
+        }
+
+        public void IhaveBeenChanged(object InvokingObject, object Params)
+        {
+            Requirement Requirement = (Requirement)Params;
+
+            if (!this.CreateFirstSheetIfItIsNeccesary(Requirement))
+            {
+                this.UpdateSheets(Requirement);
+            }
+
         }
 
         public void IhaveBeenChanged(object InvokingObject)

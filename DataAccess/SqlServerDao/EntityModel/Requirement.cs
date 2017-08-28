@@ -27,6 +27,7 @@ namespace DataAccess.SqlServerDao.EntityModel
         public int purchaseOrderExcercise { get; set; }
         public int certificationDays { get; set; }
         public string provider { get; set; }
+        public Nullable<System.DateTime> initDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Item { get; set; }

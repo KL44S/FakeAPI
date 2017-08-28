@@ -17,6 +17,7 @@ namespace ExampleAPI.Services
             Requirement.PurchaseOrderExcercise = ObraViewModel.ejercicioObra;
             Requirement.Provider = ObraViewModel.proveedor;
             Requirement.CertificationDays = ObraViewModel.diasDeCertificacion;
+            Requirement.InitDate = ObraViewModel.fechaDeInicio;
 
             return Requirement;
         }
@@ -29,6 +30,7 @@ namespace ExampleAPI.Services
             ObraViewModel.ejercicioObra = Requirement.PurchaseOrderExcercise;
             ObraViewModel.proveedor = Requirement.Provider;
             ObraViewModel.diasDeCertificacion = Requirement.CertificationDays;
+            ObraViewModel.fechaDeInicio = Requirement.InitDate;
 
             return ObraViewModel;
         }

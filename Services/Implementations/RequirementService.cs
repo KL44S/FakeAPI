@@ -40,6 +40,7 @@ namespace Services.Implementations
                 throw new ArgumentNullException();
 
             this._requirementDao.Create(Requirement);
+            this.NotifyObservers(Requirement);
         }
 
         public IEnumerable<Requirement> GetAllRequirements()

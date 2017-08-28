@@ -13,5 +13,6 @@ namespace ExampleAPI.Models
         public int ejercicioObra { get; set; }
         public String proveedor { get; set; }
         public int diasDeCertificacion { get; set; }
+        public DateTime? fechaDeInicio { get; set; }
     }
 }

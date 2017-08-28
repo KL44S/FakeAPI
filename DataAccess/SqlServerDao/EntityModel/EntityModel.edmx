@@ -51,6 +51,7 @@
           <Property Name="purchaseOrderExcercise" Type="int" Nullable="false" />
           <Property Name="certificationDays" Type="int" Nullable="false" />
           <Property Name="provider" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="initDate" Type="date" />
         </EntityType>
         <EntityType Name="RequirementUser">
           <Key>
@@ -388,6 +389,7 @@
           <NavigationProperty Name="Item" Relationship="Self.FK_Item_Requirement" FromRole="Requirement" ToRole="Item" />
           <NavigationProperty Name="Sheet" Relationship="Self.FK_Sheet_Requirement" FromRole="Requirement" ToRole="Sheet" />
           <NavigationProperty Name="User" Relationship="Self.RequirementUser" FromRole="Requirement" ToRole="User" />
+          <Property Name="initDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -424,7 +426,7 @@
           <Property Name="subItemNumber" Type="Int32" Nullable="false" />
           <Property Name="sheetNumber" Type="Int32" Nullable="false" />
           <Property Name="partialQuantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="percentQuantity" Type="Decimal" Nullable="false" />
+          <Property Name="percentQuantity" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
           <NavigationProperty Name="Sheet" Relationship="Self.FK_SheetItem_Sheet" FromRole="SheetItem" ToRole="Sheet" />
           <NavigationProperty Name="SubItem" Relationship="Self.FK_SheetItem_SubItem" FromRole="SheetItem" ToRole="SubItem" />
         </EntityType>
@@ -665,6 +667,7 @@
           <EntitySetMapping Name="Requirement">
             <EntityTypeMapping TypeName="ObrasModel.Requirement">
               <MappingFragment StoreEntitySet="Requirement">
+                <ScalarProperty Name="initDate" ColumnName="initDate" />
                 <ScalarProperty Name="requirementNumber" ColumnName="requirementNumber" />
                 <ScalarProperty Name="purchaseOrderNumber" ColumnName="purchaseOrderNumber" />
                 <ScalarProperty Name="purchaseOrderExcercise" ColumnName="purchaseOrderExcercise" />

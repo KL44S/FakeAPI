@@ -27,6 +27,7 @@ namespace DataAccess.SqlServerDao.Mapping
             RequirementEntity.purchaseOrderExcercise = RequirementModel.PurchaseOrderExcercise;
             RequirementEntity.purchaseOrderNumber = RequirementModel.PurchaseOrder;
             RequirementEntity.requirementNumber = RequirementModel.RequirementNumber;
+            RequirementEntity.initDate = RequirementModel.InitDate;
         }
 
         internal override void UnMapEntity(EntityModel.Requirement RequirementEntity, Model.Requirement RequirementModel)
@@ -36,6 +37,7 @@ namespace DataAccess.SqlServerDao.Mapping
             RequirementModel.PurchaseOrderExcercise = RequirementEntity.purchaseOrderExcercise;
             RequirementModel.PurchaseOrder = RequirementEntity.purchaseOrderNumber;
             RequirementModel.RequirementNumber = RequirementEntity.requirementNumber;
+            RequirementModel.InitDate = RequirementEntity.initDate;
         }
     }
 }

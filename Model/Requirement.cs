@@ -13,6 +13,7 @@ namespace Model
         public int PurchaseOrderExcercise { get; set; }
         public int CertificationDays { get; set; }
         public String Provider { get; set; }
+        public DateTime? InitDate { get; set; }
         public IList<String> Cuits { get; set; }
     }
 }
